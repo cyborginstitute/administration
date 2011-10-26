@@ -29,7 +29,7 @@ body {
 
 div.document {
     width: auto;
-    margin: -15px 10px;
+    margin: -1.5em 0.75em;
 }
 
 div.documentwrapper {
@@ -44,6 +44,7 @@ div.bodywrapper {
 div.sphinxsidebar {
     width: {{ sidebar_width }};
     /* margin-left: -103.5%; */
+    margin-top: .75em;
 }
 
 hr {
@@ -298,8 +299,8 @@ table.field-list, table.footnote {
 }
 
 table.footnote {
-    margin: 15px 0;
-    width: 100%;
+    margin: 5px 5% 0;
+    width: 95%;
     border: 1px solid #eee;
     background: #fdfdfd;
     font-size: 0.9em;
@@ -324,7 +325,7 @@ table.footnote td.label {
 }
 
 table.footnote td {
-    padding: 0.3em 0.5em;
+    /* padding: 0.3em 0.5em; */
 }
 
 dl {
