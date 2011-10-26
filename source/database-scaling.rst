@@ -359,8 +359,8 @@ administration:
 Scaling Pragmatically
 ---------------------
 
-What you Think Will Happen and How to Prepare for It
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+How to Prepare for Your Greatest Fears
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Inevitably, most developers and architects see scaling problems on the
 horizon and they get really scared. This is probably the worst response.
@@ -406,8 +406,8 @@ case, the way to prepare for the inevitable is as follows:
    address optimization problems in code: identify the bottlenecks and
    optimize strategically.
 
-What Will Really Happen And How To Deal With It
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+How to Deal with Reality
+~~~~~~~~~~~~~~~~~~~~~~~~
 
 Practically there are only so many different ways that applications need
 to scale and the process of implementing scaling proceeds along a fairly

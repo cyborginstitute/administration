@@ -16,13 +16,11 @@ Meta
 *Systems Administration for Cyborgs* was originally written by `Sam
 Kleinman <http://tychogaren.com>`_ as a `Cyborg Institute
 <http://cyborginstitute.com>`_ project. tycho continues to maintain
-the text :doc:`with help <maintenance>`: to suggest changes or updates
+the text :doc:`with help </maintenance>`: to suggest changes or updates
 email <sam@cyborginstitute.com>, or publish a git branch. The git
 repository is available at `git.cyborginstitute.net
 <http://git.cyborginstitute.net/?p=cyborg-admin.git>`_ and `github
 <http://github.com/tychoish/cyborg-admin>`_.
-
-TODO fix/create maintenance page
 
 Table of Contents
 -----------------
@@ -47,3 +45,4 @@ Table of Contents
    documentation
    production-deployment-cycles
    problem-solving
+   glossary
