@@ -29,7 +29,7 @@ Table of Contents
 
    backup-strategies
    database-scaling
-   web-server-architecture
+   web-services-architecture
    development-environments
    unix-systems-background
    high-availability

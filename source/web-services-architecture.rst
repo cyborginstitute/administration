@@ -51,15 +51,15 @@ There are a few terms that you may find useful.
    request
       The message sent from a :term:`client` to a :term:`server`
       HTTP defines several different types of requests, discussed in
-      :ref:`HTTP requests <http-request-types>`.
+      :ref:`HTTP requests <http-requests>`.
 
    status code
       All responses from an HTTP server, include a status code, which
-      are outlined in :ref:`HTTP status codes <http-status-codes>`.
+      are outlined in :ref:`HTTP status codes <http-statuses>`.
 
    header
       The metadata transmitted with a given request or response. See
-      :ref:`headers <http-header>` for more information.
+      :ref:`headers <http-headers>` for more information.
 
    httpd
       A daemon that implements the HTTP protocol. Historically,
