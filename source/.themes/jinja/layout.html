@@ -158,7 +158,6 @@
 {%- block relbar1 %}{{ relbar() }}{% endblock %}
 
 {%- block content %}
-  {%- block sidebar1 %} {# possible location for sidebar #} {% endblock %}
 
     <div class="document">
   {%- block document %}
@@ -172,10 +171,14 @@
       {%- if render_sidebar %}
         </div>
       {%- endif %}
+
+  {%- block sidebar1 %} {# possible location for sidebar #} {% endblock %}
+  {%- block sidebar2 %}{{ sidebar() }}{% endblock %}
+
       </div>
   {%- endblock %}
 
-  {%- block sidebar2 %}{{ sidebar() }}{% endblock %}
+
       <div class="clearer"></div>
     </div>
 {%- endblock %}
