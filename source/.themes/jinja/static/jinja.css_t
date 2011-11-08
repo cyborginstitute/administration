@@ -8,8 +8,8 @@
 
 @import url(http://fonts.googleapis.com/css?family=Crimson+Text);
 
-{% set body_width = '69%' %}
-{% set sidebar_width = '30%' %}
+{% set body_width = '68%' %}
+{% set sidebar_width = '28%' %}
 {% set font_family = 'Georgia, serif' %}
 {% set header_font_family = 'Crimson Text, ' ~ font_family %}
 
