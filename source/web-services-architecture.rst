@@ -24,7 +24,8 @@ course implement HTTP, but for testing purposes you should familarize
 yourself with ``curl``, which is a versatile command line HTTP
 client (among other protocols.)
 
-There are a few terms that you may find useful.
+There are a few terms with specific meanings in the context of
+HTTP. Consider these basic concepts:
 
 .. glossary::
 
@@ -125,7 +126,7 @@ everything else:
 ========  ==============================================================
 **Code**  **Meaning**
 --------  --------------------------------------------------------------
-  200     Everything's ok
+  200     Everything's ok.
   301     Resource Moved Permanently. Update your bookmarks.
   302     Moved Temporarily. Don't update your bookmarks.
   400     Error in request syntax. Client's fault.
@@ -139,6 +140,9 @@ everything else:
   502     Bad gateway. Check proxy configuration. Upstream server error.
   504     Gateway timeout. Proxy server not responding.
 ========  ==============================================================
+
+Often server logs will return more useful information regarding the
+state of the system.
 
 .. _http-requests:
 
@@ -156,19 +160,45 @@ operations.
 .. glossary::
 
    GET
+      Fetch a resource from an HTTP server.
 
    PUT
+      Upload a resource to an HTTP server. Often fails as a result of
+      file permissions and server configurations, but don't assume
+      that it *will* fail. Less common than :term:`POST`
 
    POST
+      Send a response to a web pages. Submitting web-forms are
+      conventionally implemented as POSTS.
 
    DELETE
+      Remove a resource from an HTTP server. Often fails as a result of
+      file permissions and server configurations, but don't assume
+      that it *will* fail. Used infrequently prior to RESTful
+      web APIs.
 
    HEAD
+      Retrieve only the headers without fecthing the body of the
+      request.
 
-Services
-~~~~~~~~
+Services and Scaling
+~~~~~~~~~~~~~~~~~~~~
 
+I suspect every other introduction to HTTP and web servers, describe
+operations in terms of a single client and a single server. Perhaps
+there are even multiple clients but the truth of the matter is that
+web server technology has advanced such that any configuration where a
+single website or domain is powered by a single :term:`httpd` should
+be considered trivial. Although its conceivable, though unlikely, that
+your systems will never face :doc:`availability <high-availability>`
+or scaling challenges, ignorance is not a wise course.
 
+As an additional concern, cases are emerging where HTTP isn't just for
+communication between web servers and web browsers. HTTP APIs of
+various sorts use HTTP as a method to communicate with remote
+application and information providers, CouchDB uses an HTTP interface
+for applications to communicate with a database, and Node.js uses HTTP
+as an application transport.
 
 Web Server Fundamentals
 -----------------------
@@ -188,8 +218,8 @@ Embeded Dynamic Content
 Distributed Systems
 -------------------
 
-Next Wave HTTPDs
-----------------
+HTTPD Options
+-------------
 
 Lighttpd
 ~~~~~~~~
@@ -201,10 +231,14 @@ AntiWeb
 ~~~~~~~
 
 Apache HTTPD
-------------
+~~~~~~~~~~~~
 
 Application Servers
 -------------------
+
+
+Embedded Interpreters
+~~~~~~~~~~~~~~~~~~~~~
 
 Rails, Python, and The New Old
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -215,9 +249,20 @@ SGI Maddness: SCGI, WSGI, UWSGI
 Deploying Application Servers
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+Additional HTTPD Functionality
+------------------------------
+
 Load Balancing and Proxies
---------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 URL Rewriting
--------------
+~~~~~~~~~~~~~
 
+Synthetic Architecture Patterns
+-------------------------------
+
+Subdomains
+~~~~~~~~~~
+
+Proxying
+~~~~~~~~
