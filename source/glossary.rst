@@ -28,3 +28,34 @@ A Glossary for Cyborg Systems Administrators
       commonalities, all NoSQL databases are typically quite
       specialized.
 
+   REST
+      "Representational state transfer," a distribute application
+      design paradigm upon which the HTTP protocol was written. More
+      recently it has been espoused as the paradigm for designing
+      application programming interfaces (APIs) for web services and
+      it is typically posited in contrast to SOAP and XML-RPC.
+
+   key/value
+      A way of representing data structures where each datum is
+      represented by a pair of two values: a "key" or indexed descriptor,
+      and a "value," or data. Using key-value pairs its possible to
+      store and represent much more complex data structures.
+
+   metadata
+      Secondary information concerning a primary information
+      object. For example, classification number, publication date,
+      publisher, and author are all potential "metadata" points for
+      a book object.
+
+   logrotation
+      The process of truncating, moving, compressing, and eventually
+      deleting application and daemon log files to prevent the logs
+      from growing out of proportion. The application "logrotate" is
+      used by most UNIX-like distributions to implement logrotation.
+
+   copy-on-write
+      A pattern used to take snapshots and ensure atomic file system
+      operation. Simply, rather than "copy" an object by duplicating
+      it's representation, references to the original object are
+      created, and bits are copied to the "copied object" only as the
+      corresponding bits in the original object are written.

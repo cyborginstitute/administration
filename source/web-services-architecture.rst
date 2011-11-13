@@ -206,20 +206,191 @@ Web Server Fundamentals
 HTTP and Static Content
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-HTTP is really designed to serve static text. Most web browsers do
-this
+HTTP is really designed to serve static content, and most
+general-purpose web servers (and browsers) and optimized to do this
+really efficiently. Web browsers are configured to make multiple
+requests in parallel to download embeded content (i.e. images, style
+sheets, JavaScript) or web pages "all at once," rather than
+sequentially." General purpose HTTPDs are also pretty good at
+efficiently serving this kind of content. The main things to remember
+are:
 
-CGI and FastCGI
-~~~~~~~~~~~~~~~
+- Make sure that you're not serving static content (i.e. anything that
+  the web/application server needs to modify) from a
+  low-volume/single-threaded application server. This is an easy one
+  to miss depending on how your development/test environment is
+  configured.
 
-Embeded Dynamic Content
-~~~~~~~~~~~~~~~~~~~~~~~
+- Use some sort of caching service, if needed. It's an additional
+  layer of complexity, but using a front-end caching proxy like
+  `Varnish <https://www.varnish-cache.org/>`_ or `Squid
+  <http://www.squid-cache.org/>`_ can cache data in RAM and return
+  results more quickly, which is useful in certain kinds of
+  high-volume situations with certain kinds of applications. Caches
+  are great, but they don't solve underlying problems, and they add an
+  additional layer of complexities.
+
+- Make sure all resources/assets originate from the same domain, if
+  possible. Use a "``static.example.net``" if necessary, but being
+  consistent with your domain usage can help your browser cache things
+  more effectively. It also makes it easier for *you* to understand
+  your own setups later. Keep things simple and organized.
+
+Serving static content with HTTP is straightforward, when you need to
+dynamically assemble content per-request, a more complex system is
+required. The kind of dynamic content you require and the kinds of
+existing applications and tools that you want to use dictate your
+architecture--to some extent--from here.
+
+.. _cgi-app-servers:
+
+Common Gateway Interfaces
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+CGI, FastCGI, SCGI, PSGI, WSGI, and Rack are all protocols used by web
+servers to communicate with applications. Simply, users place HTTP
+requests with a web server (:term:`httpd`,) which creates or passes
+the request to a separate process, which generates a response that it
+hands back to the HTTP server that returns the result to the
+user. While this seems a bit complex, in practice CGI and related
+protocols have simple designs, robust tool-sets, are commonly
+understood by many developers, and (generally) provide excellent
+process/privilege segregation.
+
+There are fundamental differences between these protocols, even though
+their overall method of operation is similar. Consider the following
+overview:
+
+.. glossary::
+
+   CGI
+      Common Gateway Interface. CGI is the "original" script gateway
+      protocol. CGI is simple and easy to implement, but every request
+      requires the webserver to create a new process, or copy of the
+      application in memory, for the length of the request. The
+      per-request process creation and tear-down doesn't scale well
+      with database connections and large request loads.
+
+   FastCGI
+      FastCGI attempts to solve the process creation/tear-down
+      overhead, by daemonizing he application, resources can be reused
+      (i.e. process initialization, database connections, etc.) which
+      greatly increases performance over conventional
+      :term:`CGI`. However, FastCGI is more complex to implement, and
+      typically FastCGI application instances have lower
+      request-per-second-per-instance capacities than HTTP servers,
+      which creates a minor architectural challenge. Also, to deploy
+      new application code, FastCGI processes need to be restarted
+      which may interrupt client requests.
+
+   WSGI
+      Web Server Gateway Interface (sometimes pronounced *wisgy* or
+      *wisky*.) WSGI provides a method for web applications to
+      communicate with conventional HTTP servers. WSGI was developed
+      by the Python community, and is typically used by applications
+      written in this language, though the interface is not
+      necessarily Python specific. WSGI is easy to use, though the
+      exact method of deployment and operation varies slightly by
+      implementation.
+
+   PSGI
+      Perl Web Server Gateway. PSGI provides an interface, *a la*
+      :term:`WSGI` between Perl web applications and other CGI-like
+      servers. Indeed, PSGI primarily describes a tool-set for writing
+      web applications rather than a particular interface or protocol
+      to web servers (as PSGI applications can be made to run with
+      CGI, FastCGI or HTTP interfaces.)
+
+   SCGI
+      Simple Common Gateway Interface. SCGI is operationally similar
+      to :term:`FastCGI`, but the protocol is designed to appear more
+      like :term:`CGI` applications.
+
+   Rack
+      Rack is a Ruby-centric (and inspired :term:`PSGI`) web-server
+      interface that provides an abstraction layer/interface between
+      web servers and Ruby applications that "appears native" to Ruby
+      developers.
+
+While CGI and FastCGI defined dynamic applications from the earliest
+days of HTTP and the web, the other above mentioned interface methods
+seem largely emerged in the context of recent web application
+development frameworks like "Ruby on Rails" and "Django."
+
+.. _http-app-servers:
+
+HTTP App Servers
+~~~~~~~~~~~~~~~~
+
+Recently, a class of application servers have emerged that implement
+HTTP instead of some intermediate protocol. While very efficient for
+serving dynamic content, they're less efficient for serving static
+resources and cannot support heavy loads. As a result these
+application servers are typically clustered behind a general purpose
+``httpd`` that can proxy requests back to the application server. In
+this respect, such servers are operationally similar to
+:term:`FastCGI` application servers, but are easier to develop
+applications for and are (theoretically) more simple
+operationally. Examples of these kinds of application servers include:
+Thin, Mongrel, Twisted, and Node.js.
+
+Embeded Interpreters
+~~~~~~~~~~~~~~~~~~~~
+
+In contrast to the various web server/gateway interfaces, the other
+major paradigm of web application deployment centers on emending the
+program or the programming language itself within the webserver
+process. Implementations vary by language and by webserver. Typically
+these methods are *very* powerful, and *very* fast, but are
+idiosyncratic. For a quite a while, these methods were the prevailing
+practice for deploying dynamic content.
+
+This practice is most common in context of the Apache HTTPD Server
+with Perl (and ``mod_perl``) and PHP (``mod_php``). While there are
+also Ruby (``mod_ruby``) and Python (``mod_python``) implementations
+of these methods, development on these methods has been abandoned and
+other methods are strongly preferred.
+
+With the exception of ``mod_php``, the embeded interpreters all
+require you to restart Apache when deploying new code. Additionally,
+all code run by way of an interpreter embeded in the web server
+process runs with the permissions of the web server. These operational
+limitations make this approach less ideal for shared environments.
+
+Because most of the "next wave," web application servers use some sort
+of gateway interface or return HTTP itself, I fear the embeded option
+is neglected unfairly. While there are limitations that you must
+consider, there are a number of very good reasons to deploy
+applications using Apache itself as the application server. Consider
+the following:
+
+- ``mod_perl`` is very efficient, and not only provides a way to run
+  CGI-style scripts, but also exposes most of the operation of Apache
+  to Perl-scripting. In some advanced cases this level of flexibility
+  may provide enough benefit to indicate using ``mod_perl`` and
+  Apache over other options.
+
+- ``mod_php`` has comparable performance to other methods of running
+  PHP scripts, and is significantly easier to deploy applications
+  using ``mod_php`` than most other methods of deploying PHP.[#fpm]_
+  Because ``mod_php`` is so easy to use, I suspect that most PHP code
+  is developed in this environment: I suspect that a great deal of
+  common conception that "PHP just works," is due to the ease of use
+  of ``mod_php``
+
+.. [#fpm] In the last couple of years, `PHP-FPM
+   <http://php-fpm.org/>`_ has made PHP much easier to run as
+   :term:`FastCGI`.
 
 Distributed Systems
 -------------------
 
+TODO write about distributed application architectures.
+
 HTTPD Options
 -------------
+
+TODO overview of general purpose HTTP servers.
 
 Lighttpd
 ~~~~~~~~
