@@ -2,6 +2,8 @@
 Infrastructure Monitoring for Everyone
 ======================================
 
+TODO begin collecting notes
+
 Technological Background
 ------------------------
 

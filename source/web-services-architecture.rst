@@ -40,7 +40,7 @@ HTTP. Consider these basic concepts:
    server
       A system that responds to client requests and returns
       resources. HTTP servers listen for requests on port 80; however
-      can be configured to run on any port.. HTTPS servers listen for
+      can be configured to run on anyn port.. HTTPS servers listen for
       requests on port 443. Recently, non-world-wide-web services
       (i.e. RESTful APIs, Application Servers, databases like CouchDB.)
 
@@ -382,46 +382,8 @@ the following:
    <http://php-fpm.org/>`_ has made PHP much easier to run as
    :term:`FastCGI`.
 
-Distributed Systems
--------------------
-
-TODO write about distributed application architectures.
-
-HTTPD Options
--------------
-
-TODO overview of general purpose HTTP servers.
-
-Lighttpd
-~~~~~~~~
-
-nginx
-~~~~~
-
-AntiWeb
-~~~~~~~
-
-Apache HTTPD
-~~~~~~~~~~~~
-
-Application Servers
--------------------
-
-
-Embedded Interpreters
-~~~~~~~~~~~~~~~~~~~~~
-
-Rails, Python, and The New Old
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-SGI Maddness: SCGI, WSGI, UWSGI
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Deploying Application Servers
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Additional HTTPD Functionality
-------------------------------
+HTTP Abstractions
+-----------------
 
 Load Balancing and Proxies
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -429,11 +391,290 @@ Load Balancing and Proxies
 URL Rewriting
 ~~~~~~~~~~~~~
 
-Synthetic Architecture Patterns
--------------------------------
+Scaling HTTP Servers and Building Distributed Systems
+-----------------------------------------------------
 
-Subdomains
-~~~~~~~~~~
+In most cases, web servers are pretty straightforward and have pretty
+low resource requirements. However, in a number of situations web
+servers face some scaling challenges: when faced with extraordinary
+load, when they must generate dynamic content for each request can use
+significantly greater resources often require additional resources,
+when services are critical and all downtime must be prevented.
 
-Proxying
-~~~~~~~~
+In nearly every case, contemporary web applications face greater and
+more immediate problems with database scaling. See
+":doc:`database-scaling`" for more information related to database
+scaling and architecture.
+
+If HTTP becomes a bottleneck, like databases, there's a progression of
+measures that you can use to ensure that your system can deal with the
+traffic that you expect to face. In general consider the following
+process:
+
+Begin by: moving the database engine to a separate system, and
+ensuring that your method of serving dynamic content is finely
+tuned. In many cases, the default configuration for most dynamic content
+(CGI/Apache/etc.) is poorly tuned: the application server or the
+``httpd`` has a low maximum connection threshold and connections are
+refused before capacity is reached. Connection timeouts, application
+timeouts, and approaches to concurrency (threading, forking,
+event-driven, etc) can all impact performance and all need to be
+understood and addressed before other approaches can be taken.
+
+Real HTTP service begins with decoupling services along logical
+boundaries, so that it's easy to increase application capacity and
+capacity for static content separately. If your application or "site,"
+depends on multiple applications and runtimes, make sure that the
+services run distinctly, and that all components can run independently
+and with minimal dependencies.
+
+The key to making sure this all works in practice is to use some sort
+of balancing-proxy-sever "*in front of*" the servers that provide your
+core application and content. This layer makes it possible for users
+of your service to have the experience of only using one system when
+in fact the service is supplied by a cluster of systems. Ideally most
+gross URL rewriting will be addressed at this level.
+
+.. note::
+
+   Because most application servers are single threaded, it makes
+   sense to run some 2-4 application servers, per system (each on a
+   distinct TCP port.)
+
+   Typically, run one application server, or webserver worker process
+   per core.
+
+   Note that the number of "worker" processes for the :command:`nginx`
+   server defaults to 1 for most distributions which means that it
+   will only use one processor core unless the  configuration is
+   modified.
+
+It's possible to architect system with this eventuality in mind from
+the very beginning using :term:`virtual hosting` and private networks,
+and separating the application layer from the "front-end" HTTP
+servers. Not that many people do this, and in many cases it's a lot of
+overhead for flexibility that isn't practically useful, but "keep
+things separated," is a good axiom for these kinds of system
+architectures.
+
+Once, the application and HTTP content is segregated, it's a
+relatively simple matter to cluster specific components and add
+capacity "horizontally." As the application layer becomes saturated,
+deploy more instances of the server and use the proxy server to
+distribute load among those nodes, and you can safely repeat this for
+each component service.
+
+.. note:: If your system supports or requires a higher standard of
+   availability, it's also good to keep at least two front-end proxy
+   servers in rotation at any given time, by adding multiple DNS
+   records for a single hostname that point to multiple hosts running
+   identical front-end services.
+
+.. seealso:: While availability and scaling are not necessarily linked
+   tasks, consider the material covered in ":doc:`high-availability`"
+   when thinking about architecture.
+
+HTTPD Options
+-------------
+
+Throughout the course of this document I've attempted to provide very
+generic explanations of HTTP, web server implementations, and the
+actual existing technology that you're likely to use. But the truth is
+that ``httpd`` instances are not equivalent, not even roughly so.
+
+To be fair, HTTP is pretty simple, and strictly speaking there's no
+need for a big multi-purpose web server. It's totally possible to use
+:term:`inetd`, and a little bit of code (probably you might as well do
+this in C) to create your own ``httpd``. Everytime a request comes in,
+``inetd`` spawns a copy of your daemon, the request is handled and the
+process terminates. The HTTP protocol is pretty straightforward, so
+the server is easy to implement and the binary is pretty small and you
+can have total control over the behavior of the server by changing
+some values in a header file (and recompiling, of course.) I'm aware
+of at least one pretty high traffic site that does things in this
+manner and it works. Surprisingly well. So that's an option, but
+perhaps a bit beyond most of us mortals.
+
+By way of conclusion, in this section I wish to provide an overview of
+how you might go about choosing a web server (or servers!) for your
+own project and providing an introduction to five servers with which I
+think every systems administrator in the early 21st century should be
+familiar.
+
+Choosing a Web Server
+~~~~~~~~~~~~~~~~~~~~~
+
+You should evaluate web servers on a couple of dimensions, including
+RAM usage, configuration method, compatibility and interoperability
+with your application servers, and resource utilization under load. In
+turn:
+
+- RAM usage, covers the amount of memory that the server uses at idle
+  or under light load. Typically servers with a lot of extra embeded
+  functionality (modules, etc.) will use more RAM, and typically
+  unless something's wrong, this value isn't terribly important, but
+  all other things being equal a server that idles lower is probably
+  more desirable.
+
+- Configuration, describes how easy and :term:`grokable` the server's
+  configuration system is for you. This is a personal decision, but
+  there are some configuration systems that seem built around
+  particular tasks. For instance, some kinds of pragmatically
+  configured virtual hosting schemes are considerably easier to setup
+  and maintain with Lighttpd than other servers. Apache has probably
+  the most well documented configuration interface of any
+  server. Consider your task and be familiar with how different
+  servers approach configuration.
+
+- Compatibility and Interoperability, addresses the ease with which
+  the server can connect to or run your application or service. The
+  advent of CGI, FastCGI and successor inter-service protocols make
+  this nearly a non-issue. At the same time, there are some
+  operational reasons to use certain servers over others. For
+  instance: the ``uwsgi`` application server is considerably easier to
+  run with nginx than with Apache, while PHP code has historically
+  been easier to run under Apache than with any other server, and
+  there are any number of Apache modules that make Apache a clear
+  winner in many circumstances.
+
+- Resource utilization under load is, in many circumstances, the most
+  important factor that you should consider when choosing an HTTP
+  daemon. Because CPU and RAM use is tied directly to cost and
+  capacity, a web server that uses fewer resources is preferable. At
+  the same time, given a low typical concurrency rate, most web
+  servers do not consume a large amount of resources under
+  load. Nevertheless, understand your concurrency requirements and the
+  ways in which web servers address concurrency and how these
+  approaches affect resource utilization.
+
+Approaches to Concurrency in Web Servers
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+There are three basic approaches to dealing with concurrent requests
+used by web servers: forking, threading, and queuing. This means:
+
+- **Forking**. The example using :term:`inetd` above, is a primal
+  example of this kind of methodology. In essence the server creates a
+  new copy of the process for every request. This is simple because
+  there are no requirements for a shared state between any of the
+  processes that fulfill each :term:`request`. This approach is
+  robust, but is resource intensive as the entire process is
+  duplicated in memory per request. Apache HTTPD in the 1.x series was
+  a *forking* web server, and continues to provide an optional forking
+  implementation in the 2.x series.
+
+- **Threading**. Functionally similar to the forking approach
+  described above; however, rather than creating a new process for
+  every request the web server creates a new thread to track each
+  request. This is somewhat less memory intensive than the forking
+  approach, but is more complicated from an engineering prospective
+  which lead to some stability issues in early stage implementations
+  and continues to impact compatibility with some embeded
+  interpreters. Furthermore the performance advantages obtained with
+  the threaded approach provide only modest benefits over forking and
+  have real limitations at scale. The default "worker" "mpm module"
+  for the 2.x series of the Apache HTTPD uses a threaded approach.
+
+- **Queuing**. This method places all requests in a queue, and a uses
+  an asynchronous event loop to service all requests. This method uses
+  very little memory, particularly under load. This method is used by
+  the "mpm_event" module for Apache, and more notably for the
+  Lighttpd, nginx, and Cherokee web servers. These servers are
+  sometimes described as "event driven" or "asynchronous."
+
+The HTTPD Milieu
+~~~~~~~~~~~~~~~~
+
+Apache HTTPD
+````````````
+
+This article has included a number of references to the Apache HTTP
+Server, and it's difficult to talk about HTTP or even open source and
+Linux without considering the impact of the Apache ``httpd``. Apache
+is descended from the original ``httpd`` developed at the
+:term:`NCSA`. The server is highly modular and incredibly flexible,
+having grown out of a series of "patches" (hence the name from, "a
+patchy web server") to the original HTTPD. The Apache project
+consolidated in the 1990s, and is generally regarded as one of the
+early technological successes of open source, and likely fueled most
+early adoption of GNU/Linux systems.
+
+Today, the server itself remains popular and very useful, with most
+administrators having some level of familiarity with Apache and its
+configuration. It is well documented supported on every platform and
+with every tool as a result of its wide adoption, and incredibly
+robust as a result of it's extensive use. At the same time, Apache is
+not a particularly efficient server, particularly in light of recent
+competitors. While this comparison is frequently offered in analysis,
+it's probably the case that it's overblown. The demands on the vast
+majority of web servers will never surpass the ability of a well tuned
+Apache instance on even modest hardware.
+
+nginx
+`````
+
+nginx (*pronounced "engine x"*) is my personal favorite web
+server. It's simple, functionally complete, uses very little memory,
+and preforms reliably under all circumstances that I've been able to
+throw at it. The configuration syntax is simple and makes many of the
+more complicated Apache configurations simple. Many appreciate its and
+aptitude for serving as an HTTP proxy and software load-balancer, and
+it can serve as a high-volume Mail proxy for high volume mail
+servers. The best part of nginx is that it just works.
+
+While there are edge cases where it makes sense to use another server
+(typically Apache,) and there are some edges that are more rough than
+I'd like (more efficient handling of CGI,[#cgi] better authentication
+systems,[#digest] or a pluggable caching layer, I can really see no
+reason to *not* use nginx for any deployment.
+
+.. [#cgi] Admittedly, the problem is largely with CGI itself. Given an
+   option, I tend to prefer nginx's externalization of this and it's
+   configuration of FastCGI processes.
+
+.. [#digest] nginx only supports basic HTTP authentication. This is a
+   fundamental flaw with HTTP, but support for digest authentication
+   would at the very least be nice.
+
+Lighttpd
+````````
+
+Lighttpd (*pronounced "lighty"*) was one of the first to use the
+queuing methodology, and because of a lot of early stability and early
+notable deployments (including Reddit,) was a favorite. In addition to
+generally efficient operation, it offers a minimalist Lua-based
+configuration which permits dynamic virtual host configuration.
+Lighttpd, like nginx, supports FastCGI naively, and developed the
+widely used "spawn-fcgi" tool for starting FastCGI servers.
+
+Unfortunately, development on Lighttpd has stalled and there is a
+persistent memory-leak issue which forces administrators to restart
+the server every couple of days. Since late 2009 I don't think that
+there has been any reason to use Lighttpd, except if you need the easy
+virtual host configuration, can't find similar functionality in other
+tools *and* don't mind restarting the server arbitrarily for a known
+problem that isn't (and likely won't) be fixed.
+
+AntiWeb
+```````
+
+The inclusion of `AntiWeb <http://hoytech.com/antiweb/>`_ is something
+of an outlier, but I think it's a cool project and it fits in well
+here and may be a good introduction to HTTP servers for someone
+interested in the technology at a lower level. AntiWeb is a Common
+Lisp web server that uses the event-driven/asynchronous approach like
+Lighttpd or nginx, but it inherits some pretty innovative ideas
+regarding web development and HTTP from the Lisp world. While you
+might not use AntiWeb as your next ``httpd``, it's worth investigation
+by anyone whose interested in web servers and web applications.
+
+Cherokee
+````````
+
+I nearly didn't include Cherokee in this listing. Cherokee views
+itself as the successor to Apache (hence the name,) combining Apache's
+ease of use with the performance of event-driven servers like
+nginx. Everything that I've seen indicates that it's a great software
+with great performance. It's main selling point, apparently, is easy
+configuration, which it accomplishes by way of a web-based
+interface. Worth considering.

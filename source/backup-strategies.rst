@@ -144,7 +144,7 @@ tools, you ought to be:
   as they're going to get, and there's nothing gzip can do to make the
   file smaller so it's not worth the processor overhead to run
   gzip. Sometimes log files will be gzipped durring :term:`logrotate
-  <log rotation>`. The independence of these two functions means that
+  <logrotation>`. The independence of these two functions means that
   you can use shell redirection and the pipe (i.e. "``|``") to control
   and modify output in a granular way. This is particularly powerful
   when combined with ``ssh`` to stream data to programs on foreign

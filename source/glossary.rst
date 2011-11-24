@@ -2,6 +2,9 @@
 A Glossary for Cyborg Systems Administrators
 ============================================
 
+Terms
+-----
+
 .. glossary::
    :sorted:
 
@@ -59,3 +62,31 @@ A Glossary for Cyborg Systems Administrators
       it's representation, references to the original object are
       created, and bits are copied to the "copied object" only as the
       corresponding bits in the original object are written.
+
+   virtual hosting
+      A method of including a host name in the request to allow a
+      single process to provide multiple services. This is typically
+      used in the context of :doc:`HTTP services
+      <web-services-architecture>` to provide multi-tenancy, but can
+      be applied in a number of contexts.
+
+   multi-tenancy
+      The practice of using a single system to provide multiple
+      services. While this can lead to more efficient use of resources
+      in some situations and by some providers, and is therefore
+      desirable, mult-tenancy can make it hard to correlate observed
+      performance, server configuration changes, and actual
+      performance issues.
+
+   inetd
+      A core UNIX process that listens to network interfaces and
+      spawns processes in response.
+
+   grokable
+      Understandable or knowable. From "grok." Derived from Robert
+      Heinlein's *Stranger in a Strange Land*.
+
+   NCSA
+      National Center for Supercomputing Applications. Located at the
+      University of Illinois Campaign-Urbana, the NCSA is notable for
+      hosting many developments, including the development of HTTP.
