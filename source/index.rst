@@ -24,12 +24,14 @@ repository is available at `git.cyborginstitute.net
 
 Table of Contents
 -----------------
+
 .. toctree::
    :maxdepth: 4
 
    backup-strategies
    database-scaling
    web-services-architecture
+
    development-environments
    unix-systems-background
    high-availability
