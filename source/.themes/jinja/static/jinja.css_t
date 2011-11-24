@@ -199,6 +199,7 @@ div.admonition {
     /* padding: 10px 30px; */
     border-top: 1px solid #ccc;
     border-bottom: 1px solid #ccc;
+    margin: 1em 2.25em
 }
 
 div.admonition tt.xref, div.admonition a tt {
@@ -213,7 +214,8 @@ dd div.admonition {
 div.admonition p.admonition-title {
     font-family: {{ font_family }};
     font-weight: normal;
-    font-size: 24px;
+    font-style: italic;
+    font-size: 19px;
     margin: 0 0 10px 0;
     padding: 0;
     line-height: 1;
