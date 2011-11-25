@@ -282,6 +282,7 @@ table.docutils {
     -moz-box-shadow: 2px 2px 4px #efefef;
     -webkit-box-shadow: 2px 2px 4px #efefef;
     box-shadow: 2px 2px 4px #efefef;
+    margin: 0 0.25em;
 }
 
 table.docutils td, table.docutils th {
@@ -305,7 +306,8 @@ table.footnote {
 }
 
 table.footnote + table.footnote {
-    margin-top: -15px;
+    margin-top: -0.1em;
+    margin-bottom: .75em;
     border-top: none;
 }
 
