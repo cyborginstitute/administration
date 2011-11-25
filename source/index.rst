@@ -34,17 +34,17 @@ Table of Contents
 
    development-environments
    unix-systems-background
+
    high-availability
    monitoring-tactics
 
    virtualization-automation
    dev-ops-communication
-   service-relationships
 
    fundamental-skills
    fundamental-tools
-
    documentation
+
    production-deployment-cycles
    problem-solving
    glossary

@@ -90,3 +90,16 @@ Terms
       National Center for Supercomputing Applications. Located at the
       University of Illinois Campaign-Urbana, the NCSA is notable for
       hosting many developments, including the development of HTTP.
+
+   horizontal scaling
+      See ":term:`partitioning`."
+
+   vertical scaling
+      See ":term:`replication`."
+
+   replication
+      A distributed architecture where
+
+   partitioning
+      A distributed architecture where
+

@@ -200,6 +200,74 @@ application and information providers, CouchDB uses an HTTP interface
 for applications to communicate with a database, and Node.js uses HTTP
 as an application transport.
 
+HTTP Abstractions
+-----------------
+
+Until now we've talked about HTTP in terms of static content conveyed
+directly from the server's file system, thought the web server, to the
+end-user's client. If that were the only way to deploy HTTP then this
+would be a very short article indeed. Different web servers provide
+levels of processing on requests, and some even embed programming
+languages, database requests, and other functionality into the request
+cycle itself.
+
+For the most intensive and complex of this "dynamic" content, external
+applications written using nearly any programming technology handles
+these requests. However, there are a couple of very simple
+abstractions that most general purpose web servers provide that are
+useful to introduce at this stage: *Proxy handling* where a server
+will "pass" a request to another server and *URL rewriting* where the
+server will map incoming requests for :term:`resources` to different
+internal paths and resources.
+
+Load Balancing and Proxies
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Most general purpose web servers have the ability to :term:`proxy` or
+forward incoming requests to different HTTP (or :term:`CGI`,
+:term:`FastCGI` or similar) server. The proxying process requires only
+minimal overhead on the part of the front end server and makes it
+possible to host an entire domain or sub-domain using a cluster of
+machines or have a single public IP address that can access the
+resources of a group of machines. As a result proxies are essential
+for scaling web services horizontally and most deployments of an
+consequence will require the use of this abstraction. These simple
+proxying configurations can be thought of as an instance of
+:term:`partitioning` or :term:`horizontal scaling`.
+
+Load-balancing, then, are proxy configurations where a single public
+resource or set of resources is provided by more than one machine that
+serve identical content. The proxy server in these situations must
+distribute the requests among the nodes and (optionally) track
+connections to ensure that nodes remain responsive and in some
+configurations can ensure that connections from a single client are
+consistently routed to the same back-end when possible. Load balancers
+include the ability to distribute requests unevenly among the node if
+systems have different capacities as well as different possible
+responses to node failures. Load balanced architectures are simple
+examples of :term:`replication` or :term:`vertical scaling`.
+
+URL Rewriting
+~~~~~~~~~~~~~
+
+URL rewriting allows :program :`httpd` programs to accept requests for
+resources that don't exist as named and process those requests in such
+a way as to map the reformed requests to actual resources that the
+server can fulfill. URL rewriting engines often support regular
+expression matching, and can provide both transparent rewriting where
+URLs are rewritten transparently for the client and do not require an
+additional request, or as "redirect ions," which the client is aware
+of and requires multiple requests. URL rewriting is helpful for making
+URLs seem sensible for users (as in removing/changing file extensions
+or reforming query strings,) for providing administrators the
+flexibility to reorganize content and back end systems without
+changing the presentation, and for moving resources without breaking
+links. Most web development frameworks provide some level of URL
+abstraction but having this ability in the web server can be very
+powerful in many situations. While there are some quirks of every URL
+rewriting system, they are roughly similar, and it's important to be
+familiar with the rewriting system in the web server you use.
+
 Web Server Fundamentals
 -----------------------
 
@@ -372,24 +440,14 @@ the following:
 
 - ``mod_php`` has comparable performance to other methods of running
   PHP scripts, and is significantly easier to deploy applications
-  using ``mod_php`` than most other methods of deploying PHP.[#fpm]_
+  using ``mod_php`` than most other methods of deploying PHP. [#fpm]_
   Because ``mod_php`` is so easy to use, I suspect that most PHP code
   is developed in this environment: I suspect that a great deal of
   common conception that "PHP just works," is due to the ease of use
   of ``mod_php``
 
-.. [#fpm] In the last couple of years, `PHP-FPM
-   <http://php-fpm.org/>`_ has made PHP much easier to run as
-   :term:`FastCGI`.
-
-HTTP Abstractions
------------------
-
-Load Balancing and Proxies
-~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-URL Rewriting
-~~~~~~~~~~~~~
+.. [#fpm] In the last couple of years, `PHP-FPM <http://php-fpm.org/>`_
+   has made PHP much easier to run as :term:`FastCGI`.
 
 Scaling HTTP Servers and Building Distributed Systems
 -----------------------------------------------------
@@ -624,8 +682,8 @@ servers. The best part of nginx is that it just works.
 
 While there are edge cases where it makes sense to use another server
 (typically Apache,) and there are some edges that are more rough than
-I'd like (more efficient handling of CGI,[#cgi] better authentication
-systems,[#digest] or a pluggable caching layer, I can really see no
+I'd like (more efficient handling of CGI, [#cgi]_ better authentication
+systems, [#digest]_ or a pluggable caching layer, I can really see no
 reason to *not* use nginx for any deployment.
 
 .. [#cgi] Admittedly, the problem is largely with CGI itself. Given an
