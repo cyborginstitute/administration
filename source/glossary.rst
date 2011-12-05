@@ -103,3 +103,11 @@ Terms
    partitioning
       A distributed architecture where
 
+   syslog
+      A multi-system "system logging" system.
+
+   resources
+      TODO add to HTTP document
+
+   proxy
+      TODO add to HTTP document
