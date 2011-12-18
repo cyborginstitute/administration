@@ -37,7 +37,7 @@ source_suffix = '.rst'
 #source_encoding = 'utf-8-sig'
 
 # The master toctree document.
-master_doc = 'index'
+master_doc = 'contents'
 
 # General information about the project.
 project = u'Systems Administration for Cyborgs'
@@ -178,7 +178,7 @@ htmlhelp_basename = 'cyborg-systems-administration'
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title, author, documentclass [howto/manual]).
 latex_documents = [
-  ('index', 'garen.systems-administraton-for-cyborgs.tex', u'Systems Administration for Cyborgs',
+  ('contents', 'garen.systems-administraton-for-cyborgs.tex', u'Systems Administration for Cyborgs',
    u'tycho garen', 'manual'),
 ]
 
