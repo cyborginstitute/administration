@@ -118,7 +118,7 @@ Consider the following concepts in monitoring administration.
       An event or :term:`alert` that lies beyond the monitoring
       :term:`threshold`, but does not indicate that there is an
       operational issue. Typically this is caused by too sensitive
-      monitoring infrastructure or imporperly configure
+      monitoring infrastructure or improperly configure
       thresholds. Not only are false positives annoying, they decrease
       the effectiveness of other alerts because users are more likely
       to dismiss alerts that are true positives. At the same time,
@@ -134,7 +134,7 @@ Consider the following concepts in monitoring administration.
 
    syslog
       Refers the standard logging format that originated with early
-      BSD Unix utilites (i.e. ``sendmail``) and was later made generic
+      BSD Unix utilities (i.e. ``sendmail``) and was later made generic
       for tool all system logging. The syslog format was adopted by a
       number of tools for reporting and log analysis and was
       eventually standardized. These days, syslog is rather poorly
@@ -150,16 +150,104 @@ Monitoring infrastructure should typically run as distinctly as
 possible from production services. Monitoring should not itself create
 a significant impact on the system that it's monitoring, and failure
 of the monitored system should not cause a failure in the monitoring
-system. Simple redundancy and automatic fail-over is nice in
-monitoring systems, as it is important to "monitor the monitoring," or
-ensure that an inoperative monitoring system doesn't generate
-:term:`false positives <false positive>`.
+system. Simple redundancy and automatic fail-over is particularly
+important for monitoring systems, as it is important to "monitor the
+monitoring," or ensure that an inoperative monitoring system doesn't
+generate :term:`false positives <false positive>`.
 
-Infrastructure Requirements
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.. seealso:: ":doc:`higher avalibility <higher-avalibility>`."
+
+Infrastructure and Archiectures
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Typically monitoring systems will consist of a central monitoring
+server that collects and aggregates the data from a series of agent or
+"probe" systems that are part of the monitoring infrastructure. These
+agents actually colect the data from the monitored system, and allow
+for a layer of redundancy and operational flexibility, within the
+monitoring system, without needing to scale the monitoring application
+directly as the number of systems and tests grow.
+
+Monitoring infrastructure requires redundancy and backup, to some
+extent. If you use your monitoring system for uptime monitoring, and
+the monitoring system goes down, it's impossible to know what services
+are accessible. For transient outages, this isn't a problem, but for
+longer site-wide infrastructure, having this level of monitoring is
+essential.
+
+In some cases, reporting requirements mean that "secondary" monitoring
+needs to fully replicate primary monitoring in secondary monitoring,
+but more often, you can have just enough infrastructure to make sure
+that the primary and some essential services are up in the secondary
+while keeping the core monitoring running in the primary. Some kinds
+of distributed architectures may also provide a necessary level of
+redundancy: rather than centralize all monitoring aggregation, have a
+collection of "probes" feed data into local collectors and data
+processing systems that do most of the work on a per-site basis, and
+then have one or two "master systems" that further aggregate the
+data. The site-collectors can themselves be redundant to whatever
+level your operational guidelines require.
+
+As with all systems architecture, additional systems add complexity
+which increases the chance of failure. Tiered and distributed
+approaches to deploying systems and solutions are often the most
+robust and reliable, but they are the most difficult to configure and
+prone to error. While a distributed system may seem to solve most of
+your redundancy and recursive monitoring needs, there are enough
+hidden risks and complexities to indicate avoiding this kind of
+deployment unless absolutely necessary.
 
 Alerts and Notifications
 ~~~~~~~~~~~~~~~~~~~~~~~~
+
+Alerts and notifications are one of the core uses of monitoring data,
+and likely the first or second service that you as a monitoring
+administrator will configure. In most cases, you can summarize an
+alert as "*when this metric passes outside of these boundaries make
+sure an administrator knows about it*;" however, in practice there are
+a lot of concerns and conditions that affect alert logic and
+behavior. Consider the following conditions and features:
+
+- Escalation. It's not enough to simply send alerts: you need ot ensure
+  that someone acknowledges the alert and handles the recovery. Since
+  people have "real lives," and aren't always on call, you need to be
+  able to send alert to someone on the front lines, and if they can
+  handle it, pass that alert onto someone above them.
+
+  In some cases it's possible to "fake" escalation with two alerts:
+  send one message every minute, if the system has been down for five
+  minutes, and one message every minute if the system has been down
+  for more than fifteen minutes. This gives the front line engineer ten
+  minutes to disable the alert or fix the system before "waking
+  someone else up." In most cases, the second person will never get
+  called.
+
+- High "signal to noise" ratio. It's possible to turn on alerts for
+  many different metrics, but this has the effect of "spamming"
+  administrators, and decreasing the overall effectiveness of the
+  system. If every alert that an on-call administrator receives is not
+  crucial and actionable.
+
+- Some sort of on-call automation. Most systems have more than one
+  administrator, and have some sort of administrator duty.
+
+- Compatible with multiple contact methods. In many cases, email is
+  the lingua-franca for alert systems: it provides compatibility with
+  SMS and Blackberry/Smartphones, and is incredibly portable.
+
+  The delay between sending an alert and an administrator receiving
+  and being able to respond to that alert needs to be considered when
+  choosing alert methods. It's useful to be able to configure logic
+  when and where to send alerts on a per-user basis.
+
+- Configurable re alerting. Depending on the service that the alert
+  "covers," an alert may need to resent after a certain period of time
+  if the metric remains outside of the threshold.
+
+- When deploying alerts, consult with administrators on error
+  responses, handling strategies, and average recovery times. Ideally,
+  alerts will be able to cover their systems such that, administrators
+  will have no need to routinely "check" a system covered by an alert.
 
 Monitoring Tools
 ----------------
@@ -245,10 +333,10 @@ Appliances and Hosted Services
 
 As in many domains, its possible to outsource monitoring to vendors
 who provide monitoring solutions as hosted services or as drop/plug-in
-appliances, in additional to conventional applications. While there
+appliances, as well as conventional applications. While there
 are advantages and disadvantages to these *and* to conventional
 monitoring tools, outsourcing and "appliances" both release
-administrators from the additional burden of administering monitoring
+administrators from the additional burden of monitoring administering
 infrastructure and makes a certain amount of operational sense.
 
 It makes sense to outsource monitoring for a number of reasons,
@@ -258,31 +346,176 @@ including:
   organization, you're probably not at expert at deploying monitoring
   tools, and you're not in the business of monitoring (probably.)
 
-- monitoring infrastructure ought to be distinct from the systems that
-  they monitor. This allows the monitoring to remain operational
-  throughout various service interruptions. This seperation ought to
-  cover both
+- monitoring systems ought to be distinct from the systems that they
+  monitor. This allows the monitoring to remain operational throughout
+  various service interruptions. This separation ought to cover both
+  the actual infrastructure *and* the operation and maintenance of the
+  production and monitoring systems.
 
-  It's also important to manage the inf FIX ME
-
--
-
-
-monitoring is such a critical part of any
-production deployment *and* that the best monitoring systems are
-separated from the systems they monitor both physically and
-operationally.
-
+- doing monitoring right on your own can be quite expensive because
+  the actual hardware, reliability, and data processing requirements
+  are high, and a specialized monitoring vendor can often provide
+  these services at great discount in price and time.
 
 Feedback Loops
 --------------
 
+Technically speaking, getting monitoring up, running, and reliable is
+a huge challenge, and it's very easy to end a discussion of monitoring
+with functioning data collection, graphing, and alert systems without
+discussing how to get the most out of these systems. While some
+non-systems administrators can make use of monitoring technologies in
+various contexts, [#monitoring-applications]_ unlike most applications
+that systems administrators must deploy and maintain, monitoring
+systems' primary users are systems administrators.
 
-Analytics
-~~~~~~~~~
+Figuring out how to *use* monitoring systems to better administer a
+group of systems. Monitoring makes it possible for a smaller number of
+systems administrators to administer a greater number of
+systems. [#scaling-jobs]_ This section focuses on major applications
+for monitoring data, both in the automation of infrastructure and the
+analysis of data regarding that infrastructure.
+
+.. [#monitoring-applications] Alerts and notifications of various
+   events are used in a number of different contexts, and data
+   collection can be used to justify budgets to people who
+   aren't involved in the administration (i.e. "business leaders,")
+
+.. [#scaling-jobs] Efficiency in systems administration almost never
+   results in a decrease of employment for actual systems
+   administrators, but rather an ability for the existing or a
+   modestly expanded workforce, to manage to expanded demands from
+   business and developer units.
 
 Automation
 ~~~~~~~~~~
 
+With the advent of :term:`cloud computing` and :doc:`automation
+surrounding virtualization <virtualization-automation>`, the use of
+monitoring solutions to underpin infrastructure deployment and
+management. The theory is, in essence, that as utilization varies
+between thresholds, additional capcity is automatically added and
+removed.
+
+For example, if your application servers can effectively handle 1000
+requests a second, you could trigger the following actions, using data
+polled every 5 or 10 minutes:
+
+- Add a node to the cluster when the average load equals 800 requests
+  per second.
+
+- Remove a node from the cluster when the average load equals 400
+  requests per second.
+
+- Set a node to "not accept" new connections, (in the load balancer)
+  if it has more than 1100 connections per second.
+
+- Alert if more than 4-8 application servers are running on any given
+  instance.
+
+- To log and restart/redeploy application servers that have frozen or
+  are no longer running.
+
+- To never remove an instance if there are fewer than three nodes.
+
+- To notify administrators (and escalate) if more than three nodes are
+  added within an hour (say) or four nodes within 2 hours, to prevent
+  runaway costs and malicious traffic floods.
+
+The truth is, however, that this is a poor example. Application
+servers are easy to relate, but the truth is that most administrators
+will be able to have very long (and busy) careers for successful clients
+and never have a situation where they'll need to use more than 6-12
+application servers, or need to deploy new application servers more
+than once a week. In most cases, traffic is predictable enough that
+"auto-scaling," is too much additional machinery for a relatively
+infrequent problem.
+
+Nevertheless there are parts of the above example that are useful for
+automating various kinds of capacity planning:
+
+- Establish thresholds and alerts to detect when there is too much
+  excess capacity as well as not enough. It's easy to scale up in
+  response to additional load, but comparatively difficult to scale
+  down. Unfortunately scaling down is the part of automation that
+  *actually* saves money.
+
+- Have the monitoring system be able to tweak the load balancing
+  settings. If a node looks like it's in trouble or might be
+  overloaded, start moving traffic away from it, until the tasks that
+  its blocking on can complete. This kind of tweaking is inefficient if
+  you're a human because it amounts to endless "knob twiddling," but
+  useful to do automatically.
+
+- Ensure that changes in capacity happen gracefully. Add additional
+  capacity before you need it, and remove capacity after you're sure
+  that you no longer need it to maintain the current service level.
+
+The process of developing automation around monitoring, evolves from
+the same process as tuning and deploying alerts. While there are some
+detectable events that require human intervention, truth is that the
+human response to an alert can be automated, in most cases. Keep track
+of how you and your team resolves alerts, and then attempt to automate
+these tasks as much as possible.
+
+.. note:: For a lot of capacity/throughput related tasks, often it's
+   more ideal maintain specific state-full infrastructure for data
+   persistence (i.e. databases,) message bus/queuing systems, and
+   automated tasks, but then do all "work" of the application layer in
+   completely stateless systems "hanging" off of the message queue or
+   queues. Examples of this may be media trans-coding for a image or
+   video gallery, or catalog and/or order management for an
+   e-commerce site. Queues keep application logic simple while reducing
+   the need for state-full systems and synchronous operation.
+
+   Obviously, however, this is a fundamental application design
+   question, and something that's outside of the bounds of systems
+   administration. In that light, while the above "auto-scaling"
+   script seems frightful, in many cases administrators will have to
+   concoct solutions like this while software can be improved.
+
+Analytics
+~~~~~~~~~
+
+Monitoring systems are really just big data collection and aggregation
+frameworks. It's important to have monitoring to track capacity usage,
+and problems that can cause downtime, particularly so that
+administrators can attend to these issues. However, when you *have*
+a system for collecting data and performing analysis it's possible to
+provide some very useful data analysis, for example, you may:
+
+- figure out what areas or aspect of the the system produces errors,
+  or experiences poor performance and be able to pass this information
+  back on to the engineering teams. By integrating more closely
+  engineering with teams, you can probably collect even more useful
+  data. (See ":doc:`dev-ops-communication`" for more on these
+  purposes.)
+
+- identify trends in network usage and independently verify your
+  providers' services, particularly in a comparative context. This
+  allows you to enter into contracts with more information and
+  negotiate from a place of power.
+
+- correlate certain use patterns with each other, particularly
+  regarding different aspects of a product and suggest integration
+  "higher up" in the engineering process. Systems administrations, are
+  often primarily responsible for the entire product, and typically a
+  single team of administrators are working with tools and
+  applications that a number of teams of developers provide and
+  maintain.
+
 Lessons for Cyborgs
 -------------------
+
+- Monitor everything. If it's not important to monitor, it's likely
+  not providing any value and should be stopped.
+
+- Monitor monitoring systems.
+
+- Use different kinds of tests and tools to collect data to prevent
+  measurement errors.
+
+- Ensure that alerts are useful and actionable by administrators.
+
+- Expect to spend time tuning and modifying monitoring frequency so
+  that you're not collecting too much data, or archiving data.

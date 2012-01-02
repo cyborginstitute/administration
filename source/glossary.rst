@@ -67,7 +67,7 @@ Terms
       A method of including a host name in the request to allow a
       single process to provide multiple services. This is typically
       used in the context of :doc:`HTTP services
-      <web-services-architecture>` to provide multi-tenancy, but can
+      <web-services-architecture>` to provide :term:`multi-tenancy`, but can
       be applied in a number of contexts.
 
    multi-tenancy
@@ -97,17 +97,65 @@ Terms
    vertical scaling
       See ":term:`replication`."
 
-   replication
-      A distributed architecture where
-
-   partitioning
-      A distributed architecture where
-
    syslog
       A multi-system "system logging" system.
 
-   resources
-      TODO add to HTTP document
-
    proxy
-      TODO add to HTTP document
+      Servers or services which do not originate content but assemble
+      content or provide a single access point for a number of
+      distinct processes or different servers by acting as a "pass
+      through," for this content or resource (group.) Proxy servers
+      provide a number of distinct intermediary functionality at a
+      number of levels of abstraction and operation.
+
+   good enough
+      A theory regarding the development and adoption of "bleeding
+      edge" technologies that asserts that "the best" or most advanced
+      technologies are not always the best solutions or the best
+      expenditure of resources.
+
+   virtualization
+      The practice of using hypervisor technology to
+      provide :term:`multi-tenancy` on a system-level. These
+      virtualized hosts (i.e. servers,) provide abstracted hardware
+      interfaces so that administrators can deploy multiple systems,
+      instances, or nodes on a single piece of hardware. Virtualized
+      instances are generally entirely separate from other systems
+      running on the same hardware.
+
+   host
+      Refers to a single system in a networked environment. With
+      virtualization, each instance is a host on the
+      network. Typically each host has a single and distinct network
+      address but :term:`IPv4 address space depletion` and :term:`NAT`
+      obscure this boundary somewhat.
+
+   replication
+      A distributed architecture where the resource exists
+      *redundantly* in multiple locations. Examples include RAID
+      level-1 and master-slave database architectures.
+
+   partitioning
+      A distributed architecture where a single copy of a single
+      logical resource are split up among a collection of nodes that
+      each provide a non-identical portion of the resource. In
+      databases this is often called "sharding," but a similar effects
+      are possible for other types of services.
+
+   NAT
+      Network address translation. The network routing approach that
+      allows multiple hosts in the local network to share a single
+      publicly routable address.
+
+   IPv4 address space depletion
+      The process where the 32-bit space for the global IPv4 network
+      (i.e. the "Internet") runs out of usable addresses for
+      hosts. The problem is a result of many factors: a much larger
+      number of hosts on the internet than expected, poor early
+      address allocation methods, and routing requirements that
+      consume, on average, 2-4 unusable addresses for every block of
+      256 addresses.
+
+   resource
+      A specific piece of content provided by a networked
+      service. Typically used in the context of HTTP. 

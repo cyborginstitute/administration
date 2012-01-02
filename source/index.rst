@@ -22,29 +22,32 @@ repository is available at `git.cyborginstitute.net
 <http://git.cyborginstitute.net/?p=cyborg-admin.git>`_ and `github
 <http://github.com/tychoish/cyborg-admin>`_.
 
+.. toctree::
+   :maxdepth: 1
+
+   maintenance
+
+
 Table of Contents
 -----------------
 
 .. toctree::
    :maxdepth: 4
 
-   backup-strategies
-   database-scaling
-   web-services-architecture
-
-   development-environments
    unix-systems-background
-
-   high-availability
-   monitoring-tactics
+   fundamentals
+   problem-solving
+   documentation
+   development-environments
 
    virtualization-automation
    dev-ops-communication
-
-   fundamental-skills
-   fundamental-tools
-   documentation
-
    production-deployment-cycles
-   problem-solving
+
+   backup-strategies
+   database-scaling
+   web-services-architecture
+   high-availability
+   monitoring-tactics
+
    glossary

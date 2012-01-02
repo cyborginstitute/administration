@@ -47,7 +47,7 @@ HTTP. Consider these basic concepts:
    resource
       The content returned by the :term:`server` in response to a
       :term:`request`, except for that data which is in the
-      :term:`header`. The HTTP response header
+      :term:`header`.
 
    request
       The message sent from a :term:`client` to a :term:`server`
