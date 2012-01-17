@@ -206,6 +206,8 @@ div.admonition tt.xref, div.admonition a tt {
     border-bottom: 1px solid #fafafa;
 }
 
+div.section{ margin-bottom: 1em; }
+
 dd div.admonition {
     margin-left: -60px;
     padding-left: 60px;
@@ -343,7 +345,7 @@ blockquote {
 }
 
 ul, ol {
-    margin: 0.1em 0 0.1em 2em;
+    margin: 0.1em 0 0em 2em;
     padding: 0.1em;
 }
 
