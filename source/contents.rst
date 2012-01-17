@@ -6,15 +6,14 @@ Systems Administration for Cyborgs
    :hidden:
 
    index
+   maintenance
 
 .. toctree::
    :maxdepth: 2
 
-   unix-systems-background
    fundamentals
-   problem-solving
    documentation
-   development-environments
+   unix-fundamentals
 
    virtualization-automation
    dev-ops-communication

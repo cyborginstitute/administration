@@ -12,20 +12,31 @@ can break a working system. At the same time every deployment and
 system requires configuration changes, upgrades and updates. Balancing
 these requirements presents a core problem in systems administration.
 
-This document addresses different ways, techniques, and strategies
-that make it possible balance both of these concerns at the same
-time.
+Ensuring a stable production environment requires appropriate testing
+infrastructure *and* sufficient policies and automation around
+application deployment to ensure that deploying new software or
+running software updates are reliable and do not require manual
+intervention.
+
+This document addresses both halves of this problem--the
+infrastructure and the policy--and includes different method,
+techniques, and strategies that make it possible for administers to
+ensure reliable application and system updates.
 
 Key Concepts
 ------------
 
+The following concepts introduce crucial components and requirements
+of deployment testing infrastructure.
+
 .. glossary::
 
    production environment
-      The servers that clients actually interact with. These servers
-      are doing the actual work of the deployment. Administrators
-      should modify instances and applications running in this
-      environment as minimally as possible.
+      The servers that clients actually interact
+      with. These servers are doing the actual work of the
+      deployment. Administrators should modify instances and
+      applications running in this environment as minimally as
+      possible.
 
    test environment
       Servers that provide a very accurate reproduction
@@ -34,10 +45,11 @@ Key Concepts
       production system. Sometimes it's not feasible to fully
       replicate production environments in test, the differences ought
       to be minimal so that differences between the test and
-      production environments don't cause unexpected problems.
-
-      Virtualized production and test environments make it easier to
-      more accurately replicate the production environment in test.
+      production environments don't cause unexpected
+      problems. Virtualized production and test environments make it
+      easier to more accurately replicate the production environment
+      in test. Some organizations and resources refer to test
+      environments as "staging environments."
 
    development environment
       A deployment of your application or application that can be
@@ -58,8 +70,8 @@ Key Concepts
       how changes are made to the production system are often refereed
       to as "change control," and some of the systems used to monitor
       for changes can be used to ensure that changes are correctly
-      propagated from :term:`test environment` to :term:`production
-      <production environment>`
+      propagated from the :term:`test environment` to the
+      :term:`production environment`.
 
    fire call
       A method used by administrators to get emergency administrative
@@ -74,16 +86,232 @@ Key Concepts
       produces an undesirable or unforeseen effect rollback procedures
       are used to revert to a previous known working state.
 
-Deployment Processes
---------------------
+Testing Infrastructure
+----------------------
 
-Change Control
---------------
+This document will leave deploying a suitable test infrastructure as
+an exercise to the reader. It's absolutely crucial that you be able to
+test changes to all production before you deploy them; however, the
+extent of your testing, and the tolerances (both from a an
+administrative perspective and from that of the stakeholders
+[#steakholders]_ ) be specifically tailored to your environment.
+
+When configuring your test environments consider the following basic
+requirements:
+
+- Testing needs to be easy. In order to ensure that you and your
+  developers will rigorously test changes and updates, testing changes
+  needs to be trivially easy. In addition to any other interface, it
+  must be easy to restart and reset the environment to "base
+  configurations," to "back out" of bad configurations easily.
+
+  Usability in this case also mandates some measure of performance. If
+  it takes too long to reset an environment, or if the environment is
+  too slow for any number of reasons, the test environments are less
+  likely to get used.
+
+- Using a deployment automation system, either something custom based
+  on build scripts, ``make`` files, or something similar.
+
+- Use virtualization to isolate environments. Tools like "`Vagrant
+  <http://vagrantup.com/>`_ great for this purpose (assuming that it
+  doesn't take too long to rebuild the test infrastructure.)
+
+.. [#steakholders] While the term "stakeholders," comes to us from
+   the world of management and bears a certain amount of distaste in
+   the minds of most systems administrators, it's useful to
+   be able to recognize the operational needs
+
+   For some services, the administrators are the main consumers or
+   stakeholders. Directory services, management tools and databases,
+   logging and monitoring systems, and so forth. For other systems:
+   file servers, web-based applications, and so forth, other groups
+   dictate operational requirements and tolerances.
+
+Deployment Processes and Policy
+-------------------------------
+
+Once you have the infrastructure *to* perform testing, it's important
+to ensure that you *do* perform tests. Software developers use
+:term:`continuous integration` systems to automate tests, and in some
+cases you can automate testing for deployments work using a similar
+method. Often, the kind of testing that administrators need to do is
+more complex.
+
+Where as programmers can often write test cases that verify the
+behavior of a program, operational testing requires not only that a
+single program behave correctly, but rather that an entire collection
+of programs behave correctly *together,* in a specific environment. In
+the process of testing it's important to be able to affirmatively
+answer the following questions:
+
+- Will this upgrade or change break any dependent service? For
+  example, does upgrading an LDAP (directory) service impact email
+  services?
+
+- Does this upgrade or change introduce any (new) client compatibility
+  issues? For instance, would switching to :term:`SSL SNI` for HTTPS
+  break compatibility with clients that you must support? (In this
+  case, as of 2011, the answer is usually yes.)
+
+- Does one change (i.e. deploying a new version of an existing
+  application,) require configuration changes (i.e. the installation
+  of a library, changes to networking rules, or changes to files
+  beyond what's contained in the upgrade itself?
+
+There are a number of different policies at the organizational level
+that can help you answer these question. Typically these policies
+revolve around making testing easier, less burdensome, and more
+automated and integrated into typical practices. For instance,
+consider the following policy strategies:
+
+- Mandate reviews and signoffs for changes. Make sure that except for
+  :term:`fire call` situations, that more than one administrator is
+  responsible for reviewing and signing off on the change. This is not
+  possible in small teams, and for some sets of changes, and often
+  lengthens timescales considerably but fresh eyes and different
+  perspectives are quite useful.
+
+  If you manage configuration and deployment pragmatically all changes
+  to the production system, must be code reviewed before propagating
+  it to the production system.
+
+- Integrate testing into other tools and workflows. Including testing
+  infrastructure that is either automated (of the "continuous
+  integration" type) or connected to change requests and ticketing, or
+  version control tools.
+
+- Provide local preliminary ("Devi") testing. If you and your
+  developers and administrators have an easy way to test changes, and
+  become familiar with software, it's more likely that you and other
+  administrators will test code regularly. Lower barriers to entry are
+  key to ensuring that developers use these systems.
 
 Rollback
 --------
 
-Systems Policy and Auditing
----------------------------
+Previous sections have covered the importance of testing and
+controlling access to resources. While there is no substitute for
+implementing policies and procedures to ensure that deployments,
+updates, and upgrades go smoothly, it's also important that make it
+possible to do rollbacks when an upgrade has unforeseen
+consequences. In addition to requiring extensive tests, also test the
+rollback procedure to ensure that you can quickly rollback the server,
+to a previous "known working state," if the deployment process has an
+unforeseen consequences.
+
+There are a few methods/technologies that you can use to provide
+rollbacks:
+
+- Use :term:`LVM` or some other file-system or block level
+  snapshotting tool to create a backup of a system before applying the
+  change. If something goes wrong with the upgrade process, you can
+  rollback to the known good state.
+
+- If ruining in a virtualized environment, duplicate the instance, and
+  upgrade the server, and perform a manual failover (swap the IP
+  addresses) if you need a rollback. Ensure that modifying the IP
+  address works (i.e. send appropriate ARP requests.)
+
+- Use a script to apply the changes, and write a rollback function to
+  reverse all changes that you apply, and test both in your test
+  environment.
+
+In general, you should script and automate rollbacks--like deployment
+processes--so that it's possible to back out of an update without
+needing to remember the sequence of operations that you performed to
+update the system. Sometimes this is reasonably complicated, as in the
+case of operating system updates and upgrades; and other times it may
+be as simple as changing a symbolic link, as in the case with some
+application deployment schemes. Above all, remember to be as rigorous
+about rollbacks and testing as you are about the updates themselves.
+
+.. seealso:: ":doc:`backup-strategies`."
+
+Change Control
+--------------
+
+There is a class of software called "change control," that monitors
+systems and applications to insure that configuration remains constant
+and that configuration changes are not implemented outside of normal
+change control policies. This is typically implemented as a special
+kind of :term:`monitoring` or intrusion detection system.
+
+While it's important to develop policies regarding changes to
+production systems, it's also important to provide some method to
+ensure that the system or systems remain intact and that some
+untracked change to the production system don't either impact the
+integrity of the system or affect the operational conditions of the
+systems.
+
+Change control is a difficult problem, and it's beyond the scope of
+this article. As a security practice, it's reactive and difficult to
+implement effectively [#change-control]_ and in many cases, using
+intrusion detection to ensure the integrity of production systems may
+be overblown.
+
+In any case, it may be useful to collect data on logins and daemon
+restarts, which may indicate some tampering. Also, use privilege
+escalation systems like ``sudo`` that provide more logging rather than
+shared privileged accounts for administrative tasks.
+
+.. [#change-control] Typically if a user has the access to be able to
+   impact a production system, they also have the ability to affect
+   the change control monitor itself. Beyond this, change control
+   systems cannot *prevent* intrusions or unwanted modifications
+   except through Foucauldian methods, and can only report on them
+   after the fact.
+
+Policy, Auditing, and Production Testing
+----------------------------------------
+
+Maintaining separation between test and production environments, as
+well as a usable and reliable deployment systems is not a significant
+technological problem. Rather, to properly address these problems you
+need both the required infrastructure, but more importantly you need
+sufficient policies and procedures to which you and all of your
+administrators and operators can adhere.
+
+Devising a policy that is functional from an administrative use
+perspective is a requisite first step, but it's also important to
+ensure that the policy is also sufficiently flexible. A rigid policy
+may not allow for timely administrative response to unforeseen bugs or
+system events, which can be devastating. So called ":term:`fire
+call``" systems are useful for providing an emergency exception:
+again, this is a thin technological wrapper around a policy problem.
+
+Full-scale auditing is often unworkable: of logs in large clusters, of
+file system changes on any system, so while some level of auditing may
+be useful for "covering" and protecting your systems, the truth is
+that it's not possible to fully audit production and test systems. In
+light of this, the most important aspects of maintaining sane
+deployment policies and practices are (in descending order:)
+
+1. Make testing infrastructure and systems available and easy to use.
+
+   It's difficult to test effectively if there aren't properly
+   configured test machines. Furthermore developers and administrators
+   are unlikely to test effectively if the testing system is difficult
+   to use.
+
+2. Make sure that testing environments resemble production systems to
+   the greatest extent possible.
+
+3. Automate testing.
+
+   For important components use automated testing methods, either with
+   continuous integration systems or by some other means, to ensure
+   that most routine testing is ongoing and does not require active
+   developer initiative.
+
+4. Create and test :term:`rollbacks`, to ensure that even if an update
+   does not go as planned, it's possible to return to a known working
+   state.
+
+5. Limit changes to production systems.
+
+   Using access control systems and monitoring tools, ensure that
+   production and testing systems remain consistent drift from each
+   other.
 
 .. seealso:: ":doc:`monitoring-tactics`" and ":doc:`documentation`."

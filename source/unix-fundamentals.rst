@@ -1,0 +1,11 @@
+=================
+UNIX Fundamentals
+=================
+
+Outline:
+
+- proprietary UNIX, the GNU project Linux, and Contemporary UNIXes
+
+- package management and deploying in different environments
+
+- Programming Languages After 1995

@@ -158,4 +158,38 @@ Terms
 
    resource
       A specific piece of content provided by a networked
-      service. Typically used in the context of HTTP. 
+      service. Typically used in the context of HTTP.
+
+   continuous integration
+      A system that regularly and automatically builds software and
+      runs tests to ensure that throughout the development process,
+      the software continues to function and that a larger (or
+      smaller) team of developers does not create regressions or
+      introduce conflicting changes. By operating regularly and
+      "continuously," these build systems are able to prevent
+      difficult release processes. "CI" tools include "buildbot,"
+      "Jenkins," and "Hudson."
+
+   ACL
+      Access control lists are a mechanism for describing permissions
+      in a complex system. While the implementations vary, ACL systems
+      generally consist of: a list of available permissions, a list of
+      users with specific permissions, and "groups" of users (and
+      nested groups) that also have permissions. While ACLs can become
+      very complex and unmanageable, as of 2012 there is no
+      alternative method of granular permissions management.
+
+   monitoring
+      Monitoring systems consist of applications and services that
+      collect data on an ongoing basis about a system to provide
+      troubleshooting and early alerting on potential problems.
+
+      .. seealso:: ":doc:`monitoring-tactics`"
+
+   higher availability
+      The practice of making services resilient to various kinds of
+      "likely failures," by deploying a combination of
+      :term:`redundant <redundancy>` systems, automated
+      :term:`failover` and recovery infrastructure.
+
+      .. seealso:: ":doc:`high-availability`"

@@ -34,20 +34,18 @@ Table of Contents
 .. toctree::
    :maxdepth: 4
 
-   unix-systems-background
    fundamentals
-   problem-solving
    documentation
-   development-environments
+   unix-fundamentals
 
    virtualization-automation
    dev-ops-communication
-   production-deployment-cycles
 
    backup-strategies
+   production-deployment-cycles
    database-scaling
-   web-services-architecture
    high-availability
+   web-services-architecture
    monitoring-tactics
 
    glossary
