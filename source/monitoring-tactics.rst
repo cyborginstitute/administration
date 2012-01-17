@@ -135,13 +135,12 @@ Consider the following concepts in monitoring administration.
    syslog
       Refers the standard logging format that originated with early
       BSD Unix utilities (i.e. ``sendmail``) and was later made generic
-      for tool all system logging. The syslog format was adopted by a
-      number of tools for reporting and log analysis and was
-      eventually standardized. These days, syslog is rather poorly
-      utilized despite its ubiquity, with many applications using
-      their own logging systems, or using the syslog and the syslog
-      format in ways that go beyond the standard and intention of the
-      system.
+      for tool all system logging. A number of additional tools
+      adopted the syslog format for reporting and log analysis and has
+      is now a standard. These days, syslog is rather poorly utilized
+      despite its ubiquity, with many applications using their own
+      logging systems, or using the syslog and the syslog format in
+      ways that go beyond the standard and intention of the system.
 
 Deploying Monitoring
 --------------------
@@ -155,7 +154,7 @@ important for monitoring systems, as it is important to "monitor the
 monitoring," or ensure that an inoperative monitoring system doesn't
 generate :term:`false positives <false positive>`.
 
-.. seealso:: ":doc:`higher avalibility <higher-avalibility>`."
+.. seealso:: ":doc:`higher availability <high-availability>`."
 
 Infrastructure and Archiectures
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

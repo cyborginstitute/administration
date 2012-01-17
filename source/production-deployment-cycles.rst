@@ -30,6 +30,7 @@ The following concepts introduce crucial components and requirements
 of deployment testing infrastructure.
 
 .. glossary::
+   :sorted:
 
    production environment
       The servers that clients actually interact
@@ -194,11 +195,11 @@ Previous sections have covered the importance of testing and
 controlling access to resources. While there is no substitute for
 implementing policies and procedures to ensure that deployments,
 updates, and upgrades go smoothly, it's also important that make it
-possible to do rollbacks when an upgrade has unforeseen
-consequences. In addition to requiring extensive tests, also test the
-rollback procedure to ensure that you can quickly rollback the server,
-to a previous "known working state," if the deployment process has an
-unforeseen consequences.
+possible to do :term:`rollbacks <rollback>` when an upgrade has
+unforeseen consequences. In addition to requiring extensive tests,
+also test the rollback procedure to ensure that you can quickly
+rollback the server, to a previous "known working state," if the
+deployment process has an unforeseen consequences.
 
 There are a few methods/technologies that you can use to provide
 rollbacks:
@@ -276,9 +277,9 @@ Devising a policy that is functional from an administrative use
 perspective is a requisite first step, but it's also important to
 ensure that the policy is also sufficiently flexible. A rigid policy
 may not allow for timely administrative response to unforeseen bugs or
-system events, which can be devastating. So called ":term:`fire
-call``" systems are useful for providing an emergency exception:
-again, this is a thin technological wrapper around a policy problem.
+system events, which can be devastating. So called ":term:`fire call`"
+systems are useful for providing an emergency exception: again, this
+is a thin technological wrapper around a policy problem.
 
 Full-scale auditing is often unworkable: of logs in large clusters, of
 file system changes on any system, so while some level of auditing may
@@ -304,9 +305,9 @@ deployment policies and practices are (in descending order:)
    that most routine testing is ongoing and does not require active
    developer initiative.
 
-4. Create and test :term:`rollbacks`, to ensure that even if an update
-   does not go as planned, it's possible to return to a known working
-   state.
+4. Create and test :term:`rollbacks <rollback>`, to ensure that even
+   if an update does not go as planned, it's possible to return to a
+   known working state.
 
 5. Limit changes to production systems.
 

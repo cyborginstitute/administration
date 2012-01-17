@@ -193,3 +193,20 @@ Terms
       :term:`failover` and recovery infrastructure.
 
       .. seealso:: ":doc:`high-availability`"
+
+   cloud computing
+      A buzz word that captures :term:`utility billing`,
+      virtualization, client-server applications (i.e. Web
+      Applications) and service oriented architecture (typical
+      of the RESTful-type.)
+
+   utility billing
+      A method of pricing technological infrastructure that meters
+      resource usage, and charges users only for what they use.
+
+   SSL SNI
+      "Secure Socket Layer, Server Name Indicator." The specification
+      which will allow HTTPS clients to specify the hostname
+      (i.e. "server name") during the SSL negotiation process so that
+      servers will be able to provide multiple HTTPS sites on a single
+      IP address.
