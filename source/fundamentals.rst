@@ -324,7 +324,7 @@ problems.
      keep track of open files. Every process, socket, and open file
      needs its own file descriptor and when the system runs out of
      file descriptors it cannot start new processes, open files, or
-     open new connections. There is also a per-process limit on file
+     open new pconnections. There is also a per-process limit on file
      descriptors which can cause problems for software that needs to
      operate on a large number of file descriptors.
 
@@ -440,12 +440,53 @@ administrators. These advantages include:
 
 - A curiosity regarding software and technology.
 
+  In many cases operations work revolves around figuring out how to
+  appropriately configure and use existing tools, products,
+  abstractions, and systems to build a more reliable, more automated,
+  and simpler system. Having a good understanding of current
+  practices, systems, and tools makes it easier to develop these kinds
+  of solutions and to avoid recreating things that already existing.
+
 - A greater understanding of the operation of fundamental components.
+
+  This nearly goes without saying, but systems administrators need to
+  be able to have an intuitive sense of how technology works and
+  should work. The way to develop this is to be curious and to figure
+  out how everything works, at as many levels of the stack as
+  possible.
 
 - A high tolerance for poor user experiences.
 
+  The best infrastructural and systems-level software tends to be very
+  configurable, which often comes at the expense of "ease of use."
+  This is true of web servers, application servers, databases,
+  monitoring tools, and more. If you're the kind of computer user who
+  yearns for polish and ease of use, it might be best to retrain
+  yourself to tolerate poorly designed interfaces and figure out
+  developing ways of needing to use them less.
+
+  In truth the desire for good interfaces is not entirely a detriment
+  as an eye for parsimony, intuitive interfaces, and robust systems
+  design is valuable, but if you're considering systems work and you
+  have a low tolerance for systems that *don't yet* conform to ideal
+  operation, you may find systems administration endlessly
+  frustrating. The upside is that systems administration specifically,
+  and free software in general revolves around making the experience
+  of using technology easier, smoother, and more rewarding for
+  everyone.
+
 - An extensive toolkit of software and solutions that are easily
   tested and reused.
+
+  While there are some software domains (e.g. media and production
+  software, identity management software, arguably "the desktop" etc.)
+  where proprietary and open source/free software are more evenly
+  matched, for most of the kinds of areas that systems administrators
+  do the bulk of their work in, the free software options do not
+  simply have parity with proprietary software but are better, more
+  robust and more flexible technologies. In light of this, systems
+  administrators who are comfortable with and understand free software
+  are more likely to be successful systems operators.
 
 .. [#examples-of-free-software] Examples of which include GNU, Linux,
    BSD, Postfix, PostgreSQL, Dovecot, OpenLDAP, OpenVPN, Python, and
@@ -455,13 +496,123 @@ Tactics and Strategy
 --------------------
 
 If "strategy" refers to planning for various circumstances, then
-tactics refer to the actual practical responses to problems.
+tactics refer to the actual practical responses to problems. Most
+software manuals have a section that discuss "best practices." In
+turn, this section discusses some general "best practices," along with
+a discussion of how these recommendations relate to actual practices.
 
-Obsession and Labeling
-~~~~~~~~~~~~~~~~~~~~~~
+Obsession
+~~~~~~~~~
+
+While a sizable portion of systems administration work revolves around
+understanding technology, developing the best and most appropriate
+deployments, and troubleshooting things when they break; the harder
+part of systems work revolves around figuring out how to get these
+tools and components to integrate and how to "achieve scale," or get
+the systems to operate quasi-autonomously and provide the maximum
+amount of resources for the most limited amount of cost (both material
+and labor-related) as possible.
+
+To be successful at these kinds of massive logistical projects,
+systems administrators need to have a certain obsessive
+streak. [#attention-to-detail]_ The hard problems in integration and
+scaling work are in devising ways of keeping track of a large number
+of moving parts and in being rigorous in your approach to organization
+to avoid loosing track of a system, or service, or dependency.
+
+There are even "asset management" tools that provide database backed
+records of and components of larger or smaller infrastructure. While
+the capabilities of these systems vary, and the specifics are not
+important, you dedicating some time to keeping track of what you're
+administering, what it connects to, how it's configured, where it's
+located, what depends on it, what it depends on, and any other
+information required for figuring out "why things are the way they
+are," particularly when something stops working at 2 am.
+
+Think of the asset database, or asset and service tracking largely, as
+an expression of an interesting in labeling things. While it's
+possible to go a bit overboard, a reasonable labeling strategy (like a
+reasonable asset/service tracking project) can save a lot of
+time and headache in the future if properly executed. The problem is
+that a system for tracking and describing an environment that is
+poorly maintained, difficult to update, and doesn't capture all of the
+required relationships, can be dangerous.
+
+This is where an administrator with a deeply ingrained need for order
+and a bent toward the obsessive can really do some good. Record
+keeping systems and resource management systems are (for the most
+part) only as good as the people using them.
+
+.. [#attention-to-detail] I believe that in the language of job
+   postings this is "attention to detail," but I don't think that
+   there are many kinds of work that won't make use of a keen
+   "attention to detail." persistent
 
 Automation
 ~~~~~~~~~~
+
+No one would deny that systems administration contains a fair amount
+of tedium. A certain amount of frustration should be within
+tolerances. What separates stellar systems administrators from the
+merely competent is the ability to automate things that need are worth
+automating and having a good sense of the right time to automate
+things, and when the frustration isn't worth it.
+
+Automation often takes the form of code, and while many systems
+administrators are decent or even exception coders, most of the core
+automatons that help make systems easier to administer, and enable
+single administrator be able a larger group of resources, are quite
+small. A few lines of shell script, a makefile to manage a process, a
+few cronjobs here and maybe a few Python or Perl programs are enough
+to take something that's unmanageable and make the process
+controllable and consistent. Automating systems administration is task
+and integration focused rather than application or service focused,
+and while there is overlap and blurring [#dev-ops]_ between developers
+and operations work, there is an undeniable difference in approach and
+perspective.
+
+Regardless, automation is a great tool, and every systems
+administrator needs to be able to write a little code, write scripts
+to enforce consistent practices and good policies; at the same time,
+it's important to be able to recognize when tasks are difficult to
+automate and when automating wouldn't save enough net time. There is
+real skill in figuring out when a project falls in the "write a
+script," category and when it falls in the "spend an hour or two and
+plow through it," and making that distinction almost instinctively.
+
+You should also apply the same basic "is it worth it," test to all
+sorts of architectural changes, modifications and deployments. While
+being proactive about infrastructure is useful, being *too* proactive
+about infrastructural development can lead to under utilization and
+services that don't match the actual demand very well. For example,
+configuration management and automation tools are great, but if you're
+not deploying new systems very frequently and/or most your systems are
+different from each other, the overhead may be too high. Similarly,
+high availability application and database systems are nearly
+pointless if the front end servers represent single points of failure,
+just as deploying high performance database and file systems that an
+application layers can never saturate is less than dev.
+
+While a few scripts here and there can increase administrator
+productivity and sanity, automation often leads to greater reliability
+and better adherence to technology policy. Code is predictable, is
+capable of generating a full audit trail of its activity, and has
+transparent methods. Where people are not great at being consistent
+particularly over large tasks or long periods of time, scripts and
+makefiles are *ruthlessly consistent*. When you want to make sure that
+systems operate *the right way* over a long period of time,
+potentially under the control of a large number of operators, scripts
+are really the best way to enforce these practices.
+
+.. [#useful-ops] Essentially, the "dev/ops," movement/moment has done a
+   lot to integrate the lessons from Agile Methodologies, and from the
+   software development world into operations work, but
+
+
+Record Keeping and Auditing
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
 
 Driven by Data
 ~~~~~~~~~~~~~~
@@ -471,12 +622,19 @@ the practice of "scientific management," declarations of being "data
 driven," are often suspect to most Systems Administrators. At the same
 time, regardless of the buzzword, the actual work of systems
 administration has a great deal to do with collecting, managing, and
-using data and statistics.
+using data to provide actionable guidelines.
 
 You can reduce many of the hard problems of systems administration to
 equations that balance a complex costs, time, effort, benefit, and
-risk. Then, it's possible to collect data from the systems you
-administer, your budgets, your own work logs (to track how much time
-various tasks take to solve) and combine this information to begin to
-make more informed analysis of these problems using actual data about
-your deployment.
+risk. If you approach these challenges in these concrete terms, and
+use data that you may already have (or can easily collect) to provide
+actionable and definitive solutions to these problems.
+
+The "data" in this case represents the information generated by the
+systems themselves like from log files or monitoring systems, logs you
+keep of your own work (to judge how long things take,) as well as
+budget information. In aggregate this information can help you make
+more informed decisions and inform expansion and growth planning,
+direct you toward projects that require more attention, and otherwise
+guide the direction of your work and efforts along the most
+(hopefully) productive course.
