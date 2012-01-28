@@ -591,7 +591,7 @@ different from each other, the overhead may be too high. Similarly,
 high availability application and database systems are nearly
 pointless if the front end servers represent single points of failure,
 just as deploying high performance database and file systems that an
-application layers can never saturate is less than dev.
+application layers can never saturate is less than useful.
 
 While a few scripts here and there can increase administrator
 productivity and sanity, automation often leads to greater reliability
@@ -604,9 +604,15 @@ systems operate *the right way* over a long period of time,
 potentially under the control of a large number of operators, scripts
 are really the best way to enforce these practices.
 
-.. [#useful-ops] Essentially, the "dev/ops," movement/moment has done a
-   lot to integrate the lessons from Agile Methodologies, and from the
-   software development world into operations work, but
+.. [#dev-ops] Essentially, the "dev/ops," movement/moment has done
+   a lot to integrate the lessons from Agile Methodologies and from
+   the software development world into operations work, and while both
+   of these developments are quite welcome, it's easy to overplay the
+   amount of actual change that the "dev/ops" shift really
+   represents. In most cases "dev/ops," is a recognition of the kind
+   of work that systems administrators have been doing for ever in
+   combination with some notable shifts in development cycles and
+   deployment :term:`resource`
 
 
 Record Keeping and Auditing

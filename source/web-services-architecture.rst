@@ -217,8 +217,8 @@ these requests. However, there are a couple of very simple
 abstractions that most general purpose web servers provide that are
 useful to introduce at this stage: *Proxy handling* where a server
 will "pass" a request to another server and *URL rewriting* where the
-server will map incoming requests for :term:`resources` to different
-internal paths and resources.
+server will map incoming requests for :term:`resources <resource>` to
+different internal paths and resources.
 
 Load Balancing and Proxies
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
