@@ -612,21 +612,48 @@ are really the best way to enforce these practices.
    represents. In most cases "dev/ops," is a recognition of the kind
    of work that systems administrators have been doing for ever in
    combination with some notable shifts in development cycles and
-   deployment :term:`resource`
+   deployment practices that have proliferated through the technology
+   industry.
 
+Data Driven Administration
+~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Record Keeping and Auditing
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In nearly every cases, systems administrators are not the primary
+users of the technology that they operate. While is a source of
+frustration, separation of roles is often beneficial for everyone
+involved. Having the people responsible for systems operation distinct
+from the people who need services to exist (i.e. "the business,") from
+the people who write the code (i.e. "the developers," or "vendors")
+from the people use the service (i.e. "the customer,") is valuable for
+two reasons. First, specialization in administrative work leads to
+more coherent and effective operational practices, and centralization
+of administration. Second, centralizing administration within
+organizations, even small and loosely coupled organizations can lead
+to more efficient use of resources.
 
+As a result it's important to maintain accountability and records of
+administrator activity, user behavior, and systems operation. Software
+that provides that provides a rich audit trail, is as a result,
+quite valuable. Having machine generated data that allows
+administrators and auditors to quickly answer important questions
+about infrastructure and operations. A substantial component of
+systems administration work depends on collecting, organizing, and
+making this data available for future diagnostic, business analysis,
+and auditing uses.
 
+Above all, having records lets you figure out what happened after the
+fact when things break. And they do break. Keeping records, logs,
+backups, and histories of a deployment makes it possible to solve
+problems, and respond with confidence to questions about the
+infrastructure from users and administrators. The main problem with
+data collection and working in a "data driven" way is that it's
+possible to collect too much data that data collection and retention
+itself becomes its own set of problems.
 
-Driven by Data
-~~~~~~~~~~~~~~
-
-"Data driven" is a buzzword and because the term it often emerges from
-the practice of "scientific management," declarations of being "data
-driven," are often suspect to most Systems Administrators. At the same
-time, regardless of the buzzword, the actual work of systems
+"Data driven" is a buzzword, and because the term it often emerges
+from the practice of "scientific management," declarations of being
+"data driven," are often suspect to most Systems Administrators. At
+the same time, regardless of the buzzword, the actual work of systems
 administration has a great deal to do with collecting, managing, and
 using data to provide actionable guidelines.
 
