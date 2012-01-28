@@ -25,7 +25,7 @@ source_suffix = '.rst'
 master_doc = 'contents'
 
 project = u'Systems Administration for Cyborgs'
-copyright = u'2011, tycho garen'
+copyright = u'2011, Sam Kleinman'
 
 version = ''
 release = ''
@@ -33,13 +33,14 @@ release = ''
 exclude_patterns = []
 
 pygments_style = 'sphinx'
+intersphinx_mapping = {'http://docs.python.org/': None}
 
 # -- Options for HTML output ---------------------------------------------------
 
 html_theme = 'jinja'
 html_use_smartypants = True
 html_theme_path = ['themes']
-html_static_path = ['/source/.static']
+html_static_path = ['./source/.static']
 
 html_show_copyright = True
 html_show_sphinx = True
@@ -93,7 +94,7 @@ htmlhelp_basename = 'cyborg-systems-administration'
 # (source start file, target name, title, author, documentclass [howto/manual]).
 latex_documents = [
   ('contents', 'garen.systems-administraton-for-cyborgs.tex', u'Systems Administration for Cyborgs',
-   u'tycho garen', 'manual'),
+   u'Sam Kleinman', 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
@@ -115,35 +116,25 @@ latex_documents = [
 #latex_appendices = []
 latex_domain_indices = True
 
-
 # -- Options for manual page output --------------------------------------------
 
-# One entry per manual page. List of tuples
-# (source start file, name, description, authors, manual section).
 man_pages = [
     ('index', 'systems-administraton-for-cyborgs', u'Systems Administration for Cyborgs',
-     [u'tycho garen'], 1)
+     [u'Sam Kleinman'], 1)
 ]
-
 
 # -- Options for Epub output ---------------------------------------------------
 
-# Bibliographic Dublin Core info.
 epub_title = u'Systems Administration for Cyborgs'
-epub_author = u'tycho garen'
-epub_publisher = u'tycho garen'
-epub_copyright = u'2011, tycho garen'
+epub_author = u'Sam Kleinman'
+epub_publisher = u'Sam Kleinman'
+epub_copyright = u'2011, Sam Kleinman'
 
-# The language of the text. It defaults to the language option
-# or en if the language is not set.
-#epub_language = ''
+epub_tocdepth = 1
+epub_tocdup = False
 
-# The scheme of the identifier. Typical schemes are ISBN or URL.
-#epub_scheme = ''
-
-# The unique identifier of the text. This can be a ISBN number
-# or the project homepage.
-#epub_identifier = ''
+epub_scheme = 'URL'
+epub_identifier = 'http://cyborginstitute.com/systems-administration/'
 
 # A unique identification for the text.
 #epub_uid = ''
@@ -158,12 +149,3 @@ epub_copyright = u'2011, tycho garen'
 
 # A list of files that should not be packed into the epub file.
 #epub_exclude_files = []
-
-# The depth of the table of contents in toc.ncx.
-#epub_tocdepth = 3
-
-# Allow duplicate toc entries.
-#epub_tocdup = True
-
-# Example configuration for intersphinx: refer to the Python standard library.
-intersphinx_mapping = {'http://docs.python.org/': None}
