@@ -6,10 +6,10 @@
  * :license: Flask Design License, see LICENSE for details.
  */
 
-@import url(http://fonts.googleapis.com/css?family=Crimson+Text);
+/* @import url(http://fonts.googleapis.com/css?family=Crimson+Text); */
 
 {% set body_width = '68%' %}
-{% set sidebar_width = '28%' %}
+{% set sidebar_width = '26%' %}
 {% set font_family = 'Georgia, serif' %}
 {% set header_font_family = 'Crimson Text, ' ~ font_family %}
 
@@ -88,7 +88,7 @@ div.sphinxsidebar a:hover {
 }
 
 div.sphinxsidebar {
-    font-size: 13px;
+    font-size: 11px;
     line-height: 1.3;
     padding-right: 1
 }
@@ -110,7 +110,7 @@ div.sphinxsidebar h4 {
     margin: 0px;
 }
 
-div.sphinxsidebar h4 { }
+div.sphinxsidebar h4 { font-size; 1.25em; }
 
 div.sphinxsidebar h3 a {
     color: #444;
@@ -125,7 +125,7 @@ div.sphinxsidebar h3 a:hover {
 
 div.sphinxsidebar p {
     color: #555;
-    margin: 10px 0;
+    margin: 0;
 }
 
 div.sphinxsidebar ul {
@@ -208,10 +208,7 @@ div.admonition tt.xref, div.admonition a tt {
 
 div.section{ margin-bottom: 1em; }
 
-dd div.admonition {
-    margin-left: -60px;
-    padding-left: 60px;
-}
+dd div.admonition { }
 
 div.admonition p.admonition-title {
     font-family: {{ font_family }};
