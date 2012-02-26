@@ -2,3 +2,771 @@
 Documentation is the Most Valuable Thing You Do
 ===============================================
 
+As a technical writer my perspective in this may be a bit skewed, and
+while this volume does not address technical writing in any
+substantial manner, documentation is incredibly important to the work
+of systems administrators. I think it's feasible that systems
+administrators consume documentation as a class than any other class
+of users. Furthermore, given administrator's distance from the
+development process and their role as "professional users" of
+software, systems administrators have the potential to make good
+technical writers. This section provides an overview of how technical
+writing and documentation works, how to build documentation when
+needed, and how to make documentation when needed.
+
+.. seealso:: For a wiki discussion and collection of blog posts that
+   address technical writing, consider `tychoish.com/technical-writing
+   <http://tychoish.com/technical-writing/>`_.
+
+The Challenge of Documentation
+------------------------------
+
+Good documentation is both technically complex and simple to read and
+understand; it both has good logical at all levels of organization,
+and designed for readers who won't read more than a few
+paragraphs. While documentation presents complex ideas, documentation
+resources themselves are reasonably complex works: they must
+thoroughly describe how a tool or product operates (i.e. what all of
+the knobs do,) how to use the product (i.e. tutorials, installation
+and configuration guides,) and describe possible use and configuration
+(i.e. use cases, practical guides, case studies.) Often these goals
+and requirements conflict with each other, and present substantial
+challenges to maintaining quality well organized resources.
+
+In short, providing documentation that focuses on and addresses the
+diversity of user experience is quite difficult. If you write
+documentation and you're not keenly aware of your audience, stop and
+assess what you're writing and how you're approaching your task. If
+you're reading documentation and you find it difficult to "figure
+out," work to understand the kind of question your asking and what
+kind of user you are relative to the intended audience.
+
+Audience and disorganized goals tend to be the prevailing issues with
+most technical manuals and resources, but there are a number of other
+potential problems:
+
+- Developers shouldn't write documentation.
+
+  As a professional technical writer, my bias may affect my judgment
+  here, but in nearly every case having the developer who is
+  responsible for the code also responsible for documenting its use
+  leads to poor documentation. Developers are, rightfully, very
+  interested in *how* the technology works and how the internals
+  affect the operation. In many cases, however, when users need to
+  know details about the internal operation of a piece of technology,
+  *there is a larger problem*: either the tool isn't functioning
+  properly, their use case falls outside of the design of the product,
+  or there is a larger design flaw. More than that even, developers
+  often work on very narrow sections of products and have a hard time
+  figuring how users actually interact with their features.
+
+  Less abstractly, however, it's a project management problem:
+  documentation is a substantial task, and if developers are writing
+  documentation then they're not writing code. While its absolutely
+  essential, dedicating an engineer to writing documentation is often
+  a difficult management decision, which means documentation ends up
+  woefully under-prioritized.
+
+- Documentation is difficult to maintain, and must be continually
+  updated.
+
+  No documentation is perfect, just as its inevitable that some bugs
+  slip into code or glitches into operational deployments, there are
+  errors and glitches in documentation. Not only does software
+  continue to develop and change, but the interaction of a host of
+  third party tools means that user experiences can change
+  independently of the subject matter itself.
+
+  Once the documentation is complete, keeping it up to date, and
+  making sure that it continues to address the current needs of users
+  (current examples, continues to address the most common support
+  issues,) represents a significant challenge. Not only do development
+  teams and organizations need to dedicate time and resources to
+  maintaining documentation, but it's crucial (particularly on larger
+  more distributed teams) that information flows into the
+  documentation from changes to the product itself, to feedback from
+  support, and notes quality assurance teams, and from the users
+  themselves.
+
+- There are no shortcuts to good documentation.
+
+  I have a conversation every week or two with an engineer who wants
+  to automate some aspect of their documentation
+  responsibility. Generate documentation from the comments of their
+  unit tests, or the documentation strings in their functions. Because
+  documentation address the disconnect between users and code, it's
+  difficult or impossible to write code that will obviate writing
+  documentation.
+
+  To be fair, there's a lot of room for automation in documentation:
+  for the most part the methods for publishing and updating
+  documentation are pretty deficient, which makes keeping
+  documentation up to date even more bothersome. It's also much easier
+  to maintain reference material and make sure that software hasn't
+  changed if the products you're documenting can output all error
+  codes, or provide a complete listing of commands, which make some of
+  the more tedious problems of documentation less difficult. For
+  instance, it might be nice to have code that produces listings of
+  error codes, options, and APIs to make it trivial to ensure that the
+  software hasn't changed. Having said that, this kind of automation
+  and testing really only covers a small percentage of cases.
+
+Good documentation makes software and tools more valuable and more
+durable, and although documentation can be a great expense, in the
+long term its almost always worthwhile.
+
+Qualities of Superior Documentation
+-----------------------------------
+
+More than anything, documentation needs to be singular. While
+documentation serves different audiences and has different goals,
+it's important that there be only one source of information to avoid
+fragmenting and potentially confusing users and readers.
+
+The previous section addressed some of the common shortcomings of
+documentation, while this section address some of the mechanical or
+practical things that makes "okay" or merely "good" documentation
+great.
+
+Organization
+~~~~~~~~~~~~
+
+Certainly in the contemporary moment, users typically only consult the
+documentation before they begin doing something, and then only if they
+have a problem, and technical writers--hopefully--strive to write
+documentation that anticipates this use.
+
+Documentation may have unique usage patterns and audience profiles,
+depending on the specific content but fundamentally, documentation is
+no different from any other kind of informational resource. If you're
+used to organizing code, or server racks, or supply closets, or even
+your file system and have methods that already work the chances are
+these organizational methods will be largely transferable.
+
+It should be clear from section headings and the presentation of
+documentation where the answer to any given question will be in the
+resource. If a the answer of a question, or a particular section seems
+like it could go in multiple locations, then it might be a bug. Having
+the same piece of information in multiple locations makes the resource
+harder to maintain, and leads to situations where users find the right
+answer in the wrong context for the problem they're trying to solve,
+which is sub-optimal. Treat these kinds of problems as "bugs" with
+overall organization or the scope of the current resource.
+
+Most documentation systems have support for easy cross-referencing and
+linking that makes it easy to achieve this "singularity of
+information," but making sure that everything is properly referenced
+and internally linked can be difficult.
+
+Nearly everyone has their own opinions about the best way to organize
+documentation. Some of these opinions reflect their specific user
+experience and aren't not particularly helpful for the target users of
+the documentation.
+
+1. Hierarchy is good and adds clarity, but too much hierarchy creates
+   confusion.
+
+   You get two, maybe three, levels of hierarchy in any system before
+   the system gets needlessly complex and difficult to manage. While
+   additional hierarchy makes it easy to have more granular
+   organization, it also increases the chance that pieces of
+   information will become buried in trees that users may never
+   discover. Writers tend to approach documentation "from the bottom
+   up," when writing but users almost always approach it from the "top
+   down." This difference isn't bad, and it can lead to very thorough
+   documentation, but it means that users can perceive gaps that don't
+   *really* exist. Having less hierarchy minimizes these problems and
+   makes the documentation easier to maintain.
+
+2. Short, clear inductive paragraphs are (*almost*) always best.
+
+   Perhaps the hardest aspect of technical writing for people with a
+   writing background, is that you have to write documentation in a
+   way that makes it easy to *not* read. Like journalistic writing,
+   but unlike every other kind of writing, technical documents need to
+   give their conclusions and state their purposes at the very
+   beginning of the resource, chapters, section, and even paragraphs,
+   and *then* delve into details and explanations.
+
+   This is very counter-intuitive for many writers (and even for
+   technical people who deal with users [#public-engineering]_) but
+   inductive documentation is easy to read (or not read,) provides the
+   answers that users actually need.
+
+.. [#public-engineering] Developers, support people, integration
+   folks, and sales engineering types often provide examples as a way
+   of explanation, or want documentation to include too much
+   introduction because they're used to explaining complex topics
+   deductively, and the inductive approach doesn't mesh with the way
+   they end up explaining technology to people on a regular basis.
+
+Search and Indexing
+~~~~~~~~~~~~~~~~~~~
+
+The primary reason why users don't read documentation is that most of
+the time the answers to their questions are best addressed by a quick
+Google query. Having good search tools indexing the documentation
+makes it more useful. Sometimes this is as simple as using Google site
+search or just making it easy for Google to crawl your site:
+other times it makes sense to host your own search engines and
+indexes.
+
+However you decide to provide search, the more important aspect of
+making documentation user-friendly revolves around making sure that
+the documentation is useful for people who enter using search
+tools. This means linking and cross-referencing redundantly, assuming
+that users will not always read the previous section, and spending
+more time than you think really possible on the reference materials is
+often extremely worthwhile.
+
+If your documentation tools can produce indexes of your reference
+material and even headlines these kinds of information aggregations
+can be quite useful for people using documentation to answer
+questions.
+
+Rich Semantics
+~~~~~~~~~~~~~~
+
+This is a build and presentation issue for documentation, but being
+able to add some level of semantic markup to documentation almost
+always helps improve clarity and reduce redundancy. In this case,
+semantic markup, refers to systems that make it possible to annotate
+text with tags and identifiers that make documentation easier to index
+and process pragmatically, which in turn makes it easy to index, to
+generate novel views of the documentation and of reference material,
+and often improves the effectiveness of search tools.
+
+Its easy to go overboard on semantic markup, and many systems support
+some classes of annotations and not others. The key is to make the
+semantic systems unobtrusive for writers and readers. In the end this
+is largely a documentation production issue, but better documentation
+tools and processes can make documentation easier.
+
+How to Read Documentation
+-------------------------
+
+In most cases documentation should provide "signposts," that instruct
+the reader on the internal organization and structure of the text. If
+the documentation isn't very good (and there's a lot of bad
+documentation out there, consider the following strategies:
+
+- Read tables of contents and indexes.
+
+  Tactical reading is a good strategy for finding the answer: Good
+  comprehensive documentation is a marker of *great* software and
+  systems, at any given moment the answers to your questions are not
+  comprehensive, and having a good overview of the text can help you
+  figure out how to find your answers.
+
+  Also I think technical writers, on the whole, work really hard to
+  build useful indexes of their content. So you should take advantage
+  of them.
+
+- When in doubt, use search tools to find the answer to your
+  questions. Increasingly, the authors of documentation expect that
+  people will use search tools to find the answers to their question,
+  and this is often the most efficient means of finding the answers to
+  questions.
+
+- Scan through topical documentation and examples, but focus your
+  attention on the reference materials.
+
+  Once you have a sense of how things work and how to approach
+  problems, most of the answers to your questions will be in the
+  reference material which document particular behaviors and how
+  things actually work.
+
+How to Write Documentation
+--------------------------
+
+Following from the above, when you write documentation you should:
+focus on the reference materials, make sure that the organization is
+clear and that the content is cross referenced, and make sure that you
+focus on being as clear and forthright as possible. While it's unusual
+that technical writers *aren't* surprised by what they when they write
+documentation, the reading experience should contain no surprises.
+
+There are a number of less-obvious things that you can do, as a
+writer, that may not be obvious.
+
+- Use structured conventions to make reading easier.
+
+  Lists, tables, and a restrained use of document hierarchy can make
+  your texts easier to read and scan for easy reading.
+
+- Use short clear sentences.
+
+  Longer complex sentences take a long time to read, and sometimes can
+  be unintentionally hard to parse for readers. While sometimes you
+  *will* need complex sentences to establish more complex concepts and
+  relationships, avoid these kinds of sentences when possible.
+
+- Reduce redundancy.
+
+  Documentation should be comprehensive, but not at the expense of
+  being repetitious. Include information once and then reference and
+  link about to it in later sections. Redundant information is hard to
+  update, and keep clear and consistent across the resource.
+
+- Within reason, whitespace can be useful for increasing
+  readability.
+
+  Readers tend to bounce between paragraphs, and if your text is full
+  of 100 word paragraphs, readers will miss important details. It's
+  possible to go to far, which can have a deleterious effect of its
+  own, but generally this holds true.
+
+- Always provide context and explain examples.
+
+  Never assume that the code can or will speak for itself, or that you
+  can present a code example without: explaining what the effect of
+  the sample will be, where it runs, and why it has the effect that it
+  has.
+
+- Clearly mark feature change notification.
+
+  Note "version added," "deprecation," "version removed," and "version
+  changed," events with related features to prevent confusion and
+  frustration.
+
+- Cross reference extensively.
+
+  Manage documentation with software that allows you to link to other
+  related or discussed topics. Cross referencing should be
+  explicit and frequent, and should help users find relevant and
+  related information. Cross referencing may also help reduce
+  redundancy, which in tern can increase clarity.
+
+Work Bottom Up
+~~~~~~~~~~~~~~
+
+While it may be tempting to begin work on the documentation "from the
+beginning," both in the sense of beginning to construct a technical
+resource by writing the introductory material, and by fully explaining
+and contextualizing processes and concepts before documenting
+them. Introductory and materials are absolutely necessary for
+documentation resources, but it's often better to write them when they
+can introduce active content rather than when they are merely
+aspirational.
+
+Similarly, while context is absolutely essential it's easy to get
+wrapped up in providing context, which often leads to redundancy, and
+documentation that's difficult to read. This is understandable. The
+writers and maintainers of documentation primarily relate to the context
+and explanation of the text, while users of the documentation are
+primarily interested in the processes, reference material, and
+examples.
+
+The best way to mitigate these problems is to work backwards and
+construct documentation from the reference materials, procedures,
+tutorials, and examples and then add a thin layer of connective text
+that ties the resource together logically. There also comes a point,
+somewhere in the middle of the documentation process, when it becomes
+impossible to proceed without a proper introduction. Introductions are
+necessary when you have more than a handful of major topics, and you
+need something to provide a little bit of additional structure.
+
+Reference material can be daunting, but the truth is that having a
+good reference and index makes it possible to build documentation
+that's easier to maintain, and reduces overall redundancy by
+centralizing core information within the resource. Furthermore,
+writing documentation in a non-linear manner tends to reduce the
+impulse to build larger scale narratives that make it difficult to use
+and approach tactically.
+
+Use Inductive Structure
+~~~~~~~~~~~~~~~~~~~~~~~
+
+Most writing education focuses on deductive forms, where you introduce
+a premise, provide supporting arguments and eventually arrive at a
+more narrow conclusion. Technical writing, like newspaper-style
+journalism, prefers an inductive style. In inductive writing, you
+present a conclusion, and then present evidence and arguments to
+support that conclusion as needed until you've conveyed all necessary
+information. In inductive writing, present the most important
+information first with less important information following logically.
+
+While there are exceptions, approach everything from the overall
+structure of a resource to the structure of individual articles and
+sections, to the structure of paragraphs and sentences
+inductively. This kind of organization will make it easier for readers
+to discern the meaning and quickly find the answers to the their
+questions. You may think of the inductive approach as a way of "making
+documentation easier to *not* read," which may be difficult to stomach
+if you have a conventional writing background, but for documentation
+this is exactly the right approach.
+
+Consider Audience
+~~~~~~~~~~~~~~~~~
+
+The target audience for documentation defines and shapes to a large
+extent the shape of the text and the overall organization of the
+resource. Different classes of users have different kinds of problems
+with technologies and processes, ask different questions of their
+documentation, and have different usage patterns based on their level
+of experience and proficiency.
+
+Good writing and considered organization can produce documentation
+that is useful to multiple audiences. Indeed, proper indexing,
+:term:`signposts <signpost>`, and tables of contents often make
+documentation more useful to more different kinds of readers by
+leading them to the most relevant pieces information more quickly.
+
+At the same time, different audiences often require different levels
+of detail, and will approach their use from different perspectives
+that are sometimes difficult to reconcile. Most often the question
+that technical writers must ask themselves about audience is not "does
+this resource contain everything that it must," but rather "does this
+resource contain information that it doesn't need or that will confuse
+users and make it more difficult for users to answer their questions."
+
+While you can learn a great deal about the kind of documentation that
+users will need based on your own experience as a user and the design
+and aim of the software itself, but the most important information
+comes from the users themselves in the form of support questions, and
+product inquiries. When you see people asking the same question on
+mailing lists and in support tickets and chat rooms, figure out what
+pieces of information will allow users to answer their questions
+themselves.Look at the areas of the technology, service, or process
+that people are both most interested in and least likely to intuit and
+use these use cases as the starting point of your documentation, and
+grow outward from these bases.
+
+Documentation needs to be user focused, but Unfortunately, in most
+cases users who are new to the process and service will not always
+know the questions that they need to ask, and more experienced users
+won't always know to ask the right questions that beginners need to
+answer. Using secondary indications of users' needs, questions, and
+confusion is a great way to ground documentation projects to ensure
+that the documentation is relevant, focused, and functional.
+
+Documentation that is automatically generated from "doc strings" in
+functions and classes or other comments in the source code, while easy
+to produces, and potentially thorough, often suffers because the
+resulting documentation is entirely declarative, aimed at now
+audience, and does little more than summarize the code in
+English. While this kind of documentation has its purpose and place,
+it's often not terribly useful for users. Similarly, while engineers,
+product architects, and software designers often have all knowledge
+required to write documentation, their efforts tend to focus on
+functional aspects if the program, and ignore the practical. In most
+cases "how something works," is only relevant insofar as it affects
+decisions that users must make about deployment and configuration, and
+the expected behaviors of the product or outcomes of the process.
+
+Approach Documentation Like Code
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+In the end, documentation is just another user interface and another
+way of solving the very same kinds of "business process" issues that
+scripts, software, and systems solve. Documentation requires an
+architecture (i.e. an outline,) it's iterative (i.e. revise-able,) it
+requires code review (i.e. editing,) and in most cases it's a pretty
+massive project that requires some degree of technical scaffolding and
+support (i.e. tools, frameworks, build systems, etc.,) and requires
+testing (i.e. quality assurance.) If you plan, support, and organize
+your software and systems/infrastructure projects, it is only
+reasonable to plan and support documentation projects in the same
+way.
+
+This isn't to say that you should entirely automate the authorship
+process (i.e. generating documentation from unit or other tests or
+from comments within the code), after all at some level people, not
+machines, are responsible for all code. This isn't to say that
+documentation shouldn't be *tooled* and that you shouldn't automate
+some aspects of the documentation process. Build tools, indexing,
+and change management [#change-management]_ are great candidates for
+automation.
+
+Additionally, documentation in its "source form" often resembles the
+source form of software: both exist in a collection of plain text
+files, both have a structure, and some sort of build or rendering or
+compilation system translates both documentation source and source
+code into something usable. As a result, most of the tools that
+programmers use to manage their work and product are useful for
+writing documentation: including version control systems, automated
+testing frameworks, code review tools, issue tracking, text editors,
+and build automation tools.
+
+The right toolkit for your project depends on many factors, and three
+are a number of different systems or approaches to documentation
+management that might improve your ability to manage
+documentation. Documentation tooling, above all should integrate into
+the systems that you already use to manage your work on other
+projects. While some projects manage documentation in the same source
+control repositories as their core source code, and/or use the same
+issue-tracking systems as the main projects the goal of "treating
+documentation like code," is not to strictly integrate documentation
+and engineering process. Rather you should strive to reuse appropriate
+tools that you have experience with, to make use of existing systems,
+and build on relevant processes. Consider the following cases:
+
+- Treat issues with documentation like issues with software: file bug
+  reports.
+
+  The average problem with documentation is quite small compared to
+  the average size of most issues with software. As a result the
+  software that most software developers use for issue tracking tends to
+  be too heavyweight for most issues. [#issue-tracking]_ However,
+  users of documentation--at least for some kinds of systems and
+  processes--may be familiar with issue trackers system, which makes
+  more ideal for providing a venue for collecting feedback.
+
+  Depending on your workflow and other responsibilities it may also
+  make sense to use ticketing systems as a way of managing and
+  batching documentation tasks, or distributing documentation tasks
+  among a team.
+
+  When using an issue tracking system for documentation the following
+  are *particularly* important for a successful experience.
+
+  - Ensure all tickets are actionable and discrete.
+
+    Before filing an issue on documentation, ensure that you can
+    envision a solution to your problem (i.e. "document this feature
+    or process,") or expressing a problem with a specific aspect of
+    the documentation (i.e. "I found this confusing," or "this section
+    is unclear or difficult to find.") I've seen a lot of
+    documentation tickets that are infuriatingly open ended, such as
+    "improve the documentation of these related features" or "clarify
+    documentation of outputs," which are difficult to address and
+    harder to figure out when you've actually resolved the issue.
+
+  - Respond to all tickets in a timely way.
+
+    Even if your publication schedule does not feasibly support
+    regular updates in response to ticket,s its important to respond
+    to and triage tickets as they come it. Providing some sort of
+    response to ensure that readers know that their feedback is
+    valuable, will pay off in the long run. The initial
+    contact provides the opportunity to assess the issue, figure out
+    how critical, and potentially readdress the un-actionable and
+    non-atomic quality of the issue itself.
+
+  - Don't be afraid to close tickets that are irrelevant.
+
+    While there's no need to maintain a low ticket count, having too
+    many unsolvable open issues makes it difficult to use the
+    ticketing system to actually track ongoing improvement,
+    enhancement and maintenance of the documentation.
+
+    Often, users and engineers will attempt to add or request that you
+    add information to the documentation that may actually make the
+    resource less useful and more confusing for users. While
+    all requests merit consideration, some requests do not merit
+    action, and it's perfectly to close tickets or rewrite tickets so
+    that they're useful.
+
+  These are probably true of all ticket-based issue systems in general
+  but there are aspects of the documentation projects that make them
+  particularly prone to these problems.
+
+- Track versions of documentation using source control systems.
+
+  Version control makes editing and managing a sane publication
+  (i.e. release) process possible. In the same way that version
+  control systems make it feasible for more than one developer to work
+  on a single piece of software at a time, version control allows more
+  than one writer to edit and contribute to documentation at the same
+  time.
+
+  In the last five or ten years, version control has become much more
+  advanced and much easier to use, and if you produce documentation
+  and expect that more than one person may *ever* work on the
+  documentation, then it's just good practice to use version
+  control. Which version control tool you use, is not especially
+  important.
+
+- Manage document generation and publication processes using build
+  systems. (i.e. GNU Make.)
+
+  While build automation systems (i.e. Make/GNU Make/SCons/Ant) are
+  all targeted at a slightly different automation problem than
+  building documentation, being able to reproduce the publication
+  process for your documentation and thus be able to revise, edit, and
+  improve the documentation on an ongoing basis. Furthermore,
+  build-like processes are sufficiently regular and unchanging that it
+  often makes sense to record the process for building the
+  documentation in a script or Makefile.
+
+- Get technical review on all changes: use code review for all [#all]_
+  changes big and small.
+
+  If nothing else, make sure that someone other than the original
+  author reads documentation before providing it to users or
+  prospective users. The review process should ensure that the
+  documentation is both factually correct and stylistically clear and
+  consistent. Ideally more than one person should read the
+  documentation, because it's difficult to read a piece of writing for
+  both style and form. However, for documentation, some review is
+  always better than no review.
+
+  Make sure that you get review for changes to the
+  documentation. While you might be able to make some small changes
+  without affecting the meaning of your text, often a collection of
+  incidental small changes can affect the meaning or clarity of a
+  document in aggregate.
+
+.. [#change-management] Because it's difficult to actually build
+   documentation automatically, making sure that documentation changes
+   to reflect the changes in the product or process is sometimes
+   difficult. When documenting software, it's often useful to be able
+   to automatically determine when the software/process adds new
+   options, settings, or outputs so that you can update the
+   documentation to reflect these changes. Otherwise the text and
+   operation of the software can drift which can lead to increased
+   confusion and frustration.
+
+.. [#issue-tracking] To be fair, issue tracking is far from a "solved
+   problem," and issue trackers are universally despised for their
+   poor design, difficult administration, and cumbersome user
+   interface.
+
+.. [#all] Well, maybe not *all* changes, but most substantive changes
+   are probably worth getting some level of review.
+
+Organization
+~~~~~~~~~~~~
+
+Every piece of information should exist in one and only
+place. Furthermore, this location should be obvious, and your target
+audience should be able to look at the organization of your resource
+and find most pieces of information by browsing the resource and its
+indexes. In most cases, users will have a different access pattern,
+but keeping browsability and audience in mind when developing
+organization leads to very high quality and useful resources.
+
+In most cases, if you find that you must include a piece of
+information in your documentation that seems as if it could appear in
+two places, you have uncovered a more important problem. In essence
+you have the following options:
+
+- Change the structure of the resource.
+
+  Create a new section, page, or tutorial if you need to add something
+  to cover a use case or interaction path that doesn't have sufficient
+  space in the existing documentation. Alternatively, you may
+  sometimes merge sections sections to create a more logical
+  organization that incorporates the existing information and the new
+  information.
+
+  At the same time avoid situations where reorganization result in
+  needlessly deep hierarchies of section headers or
+  sub-documents. While structure and hierarchy often make organization
+  more apparent and easier to use, every level of hierarchy caries a
+  cost: only add levels in extreme situations.
+
+- Remove the potentially confusing piece of information. Sometimes
+  information "feels" like it may fit in multiple places because there
+  are a number of sections in the existing document that are unclear
+  or too expansive. Rewriting or deleting some of these sections can
+  often make the "one right place" for the new piece of information
+  immediately clear.
+
+- Insert cross-references.
+
+  Most documentation systems have some facility for fine-grained links
+  between sections. If a note or piece of information fits in more
+  than one place often it makes sense to put that information in one
+  place, and then link to it from all of the other places where it
+  seems relevant.
+
+  Often the greatest challenge with cross referencing is ensuring that
+  all of the places that need a link have it, and that your cross
+  refraining approach remains consistent over time. Formal, recorded,
+  policies often help with this.
+
+- Duplicate the information.
+
+  For small chunks of information, in some situations it, duplicating
+  information may be the only reasonable solution. This is a strategy
+  of last resort, but with the proper cross-references, and notes to
+  improve future maintenance, duplicated data sometimes leads to a
+  more positive user experience, which should always be the leading
+  organizational priority.
+
+Sometimes the solution is clear and it's easy to choose one of the
+above strategies. In other situations the best way to resolve these
+conflicts may not be clear. Sometimes a greater understanding of the
+information, and a more developed understanding of the information
+will reveal a better organization, and there are cases where you may
+have to tolerate an non-ideal solution. In all of these situations,
+but particularly the "messier" parts, consistency is valuable above
+all else and having a text that you can maintain. For longer projects,
+it's good to have an explicitly recorded approach for dealing with
+harder organizational problems.
+
+- Separate the "physical" organization from the "logical" organization
+  of the resource.
+
+  Use indexing, tables of contents and file including, URL mapping
+  solutions to present users with an effectively organized document,
+  that also follows a simple or simple representation in the editing
+  interface. In many cases, for documentation, the requirements of
+  "physical" representation are much more simple than the "logical" or
+  user facing organization: placing a layer of abstraction between the
+  two can improve both.
+
+  In addition this separation may be helpful providing multiple
+  independent views into the same larger resource, which can allow you
+  to address multiple audiences and publication venues for
+  comparatively minimal effort.
+
+- Be explicit. Record the organizational decisions you make early on
+  for future reference and use inline comments to include pointers to
+  other parallel sections to ease the maintenance burden.
+
+  While all documentation requires a certain level of ongoing
+  maintenance, in most cases, any particular document or section is
+  only edited or reviewed a few times a year. Having meta
+  documentation that describes decisions that you made regarding the
+  resource's organization makes this process easier and more
+  consistent. At the same time, inline comments can also make it easy
+  to understand "why things are the way they are," and provide helpful
+  reminders of other related changes.
+
+- Use glossaries and reference material to centralize information in
+  one place and use the "content" of the resource to hold procedural
+  and usage information.
+
+  This only works well for some kinds of documentation, but it's a
+  generally powerful approach. It's easy to index and search reference
+  material and because reference materials don't require any narrative
+  padding, it's easy for users to get answers from reference
+  material. Additionally, reference material that is both strong and
+  rich permits the procedural and usage information to omit background
+  information using cross referencing. The cumulative result is an
+  easier to organize, easier to write, and easier to use documentation
+  resource.
+
+The Value of Documentation
+--------------------------
+
+Documentation is not only valuable as reference and standardization
+material, but it creates for organizations and products:
+
+- Good documentation tends to reduce the volume of support requests
+  and erroneous bug/issue reporting. Additionally, good comprehensive
+  documentation makes responding to the remaining support requests
+  easier.
+
+- Good documentation gets knowledge out of people's heads and into a
+  shared format. This increases reliability, because it reduces a
+  dependence on people who may not always be accessible, or who may
+  have faulty memories.
+
+- In absence of a specification, documentation can help define and
+  regulate the user experience.
+
+- Without documentation and users who are aware of features, software
+  and services don't have value. If users never learn about or take
+  advantage of new features and functionality, then development
+  resources are essentially wasted.
+
+This doesn't mean you should write documentation when organizing a
+system or environment is more practical and efficient, or that
+standardizing a process with a script or program doesn't have it's
+place, but for complex problems where users interact with your
+interfaces or processes, documentation is often *the answer*. Take
+pride in documentation, treat it seriously, and the return will be
+great.

@@ -86,6 +86,10 @@ Terms
       Understandable or knowable. From "grok." Derived from Robert
       Heinlein's *Stranger in a Strange Land*.
 
+   grok
+      To understand or to know. Derived from Robert Heinlein's
+      *Stranger in a Strange Land*.
+
    NCSA
       National Center for Supercomputing Applications. Located at the
       University of Illinois Campaign-Urbana, the NCSA is notable for
@@ -210,6 +214,16 @@ Terms
       (i.e. "server name") during the SSL negotiation process so that
       servers will be able to provide multiple HTTPS sites on a single
       IP address.
+
+   signpost
+      A rhetorical device, useful in documentation, where the writer
+      takes a step back and gives the reader context to help them
+      understand and use the resource more effectively. These
+      contextualizations can describe what a document or section
+      contains or may inform the reader about a specific section's
+      importance. While some documentation may contain too much
+      "signposting," well placed signposts, in general, help to make
+      documentation more :term:`grokable <grok>` and useful.
 
 Full Index
 ----------

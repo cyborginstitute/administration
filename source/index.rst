@@ -35,7 +35,6 @@ Table of Contents
    :maxdepth: 4
 
    fundamentals
-   documentation
    unix-fundamentals
 
    virtualization-automation
@@ -47,5 +46,6 @@ Table of Contents
    high-availability
    web-services-architecture
    monitoring-tactics
+   documentation
 
    glossary

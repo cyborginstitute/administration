@@ -12,17 +12,17 @@ Systems Administration for Cyborgs
    :maxdepth: 2
 
    fundamentals
-   documentation
    unix-fundamentals
 
    virtualization-automation
    dev-ops-communication
-   production-deployment-cycles
 
    backup-strategies
+   production-deployment-cycles
    database-scaling
-   web-services-architecture
    high-availability
+   web-services-architecture
    monitoring-tactics
+   documentation
 
    glossary
