@@ -12,20 +12,15 @@
 
 import sys, os
 
-# If extensions (or modules to document with autodoc) are in another directory,
-# add these directories to sys.path here. If the directory is relative to the
-# documentation root, use os.path.abspath to make it absolute, like shown here.
-#sys.path.insert(0, os.path.abspath('.'))
-
 # -- General configuration -----------------------------------------------------
 
 extensions = ['sphinx.ext.todo']
 templates_path = ['templates']
-source_suffix = '.rst'
+source_suffix = '.txt'
 master_doc = 'contents'
 
 project = u'Systems Administration for Cyborgs'
-copyright = u'2011, Sam Kleinman'
+copyright = u'2012, Sam Kleinman'
 
 version = ''
 release = ''
@@ -45,25 +40,10 @@ html_static_path = ['./source/.static']
 html_show_copyright = True
 html_show_sphinx = True
 
-# Theme options are theme-specific and customize the look and feel of a theme
-# further.  For a list of options available for each theme, see the
-# documentation.
-#html_theme_options = {}
+html_title = "Systems Administration for Cyborgs"
+html_short_title = html_title
 
-# The name for this set of Sphinx documents.  If None, it defaults to
-# "<project> v<release> documentation".
-#html_title = None
-
-# A shorter title for the navigation bar.  Default is the same as html_title.
-#html_short_title = None
-
- # The name of an image file (relative to this directory) to place at the top
-# of the sidebar.
 #html_logo = None
-
-# The name of an image file (within the static path) to use as favicon of the
-# docs.  This file should be a Windows icon file (.ico) being 16x16 or 32x32
-# pixels large.
 #html_favicon = None
 
 # If not '', a 'Last updated on:' timestamp is inserted at every page bottom,
@@ -85,36 +65,22 @@ htmlhelp_basename = 'cyborg-systems-administration'
 # -- Options for LaTeX output --------------------------------------------------
 
 # The paper size ('letter' or 'a4').
-#latex_paper_size = 'letter'
-
-# The font size ('10pt', '11pt' or '12pt').
-#latex_font_size = '10pt'
-
-# Grouping the document tree into LaTeX files. List of tuples
-# (source start file, target name, title, author, documentclass [howto/manual]).
+latex_paper_size = 'letter'
+latex_font_size = '10pt'
 latex_documents = [
-  ('contents', 'garen.systems-administraton-for-cyborgs.tex', u'Systems Administration for Cyborgs',
-   u'Sam Kleinman', 'manual'),
+# (source start file, target name, title, author, documentclass [howto/manual]).
+  ('contents', 'garen.systems-administraton-for-cyborgs.tex', u'Systems Administration for Cyborgs', u'Sam Kleinman', 'manual'),
 ]
 
-# The name of an image file (relative to this directory) to place at the top of
-# the title page.
-#latex_logo = None
-
-# For "manual" documents, if this is true, then toplevel headings are parts,
-# not chapters.
 #latex_use_parts = False
+latex_show_pagerefs = True
+latex_show_urls = False
 
-# If true, show page references after internal links.
-#latex_show_pagerefs = False
-
-# If true, show URL addresses after external links.
-#latex_show_urls = False
-
+#latex_logo = None
 #latex_preamble = ''
-
 #latex_appendices = []
-latex_domain_indices = True
+latex_domain_indices = False
+
 
 # -- Options for manual page output --------------------------------------------
 
@@ -136,16 +102,7 @@ epub_tocdup = False
 epub_scheme = 'URL'
 epub_identifier = 'http://cyborginstitute.com/systems-administration/'
 
-# A unique identification for the text.
 #epub_uid = ''
-
-# HTML files that should be inserted before the pages created by sphinx.
-# The format is a list of tuples containing the path and title.
 #epub_pre_files = []
-
-# HTML files shat should be inserted after the pages created by sphinx.
-# The format is a list of tuples containing the path and title.
 #epub_post_files = []
-
-# A list of files that should not be packed into the epub file.
 #epub_exclude_files = []
