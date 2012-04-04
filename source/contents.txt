@@ -3,19 +3,13 @@ Systems Administration for Cyborgs
 ==================================
 
 .. toctree::
-   :hidden:
-
-   index
-   maintenance
-
-.. toctree::
    :maxdepth: 2
 
+   maintenance
    fundamentals
    unix-fundamentals
 
-   virtualization-automation
-   dev-ops-communication
+   cloud-computing
 
    backup-strategies
    production-deployment-cycles

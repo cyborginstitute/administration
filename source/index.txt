@@ -1,3 +1,5 @@
+:orphan:
+
 ==================================
 Systems Administration for Cyborgs
 ==================================
@@ -37,15 +39,13 @@ Table of Contents
    fundamentals
    unix-fundamentals
 
-   virtualization-automation
-   dev-ops-communication
-
    backup-strategies
    production-deployment-cycles
    database-scaling
    high-availability
    web-services-architecture
    monitoring-tactics
+   cloud-computing
    documentation
 
    glossary
