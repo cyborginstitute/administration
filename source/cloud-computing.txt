@@ -1,0 +1,618 @@
+===============================================
+Cloud Computing, Virtualization, and Automation
+===============================================
+
+Cloud Computing
+---------------
+
+"Cloud computing," in many (all?) ways is really a development of
+marketing rather than technology. While there are new technologies
+that are more prominent and patterns (both technical and business)
+that are more prevalent "in the cloud," the deeper you delve into
+"cloud technology," the more the technology seems *really old*.
+
+There are a lot of components that make up cloud technology, but this
+document will assume the following basic components of "the cloud:"
+
+- Computing is **non-local** and the user interface is a *thin* layer
+  on top of a more robust set of APIs.
+
+  As a corollary, the actual computing instruments that people handle
+  have shrunk in size and in computing power (see: smart phones and
+  tablets.)
+
+- Vendors provide technology as a *resource* and *service* rather than
+  a *product*. This affects both delivery and billing, and is true at
+  all layers of the stack: from network and "hosting" services to
+  user-facing applications.
+
+  As a corollary multi-tenancy, particularly vis-a-vis operating
+  system level virtualization (i.e. Xen, KVM, VMWare,) has provided
+  technology firms with an avenue to control costs.
+
+- Open source, at least insofar as permissive licensing and access
+  drives adoption, reigns.
+
+- Network connections are universal and assumed as a prerequisite for
+  any computing activity.
+
+While these technologies and patterns are *real*, and have shaped and
+reshaped the way that the technology industry operates and does
+business, it's remarkably similar to a series of other "revolutions in
+computing," over the past 30 years or so. Consider:
+
+- "SOA," (server oriented architecture) which was a application design
+  paradigm in the 90s which defined a high level approach to
+  interoperability, is pretty much the same thing as non-local
+  computing with robust APIs. Swap out REST and HTTP with JSON for
+  XML-RPC, and replace business driven design process with a more
+  developer centric design process, and you have something that looks
+  a lot like "cloud applications and services."
+
+- Operating System level virtualization is just the latest iteration
+  on a long series of developments around multi-user operating
+  systems, and process sand boxing. UNIX in the 80s, the JVM in the
+  90s, and so forth.
+
+- Thin-client computing, be it dumb terminals and Sun's "SunRay"
+  clients or iPads and Android phones have a lot in common with
+  regard, to application design, and the distribution of computing
+  resources. Android/iOS devices are less specifically coupled to
+  their servers, and are likely "thicker," by comparison, but "old
+  school thin computing," had it's heyday 15 or 20 years ago, so the
+  comparison will always be rough.
+
+- The shift from "paying for software licenses," to "paying for
+  services," as the primary technology related transaction, may seem
+  like a big deal for the technology industry, but licenses are no
+  more a mystification on actual cost than the service formula, and in
+  many ways, the re-characterization of technology spending as
+  "service"-based rather than "property"-based is likely a move
+  towards a more authentic economic transaction. [#services]_
+
+In the end cloud computing is really just a new collection of
+buzzwords and framework for thinking about the same kinds of
+technological questions that systems administrators have been
+addressing for the last 30 years. The content of this resource
+addresses concerns relevant to all kinds of systems administrators
+regardless of environment. Nevertheless, there are some special
+considerations for those working with cloud computing that systems
+administrators be aware of when designing architectures for
+deployments and communicating with vendors and developers, and this
+article addresses some of these issues.
+
+.. [#services] At the same time the systems architecture needs to, at
+   least in some senses, reflect the economics of the
+   technology. While this is an easy ideology to subscribe to, it's
+   incredibly difficult to implement, at different levels of "the
+   stack," and with a great deal of existing technology. If you use
+   ephemeral infrastructure, then all layers of your application stack
+   must be able to operate (and presumably remain available) on
+   infrastructure that stops, restarts, and fails without warning.
+
+Virtualization
+--------------
+
+Production ready virtualization technology for commodity hardware is
+likely point at which "cloud" computing began. Certainly
+virtualization isn't new: virtualization has been common on mainframes
+for decade, and while x86 systems have had some virtualization
+tools, until 2004 or even 2007 virtualization technology wasn't
+"production ready."
+
+With robust open source hypervisors like Xen and KVM (and to a lesser
+extend UML and FreeBSD-style "jails" or "containers") it became
+possible to fully disassociate the systems and configuration
+(i.e. "instances,") that provide services from actual
+hardware. Furthermore, with simple APIs and a thin management layer,
+it became feasible (and profitable!) for vendors to sell access to
+virtual instances. The "cloud" makes it possible to disconnect the
+price and challenge of doing things with technology from the project
+of managing, operating, and maintaining physical machines.
+
+Managing physical machines is still a challenge, and there is a lot of
+administrative work that, but rather than having "general practice"
+systems administrators who are responsible for applications,
+databases, also responsible for the provisioning and management of
+hardware, dedicated administrators with experience related to hardware
+and "infrastructure" management (i.e. networking, hypervisors, etc.)
+Additionally, managing a dozens or hundreds (or more!) identical
+systems with nearly identical usage profiles, is considerably easier
+than managing a much smaller number of machines with varied usage
+profiles and configurations.
+
+Increasingly the umbrella "cloud" refers to services that fall outside
+of the original "infrastructure," services and includes entire
+application stacks (i.e. "platforms,") and user-facing
+applications. But virtualization and "infrastructure" services has
+created and/or built upon a "culture of outsourcing," that makes all
+of these other cloud services possible. Infrastructure services allow
+developers and administrators the flexibility to develop and deploy
+applications, while controlling all infrastructure costs
+(i.e. monetary and management related.)
+
+The Technology
+~~~~~~~~~~~~~~
+
+Unlike other technologies within the purview of systems administration
+there are no specific pieces or even classes of technologies that
+define cloud computing, with the possible exception of the Linux
+kernel itself. However, there are some basic "cloud computing"
+patterns moving up from commodity "x86/x86_64" hardware at the bottom
+of the stack and all the way to end users, Thus this section will
+amble loosely through a typical stack from bottom to top:
+
+#. The hardware.
+
+   Hardware *does* matter, and is incredibly important contrary to
+   popular belief. Users and administrators will notice significant
+   performance benefits using more robust hardware. Contemporary
+   hypervisors have a very minimal performance overhead, but they do
+   have a slight overhead, and they cannot accelerate performance or
+   efficiency above and beyond the capacity what the system can
+   perform under normal conditions.
+
+   Furthermore, virtualized systems (i.e. "hosts,") have greater
+   overall system utilization. This means, that there is less
+   "headroom" for applications and instances that need to take extra
+   resources, even for a short time. If you're used the deal with more
+   typically under utilized hardware systems, then you will likely
+   find this aspect of the performance profile unexpected.
+
+   In the end, this means that virtualized platforms run a little
+   slower than systems "on the metal." Usually this performance
+   penalty isn't a practical problem, but it does mean, that having
+   fast disks, good network connections, and hosts that aren't packed
+   full of instances running at 100%, can have a great impact on
+   actual performance.
+
+#. The storage layer.
+
+   As on conventional servers, storage systems are a huge bottleneck
+   in virtualization. Although para-virtualized approaches lead to
+   better performance, the storage problem remains reasonably
+   unsolved. There are the following challenges:
+
+   - Storage requirements are huge.
+
+     Large numbers of systems, writing large amounts of data, require
+     significant storage resources. When you factor in required
+     redundancy to prevent hardware failures, it actually becomes
+     difficult to fit enough storage to support workflow on the hosts.
+
+   - Storage throughput remains the most significant challenge in
+     virtualized environment.
+
+     Even with storage on the local disk array, storage bandwidth and
+     throughput is not always sufficient for keeping up with
+     demand. Which is to say, that many usage profiles can easily
+     saturate disk resources and that the kinds of separation and
+     isolation that other resources have doesn't really exist at the
+     disk layer, with any kind of performance capability.
+
+   - Local storage is a dead end.
+
+     There's no way to get the kind of required redundancy (and quick
+     recovery) for hardware failures with storage systems that are
+     local to the host. It takes too long to rebuild large RAID
+     arrays, it's hard to achieve the proper storage density to be
+     economically (let alone environmentally) efficient and redundant
+     beyond a hundred terabytes or so. Furthermore, when storage is
+     host-local, it's difficult to flexibly balance instances among
+     hosts.
+
+   - Remote storage is fraught.
+
+     Using remote storage over local storage seems like an obvious
+     solution, but there are significant problems with remote storage
+     as well. The performance is less than local storage in most cases
+     because there is network overhead and contention problems. High
+     quality storage arrays of significant sizes can be quite
+     expensive.
+
+   These factors combine to leave no good solutions to "the storage
+   problem," an ongoing and unsolved problem in "cloud computing."
+
+#. The hypervisor.
+
+   The hypervisor is the layer that runs on the hardware, and that
+   controls and manages the guests or instances. Essentially, all
+   "cloud" deployments use one of three hypervisors: Xen, which is an
+   open source probably the leading tool in terms of size of
+   deployments because of early stability; KVM, which consists of
+   modules loaded into the Linux kernel and is easy to configure and
+   feature rich; and the proprietary VMWare SEX which has robust
+   adoption but lacks some "cloud like" functionality in its
+   approach. [#disclaimer-hypervisor]_
+
+   The `libvirt`_ project in some way makes the choice of hypervisor
+   more irrelevant (at least among the open source options,) and in
+   most cases the performance variation between the various options
+   are not particularly important or meaningful. The hardest parts of
+   maintaining virtualization hardware is often networking, storage,
+   and instance provisioning (i.e. creating and duplicating
+   instances,) and not necessarily anything about the hypervisor
+   itself. As of right now, and with the possible exception of VMWare,
+   there is no hypervisor that makes the hard problems of hosting and
+   infrastructure management easier or harder.
+
+   .. [#disclaimer-hypervisor] There are some nuances in the
+      hypervisor comparison, but take the following overview in
+
+      Xen, is great software and it *just works*, and it's so widely
+      used because it was the first open source hypervisor to
+      *actually work*. More recently, it's been slow to update and
+      it's really difficult to get a Xen system up and running. Once
+      you have something working, there's never any reason to
+      change. Getting things set up the first time, and getting Xen to
+      work on your hardware particularly with some less-standard
+      hardware (e.g. some RAID cards, newer proccessors, NICs) can be
+      hard. Amazon's Web Services, other large hosting providers all
+      use Xen.
+
+      KVM, is really easy to get set up--I've run it on my laptop
+      without much fuss--and is functionally sufficient, but it (and
+      the Linux kernel itself,) develops a little too fast to be fully
+      *stable,* and has probably suffered some large scale adoption as
+      a result. It's difficult to speculate on adoption, but KVM saw
+      success early on with running Windows guest instances, and
+      likely continues to see use in smaller scale deployments.
+
+      VMWare ESX, and VMWare in general, has earned the confidence of
+      many corporate IT departments, and typical VMWare deployments
+      may consist of dozens of machines. It's pricing scheme makes it
+      less economical for large scale deployments, and historically,
+      it's been difficult to disconnect instances from particular
+      hosts in the context of multiple-host deployments.
+
+   .. _libvirt: http://libvirt.org/
+
+#. The management operating system.
+
+   Hypervisors typically have one "instance," that either is (in the
+   case of KVM) or very nearly (for VMWare and Xen) running "on the
+   metal" (i.e. hardware,) and have special administrative
+   privileges. Access to the management operating system provides
+   access to the networking and potentially the block devices
+   (i.e. disks,) and commands to start, stop, pause, and migrate guest
+   instances must all originate through these systems.
+
+#. The instance management layer.
+
+   If you have more than a handful of instances on a handful of hosts,
+   you will eventually need management tools just to keep track of
+   available instances, capacity, and state of the system as a
+   whole. This layer must interact with and potentially control the
+   hypervisor itself.
+
+   OpenStack and Eucalyptus are two complete open source "instance
+   management solutions," but libvirt provides a consistent framework
+   for building a management layer. Nevertheless most vendors use a
+   custom solution, technologically this layer is relatively
+   uncomplicated. End-users should be able to interact with this layer
+   pragmatically via a public API and directly via a console
+   interface.
+
+#. The instance.
+
+   From the perspective of the hypervisor, the instance consists of
+   nothing more than:
+
+   - a disk image or block-device (typically manged
+     using :term:`LVM`,)
+
+   - a network device (with a MAC address, IP address, and
+     corresponding network filters,)
+
+   - and instructions for booting the instance, which typically
+     consists of references to the above, and in the case of Xen the
+     operating system kernel which the hypervisor injects into the
+     instance at boot-time. Additionally, it's possible to configure
+     additional virtualized devices and pass additional boot
+     parameters.
+
+   From the perspective of the user, however, the instance is a
+   complete and independent network host, with a fully functional
+   operating system and storage system.
+
+   Most administrators of "cloud" systems begin interacting in earnest
+   at this layer, and from this layer up "the cloud," behaves pretty
+   much like other systems that you may be familiar with.
+
+#. The instance configuration layer.
+
+   Configuration management is optional, but it makes it possible to
+   approach the management of large numbers of systems in a way that
+   can scale to support a large number of instances.
+
+   Configuration tools, take a base install (or even a blank disk
+   image) and install software, edit files, and run commands until the
+   system has reached a desired "configuration state." Sometimes this
+   layer are just simple deployment scripts, and other times this role
+   may take the form of rebuilt image templates, and some deployments
+   may use fully developed configuration management tools like `Chef`_
+   and `Puppet`_ that can configure new deployments but also help
+   these systems stay up to date in the long term.
+
+   You may think of the configuration layer as a kind of "Makefile for
+   entire systems." Everyone who is managing more than, say, 3 systems
+   needs to have some strategy for managing deployments as well
+   configuration in the long term. Not every deployment needs a
+   special tool, but it's absolutely crucial that you have some
+   "story" to address configuration.
+
+   .. _`Chef`: http://opscode.com
+   .. _`Puppet`: http://puppetlabs.com
+
+#. The platform.
+
+   This layer of the "cloud," stack is somewhat elastic, but typically
+   refers to everything that isn't formally part of your application
+   and that supports the application layer. Third party tools, run-time
+   environments,  and other dependencies fit into this layer, as well
+   as common services including load-balancing, caching, a database
+   system, LDAP, email, monitoring, networking, and so forth.
+
+   The platform needn't reside on a single system, and in most
+   deployments a number of (virtualized) systems will fulfill these
+   tasks. Indeed, some vendors even provide "platform as a service,"
+   which can be an easy way to avoid most systems administration
+   overhead for developers and common users. Indeed, most systems
+   administrators spend a predominance (if not the majority) of their
+   time working to maintain this level of the stack.
+
+#. The application.
+
+   As important as "the application," is to the end-users and to the
+   business interests that drive the deployment itself, the
+   application is often pretty straightforward and doesn't require a
+   lot of ongoing administration overhead, aside from occasional
+   upgrades, updates, and ongoing monitoring.
+
+The Service
+~~~~~~~~~~~
+
+In truth, administrators don't need to know very much about the "cloud
+stack," in order to be able to make use of "cloud technologies," and
+deploy or manage "cloud instances." While this is a great strength of
+"the cloud," be wary of thinking that cloud systems are just like
+conventional ones.
+
+In conventional deployments, you deploy a number of systems, all
+running a base install, all running directly on the hardware, and with
+a lot of capacity. Some servers provide front-end functions like web
+servers and load balancers and are widely available, others provide
+internal functions like databases and shared file system and are only
+accessible internally. When you need to provide a new service, you may
+deploy a new system, or you may decide that one of the existing
+servers has capacity, and you install the required software and
+configuration on an existing machine. All is well.
+
+Depending on the scope of your requirements, the work you're doing,
+and the kind of scaling [#scaling]_ that you need, this conventional
+approach works really well, and there's no reason to think about
+systems (i.e. instances) as anything other than persistent, durable,
+always available. [#nines]_
+
+Administrators in the cloud context who take this conventional
+approach in "the cloud," will not be as successful as those
+administrators who take a more adaptive approach for a number of
+reasons:
+
+- providers offer limited up-time guarantees.
+
+  While in most cases, up-time guarantees for cloud systems are
+  consistent with what you would be able to obtain with conventional
+  systems, users of cloud systems need to have (potentially) more
+  elaborate failover plans in place. In most cases this is not
+  actually an issue unless you're beholden to a SLA or your own
+  up-time guarantee that you can't meet in light of your providers
+  up-time guarantee.
+
+- systems may reboot frequently.
+
+  Occasionally hypervisors and the management layer will run into bugs
+  that require a forcible reboot. These reboots often come with little
+  or no warning and can lead to downtime that lasts for anywhere from
+  a few minutes to an hour or so. Depending on the provider or your
+  internal configuration, you may loose state when this some or all of
+  the time. This is obviously a disadvantage of the cloud, but with
+  proper availability planning and redundancy, it's possible to
+  overcome these potential issues. In many cases, savings in
+  infrastructure costs, and flexibility outweighs this additional
+  complexity.
+
+  While "the cloud," highlights the risk of unexpected system reboots,
+  failures, and poor recovery from reboots, in truth these are real
+  risks with any kind of systems infrastructure: virtualized or not,
+  cloud or not.
+
+- billing is per-instance per-hour (sometimes, per-instance per-day.)
+
+  This is a major sales point for cloud vendors, and while it does
+  mean that you can potentially save money by "*only paying for what
+  you need,*" in practice "auto-scaling" at the infrastructure layer
+  is pretty uncommon, and automatic scaling systems tend to be most
+  prevalent in systems that have a significant workload that can run
+  in batched/parallel operations. While this is a significant
+  possibility, most work requires some layer of persistence.
+
+  While it's possible to boot up an instance quickly from any cloud
+  provider, even with the best configuration automation systems, the
+  delay before the instance is actually operational is rarely fewer
+  than 15 minutes, and more frequently closer half-an-hour or an
+  hour.
+
+.. [#scaling] Many systems have pretty stable or predictable workloads
+   and you may never need to add or remove capacity, on the other hand
+   changes in demand and workload can impact your management
+   strategy.
+
+.. [#nines] Or nearly available. It's unfair to assume that a system
+   will always be available due to system updates, reboots, power and
+   network failures, software bugs, and user errors, but in truth
+   working systems often keep working for a long time without
+   intervention. See the ":doc:`high-availability`" document for
+   more information.
+
+The Myth of Elasticity and Automatic Scaling
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Initially, the fact that administrators could create cloud instances
+on demand was *the* selling point of the cloud. Additionally some of
+the very early success stories were from companies and start-ups that
+were able to succeed because their applications were able to scale up
+and down to meet demand without administrator intervention. This is a
+great sounding idea, in many respects: you only have to play for what
+you actually need, and you don't have to keep servers running because
+you expect that you *might* have demand.
+
+While this seems like a very clever technical hack of an economic
+situation, there are several reasons why it's primarily successful as
+part of a sales playbook:
+
+- Writing code that controls the auto-scaling features is difficult,
+  must be custom for every application.
+
+- The proper time to expand capacity is often a question that requires
+  fuzzy reasoning. As a rule of thumb, it's wise to add additional
+  resources when you're using 80% of available capacity, but what
+  constitutes "80%" isn't always clear.
+
+  For some layers of the stack, like databases are more difficult to
+  upgrade under-load, whereas, once you have a web-layer with a load
+  balancer, adding additional application servers is trivial and can
+  happen under load without challenge.
+
+- While many servers and applications have load that varies throughout
+  the day, the difference between peak capacity requirements and
+  off-peak capacity requirements may only be a difference of
+  10-to-20%. This is not a leading source of cost overrun, and
+  therefor not a priority for administrator and developer time.
+
+- Three application servers, two load balancers, and 2-3 database
+  servers can actually handle an *impressive* amount of traffic. While
+  you might add an additional application server, these deployments
+  are pretty efficient anyway.
+
+- It can take a while to "spin up" and instance to add to a cluster,
+  depending on the configuration process, so while it's "quick" in
+  comparison to adding a server to a rack, it's not quick relative to
+  common workload patterns.
+
+This doesn't mean that the cloud is *bad* or that there aren't real
+and tangible benefits for administrators, but it's important to
+balance actual "business" and application requirements with the
+capabilities of the system.
+
+.. seealso:: ":doc:`high-availability`" and ":doc:`database-scaling`"
+
+Configuration Management
+------------------------
+
+As individual administrators have become responsible for larger
+numbers of systems, it became apparent that administrators needed more
+robust tools and approaches for automating system configuration. While
+cloud computing accelerated this trend, this trend began with of Linux
+and commodity x86 hardware in the 1990s. Indeed contemporary package
+management was part of an early attempt to address this very problem.
+
+From a systems perspective, when you have a potentially large number
+number of systems at your disposal, there are a couple of fundamental
+shifts that emerge:
+
+#. Systems can be single-purpose.
+
+   It's possible to isolate processes and functions to specific
+   systems. This reduces the chance that load on one instance will
+   affect the performance or behavior of another process or system is
+   minimal. While in practice there tends to be some slippage towards
+   multi-propose configuration, single-purpose systems tend to work
+   more reliably, are easier to administer, and can be easier to fix
+   when there's an issue.
+
+#. Systems can be ephemeral.
+
+   If we have a reliable way to configure and deploy a specific
+   *class* of machines. Then the up-time or durability of any
+   particular instance or system is not crucial. Vendors can reboot
+   servers at will and it's possible to recover from hardware failures
+   without too much downtime.
+
+#. Reliable configuration management in addition to configuration
+   implementation/application is crucial.
+
+   Applying configuration to systems is a straightforward operation:
+   run a sequence of commands to install packages, edit a number of
+   files, and then run a series of commands to start services and
+   finalize ant other operations.
+
+   With sufficient testing it's possible to reliably build systems,
+   or build reusable systems; however, the larger the deployment, the
+   more difficult keeping these systems up to date and consistent with
+   each other and various software updates and minor configuration
+   changes.
+
+
+Approaches
+~~~~~~~~~~
+
+There are two sensible approaches to configuration management:
+
+#. Using a configuration application/enforcement system.
+
+#. Use instance templates, occasional reboots, read-only file systems,
+   and off-instance persistent storage to enforce and propagate
+   configuration changes.
+
+Configuration enforcement systems take a recipe or a pattern and are
+capable of taking a base image and applying the pattern to produce a
+configured system. Some of the newer systems will "check in" with a
+master configuration server on a regular basis to ensure that the
+system is always up to date. These systems require specialized
+knowledge for effective use, have some implementation costs, tend to
+address the long-term maintenance requirements over rapid deployment
+needs, and are best for deployments that have a diverse selection of
+systems but may or may not have a large number of instances.
+
+Instance templates, can be quite powerful: they're easy to build, easy
+to test before deployment, and generally easy to prevent drift between
+systems. At the same time, template systems make it more difficult to
+make small configuration changes quickly. Templates are particularly
+well suited to deployments that have a large number of instances with
+a small number different configurations but a large number of distinct
+systems, and for generally stable deployments that don't change very
+often.
+
+Products
+~~~~~~~~
+
+There are a number of tools that help address the configuration
+management problem, but many administrators address configuration
+management problems with scripts in common programming or scripting
+languages or other related tools. Consider the following inventory of
+these tools:
+
+WRITE list of configuration management tools
+
+**Open Stack**
+
+**Puppet**
+
+**Chef**
+
+**Vagrant**
+
+**BCFG2**
+
+**GNU Make** (and other build tools.)
+
+Strategy
+~~~~~~~~
+
+WRITE configuration management strategy section
+
+build-destroy-deploy
+ephemeral/statelessness/non-persistence
+
+dev/ops

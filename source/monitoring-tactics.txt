@@ -390,7 +390,7 @@ Automation
 ~~~~~~~~~~
 
 With the advent of :term:`cloud computing` and :doc:`automation
-surrounding virtualization <virtualization-automation>`, the use of
+surrounding virtualization <cloud-computing>`, the use of
 monitoring solutions to underpin infrastructure deployment and
 management. The theory is, in essence, that as utilization varies
 between thresholds, additional capcity is automatically added and

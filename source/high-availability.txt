@@ -28,7 +28,7 @@ reliable systems.
 
    - ":doc:`database-scaling`"
    - ":doc:`web-services-architecture`"
-   - ":doc:`virtualization-automation`"
+   - ":doc:`cloud-computing`"
 
 
 Availability Technology

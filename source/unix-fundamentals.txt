@@ -2,6 +2,8 @@
 UNIX Fundamentals
 =================
 
+TODO scaffold outline for this article
+
 Outline:
 
 - proprietary UNIX, the GNU project Linux, and Contemporary UNIXes

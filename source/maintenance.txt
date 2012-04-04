@@ -1,6 +1,5 @@
-:orphan:
-
 ===================================================
 Maintenance of *Systems Administration for Cyborgs*
 ===================================================
 
+WRITE maintenance and contribution document.
