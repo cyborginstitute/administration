@@ -593,26 +593,182 @@ management problems with scripts in common programming or scripting
 languages or other related tools. Consider the following inventory of
 these tools:
 
-WRITE list of configuration management tools
+OpenStack
+`````````
 
-**Open Stack**
+OpenStack is a project by various hosting providers, with the goal of
+providing a "cloud in a box," solution with two main audiences:
+hardware vendors that wish to ship appliances-like that provide
+cloud-like interfaces to their resources and infrastructure, and to
+large enterprises that want to run their own "cloud infrastructure,"
+within their own facilities.
 
-**Puppet**
+Part of this management layer is an image hosting and management
+service that allows you to produce and manage virtual machine
+templates for your OpenStack-based cloud. While OpenStack is by no
+means the only way to manage and a collection of image templates, and
+deploy instances from these templates;  OpenStack's "Image
+Service" was purpose-built to manage virtual machine instance
+templates which surely provides some benefit.
 
-**Chef**
+.. note::
 
-**Vagrant**
+   *I have limited experience with OpenStack, which may be a useful
+   component in managing an image-based configuration management
+   system.*
 
-**BCFG2**
+.. index:: puppet
+.. index:: chef
 
-**GNU Make** (and other build tools.)
+Puppet and Chef
+```````````````
+
+Puppet and Chef are second generation configuration management tools,
+primarily intended for use defining "recipes" or patterns that
+describe the intended configuration of an instance or system. Then,
+Chef and Puppet takes these description and "applies" that
+configuration to the target system. Because Puppet and Chef provide a
+method to describe system configuration in a regular, programmatic
+format it's possible to write recipes that inherit from each other,
+and trivial to deploy multiple systems that follow the same template.
+
+Beyond defining configuration, these tools have configuration
+enforcement systems that run on a regular schedule [#schedule]_ that:
+check in with a centralized configuration server and then download new
+configuration if available. If the tool found an updated
+configuration, it applies the configuration changes, otherwise it
+ensures that the configuration has not *drifted* since the last
+run. [#optional-enforcement]_ This way, the system itself can prevent
+drift.
+
+Initially, one of the leading goals of both of these systems, was to
+abstract the differences between these systems so that administrators
+could define configurations as a conceptually distinct structure from
+the actual deployment and deployment platform. Ideally administrators
+could then apply the same configuration to Fedora systems as Ubuntu
+systems (for example.) In practice, however, most large deployments
+are not this diverse, and other features--like the configuration
+enforcement--have become more important to most users of these
+systems.
+
+For many environments, the configuration layer, provides general
+system automation and deployment automation. While this may seem a bit
+incongruous, Chef and to a lesser extent Puppet, make very suitable
+deployment tools. [#deployment]_ Either the automatic configuration
+enforcement mechanism always checks for updates and deploys new
+versions when available, or the administrator modifies a configuration
+value or variable in the recipe to trigger the deployment mechanism
+directly or during the next update cycles.
+
+The primary difference between Puppet and Chef is the programming
+interface for describing patterns: Puppet uses a more declarative and
+limited domain specific language for describing configurations while
+Chef uses the Ruby programming language. Puppet and Chef are both
+written in Ruby, and provide a feature set that is without parallel in
+any other tool at the moment.
+
+.. [#optional-enforcement] This "enforcement mode," is optional and
+   only runs if configured. Both tools also include a "script" mode to
+   apply recopies directly with commands, without an established
+   configuration infrastructure. A limited on-demand operation is also
+   available.
+
+.. [#schedule] Chef will check for updates and changed configurations
+   some interval (e.g. 30 minutes) after the last operation (update
+   check or configuration application) completed. Because system
+   configuration operations can last anywhere from a number of seconds
+   to a few minutes or more, this approach prevents a group of servers
+   checking for updates at the same time and prevents the next
+   "scheduled update run" from conflicting with long-running
+   operations.
+
+.. [#deployment] There is a great deal of cross over between
+   deployment and build systems and configuration systems, at least
+   theoretically. Both kinds of systems define reproducible processes
+   for assembling a final output using a procedure built with
+   available components.
+
+.. index:: fabric
+
+Fabric
+``````
+
+Fabric approaches the configuration management problem as a deployment
+tool. Fabric files use Python syntax, with a simple and
+straightforward interface for describing system build processes,
+deployment procedures, and other system automation. If you don't have
+a programming background, fabric may be a good way to get started with
+systems automation.
+
+.. index:: BCFG2
+
+BCFG2
+`````
+
+BCFG2 is a first generation configuration management tool, similar to
+solutions like Puppet and Chef in scope and goal. However, BCFG2
+defines configuration using an XML-based syntax, and has a number of
+features that support collecting data from target systems and using
+this information for auditing purposes and also to inform and shape
+how to apply configuration to systems.
+
+.. index:: vagrant
+
+Vagrant
+```````
+
+Vagrant isn't a configuration management tool as such, but is rather
+virtual machine management tool for administrators and Chef users to
+be able to have ephemeral or disposable virtual machine instances on
+desktop systems for testing. Tools like Vagrant [#vagrant-like-tools]
+are essential for testing configuration scripts without expending a
+great deal of time and resources on testing. At the same time, you'll
+also need to do a layer of tests on your actual deployment
+background.
+
+If you're using some hosting platform that you control, like your own
+"private" Open Stack instance, it may make sense to do all of your
+testing on this platform.
+
+.. [#vagrant-like-tools]
 
 Strategy
 ~~~~~~~~
 
+Cloud computing, and the mandate to deploy and manage a large number
+of systems, has lead to a surge in development of configuration
+management solutions and a general reevaluation of the configuration
+management problem. In many ways the diversity in possible solutions
+presented by all of the various configuration management and
+deployment tools make it clear that configuration management is an
+unsolved problem.
+
+Despite the differences in approaches and tools, a few themes
+practices have emerged that you can use when managing your systems
+configuration regardless of the tool you choose to use, or even if you
+choose not to use a configuration management tool at
+all. [#no-tool-and-make]_
+
+Consider the following
+
+- build-destroy-deploy
+- ephemeral/statelessness/non-persistence
+- dev/ops
+
 WRITE configuration management strategy section
 
-build-destroy-deploy
-ephemeral/statelessness/non-persistence
+.. [#no-tool-and-make] Having a configuration management tool is by no
+   means a requirement for a well. Configuration tools--like all
+   tools--are simply means to implement and enforce a *process*. They
+   are particularly useful in situations where you do not have a well
+   developed process, or must (quickly) extend an existing process to
+   a new scale (i.e. extending a process that worked when an
+   administrator had to manage 5 systems, to a process that will allow
+   an administrator to manage 500 systems.)
 
-dev/ops
+   The tool alone cannot create process on its own or enforce any
+   particular standard: if you have a process that works, or a process
+   that doesn't cause you to worry when you think about multiplying
+   your responsibility by the required amount of growth your
+   application, then you can probably continue without a formal
+   configuration management tool.
