@@ -723,8 +723,7 @@ be able to have ephemeral or disposable virtual machine instances on
 desktop systems for testing. Tools like Vagrant [#vagrant-like-tools]
 are essential for testing configuration scripts without expending a
 great deal of time and resources on testing. At the same time, you'll
-also need to do a layer of tests on your actual deployment
-background.
+also need to do a layer of tests on your actual deployment background.
 
 If you're using some hosting platform that you control, like your own
 "private" Open Stack instance, it may make sense to do all of your
@@ -749,13 +748,84 @@ configuration regardless of the tool you choose to use, or even if you
 choose not to use a configuration management tool at
 all. [#no-tool-and-make]_
 
-Consider the following
+Consider the following:
 
-- build-destroy-deploy
-- ephemeral/statelessness/non-persistence
-- dev/ops
+- **Prioritize reproducibility** over simplicity and ease.
 
-WRITE configuration management strategy section
+  When configuring systems, devise processes for your configuration so
+  that you can easily and automatically recreate and reconfigure all
+  of your instances. It makes a lot of sense to hand configure, and
+  hand tune systems which are long lasting and that you interact with
+  directly and personally (e.g. your workstation, or a primary remote
+  server;) however, most of the systems you will administer in a
+  production environment have a single purpose or a small number of
+  related functions, and custom configurations don't make much sense.
+
+  In most cases, however, its *easier* and *faster* to deploy a base
+  template, install the dependencies you need, attempt to run the
+  service, fix any insufficient configuration, try again to run the
+  service, repeating the process as much as necessary.
+
+  Resist this temptation. If you need your systems to be maintainable
+  in the long run, if you ever need to deploy a test environment, or
+  if you ever need to share your administrative workload with anyone
+  else, ensure that the configuration is reproducible.
+
+- Design **minimal state systems** that you can delete and rebuild
+  without causing any application or user errors.
+
+  The connection between configuration reproduceability minimizing the
+  amount of semi-persistent state that's distributed throughout your
+  environment is significant. To minimize state--important information
+  stored in scripts and configuration files saved locally on a few
+  machines--serves to make any individual system less important and
+  more disposable. Again this is a trade-off between simplicity
+  (setting some tasks and services to run from specific systems,) and
+  the additional work and setup costs to write a system that
+  centralizes state. [#centralized-state]
+
+- Maximize **development/operations** interaction and
+  collaboration. While the importance of "dev/ops," the difficulty.
+
+  The term "dev/ops" is terribly popular these days, and the term is
+  often overused, particularly to mean things that are really
+  synonymous with "what systems administrators have been doing all
+  along," but there are some insights buried in the buzzword that are
+  worth drawing out.
+
+  First, systems administrators need to think about their problems in
+  terms of possible programmatic solutions, optimization (including
+  weighing the chance of unnecessary premature optimization and
+  micro-optimization,) and maintenance costs. Second, it's absolutely
+  crucial that the communication and collaboration between development
+  and operations teams is absolutely essential to success. Just as
+  software development since the late 1990s has moved towards a more
+  iterative model, where the users and "business drivers" of a
+  software gets a lot of involvement in the development process;
+  dev/ops is about a similar shift in operations work.
+
+  Make sure that development teams know how operations procedures
+  work and how software and changes get deployed and tested. Also, as
+  an administrator, attempt to make sure you know what's going on in
+  the technical organization or organizations (i.e. your users and
+  "clients,") at all times so that you're never surprised by new
+  requirements or deadlines.
+
+- Use versioning and **track changes** to production systems.
+
+  Version control systems, when properly understood, are a great asset
+  to administrators. First and foremost, they support and enable
+  experimentation: if you know that you can revert to any previous
+  state instantly then it becomes easy to try new things, test
+  different configurations, and make changes that you might not feel
+  comfortable making under normal circumstances.
+
+  Furthermore, version control systems are simple and lightweight
+  enough that they often make sense as a way of keeping a collection
+  of shared files synchronized across a number of machines. Certainly
+  for larger amounts of shared data, or rapidly changing data, this is
+  impractical, but for configuration files and administrative scripts
+  a version control repository is ideal.
 
 .. [#no-tool-and-make] Having a configuration management tool is by no
    means a requirement for a well. Configuration tools--like all
@@ -772,3 +842,20 @@ WRITE configuration management strategy section
    your responsibility by the required amount of growth your
    application, then you can probably continue without a formal
    configuration management tool.
+
+.. [#centralized-state] Distributed systems should theoretically avoid
+   centralization at all costs, but for larger and complex systems,
+   "centralized" state, just means storing state data in an
+   authoritative database or data store, or making sure that scripts
+   *can* run on all systems in a failover situation and
+
+   Also, it's possible to configure deployments with entirely
+   distributed services (i.e. distributed application, monitoring, and
+   database services.) but where every layer's internal distributed
+   nature is transparent and hidden to the others. Which is to say,
+   you can use a distributed database, but the application can treat
+   the database system as an authoritative source for state-related
+   information.
+
+I use the term in this case less
+   to
