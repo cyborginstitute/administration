@@ -2,4 +2,82 @@
 Maintenance of *Systems Administration for Cyborgs*
 ===================================================
 
-WRITE maintenance and contribution document.
+Contribution
+------------
+
+The :doc:`index` attempts to present information regarding the
+practice and strategy of systems administration that is of general
+interest to developers, junior systems administrators, and other
+technical audiences who are less familiar with systems
+administration. While this core content and approach will remain over
+time, technology changes, and administrators are always developing new
+conventions and approaches to new and old problems.
+
+In an effort to keep :doc:`index` up to date and relevant to the
+problems of the day, the author and contributors will continue to
+update the text to reflect changes in practice and to remove
+inaccuracies and errors as possible. 
+
+Feel free to send pull requests or patches either on `github`_ or to
+the Cyborg Institute `listserv`_. If needed, you can git hosting is
+available on institute servers for active contributors.
+
+If you see an error or have an issue with any of the content in this
+resource please write an email to the listserv, and one of the
+existing maintainers or contributors will any required modification.
+
+.. _github: http://github.com/cyborginstitute/cyborg-admin
+.. _listserv: http://lists.cyborginstitute.net/institute
+
+Resources
+---------
+
+If you're interested in contributing to this project, you may find the
+following information useful: 
+
+The `Cyborg Institute`_ Site. 
+   For more information about the other projects, activities, and
+   resources.
+
+The `Cyborg Institute Git Repositories`_
+   `git.cyborginstitute.net`_ is the conical source for all Cyborg
+   Institute project repositories and resources.
+
+`Cyborg Institute Hosted Listservs`_
+   `lists.cyborginstitute.net`_ provides forums for announcements of
+   major releases and important news, as well as discussion of Cyborg
+   Institute projects.
+
+The `Cyborg Institute Git Hub`_ 
+   Git Hub mirrors are available for all or most Cyborg Institute
+   projects for use by contributors who are also Git Hub users.
+
+`Cyborg Institute Issue Trackers`_ (*forthcoming*)
+   Until proper issue tracking systems are available for Cyborg
+   Institute projects, please
+
+.. _Cyborg Institute: http://cyborginstitue.com/
+.. _Cyborg Institute Git Repositories: http://git.cyborginstitute.net/
+.. _git.cyborginstitute.net: http://git.cyborginstitute.net/
+.. _Cyborg Institute Hosted Listservs: http://lists.cyborginstitute.net
+.. _lists.cyborginstitute.net: http://lists.cyborginstitute.net
+.. _Cyborg Institute Git Hub: http://github.com/cyborginstitute/
+.. _Cyborg Institute Issue Trackers: http://issues.cyborginstitute.net
+
+Release Information
+-------------------
+
+TODO add in information about the git commit and the date.
+
+Maintainers and Contributors
+----------------------------
+
+.. note:: 
+
+   If you work to maintain :doc:`index`, feel free to add your name to
+   the following list.
+
+Sam Kleinman
+   Initial author, current maintainer. (`website <tychoish>`_)
+   
+.. _tychoish: http://tychoish.com/
