@@ -1,13 +1,499 @@
 =================
-UNIX Fundamentals
+Unix Fundamentals
 =================
 
-TODO scaffold outline for this article
+Introduction
+------------
 
-Outline:
+Unix is not the only operating system in common use, but it is likely
+the most important, or at least the most common class of systems used
+for infrastructural computing. Because :doc:`index` approaches systems
+administration from a relatively high level, you need not be familiar
+with Unix-like to apply the tactics and strategies presented, but in
+most cases the more you know about Unix-like systems the better.
 
-- proprietary UNIX, the GNU project Linux, and Contemporary UNIXes
+This document provides a on overview of Unix systems targeted to those
+who have limited experience with Unix-like systems such as GNU/Linux,
+BSD, or other related derivatives. If you have more experiences with
+Linux or other Unix-like systems this document addresses some of the
+history, rationale, and common conventions that may not be obvious to
+contemporary users but nonetheless shape their experiences of this
+technology.
 
-- package management and deploying in different environments
+Unix History and Background
+---------------------------
 
-- Programming Languages After 1995
+Programmers at Bell Labs (i.e. AT&T) developed Unix beginning
+in 1969. Unix's flexibility and portability drove a wide adoption in
+both academic and industrial situations, and by the 80s there were a
+number of commercial, proprietary Unix systems based on code derived
+from AT&T's Unix releases.
+
+Unix grew out of a research community, and at a point in computing
+when the economic activity in computing derived from the applications
+rather than the products. [#computing-economies]_ Two things resulted
+from this economic reality:
+
+#. The community of users around Unix appreciated and valued openness
+   and the ability to examine and modify all aspects of the
+   system. There were no "non-technical" users of Unix, the systems
+   were at least in the early days much more simple, and source code
+   was often provided. Eventually, as companies began selling Unix
+   openness around licensing and availability declined. However, the
+   fundamental design decisions continued to permeate the ethos Unix
+   and its users (See ":ref:`unix-philosophy` for more on this topic.)
+
+#. The system itself is and was flexible, general purpose, and
+   exceedingly extensible.
+
+Later in the 80s and in the early 90s free software variants of Unix
+that anyone could use and modify emerged and have since become the
+predominant Unix systems in contemporary computing. Today's
+Linux-based and BSD-derived systems consist of the following major
+components:
+
+.. glossary::
+
+   GNU
+      The GNU project represents a full suite of "userland"
+      (i.e. non-kernel) utilities. In many respects the components of
+      any non-embeded Unix-like system that users actually interact with
+      are the userland tools, so the experience of using "Linux"
+      typically refers to the GNU components.
+
+   Linux
+      Linux is an operating system kernel that provides memory
+      management, file system abstraction, basic networking, and other
+      essential services to an operation system. Developed in the
+      early 90s, using the free software development model, Linux has
+      a vibrant community of developers and extensive support for a
+      diverse selection of hardware platforms. As a result Linux is
+      the primary Unix-like system in contemporary usage.
+
+   BSD
+      Derived from the original BSD systems in the 80s (which derive
+      ultimately from AT&T code,) BSD combines both userland and
+      kernel systems in a single conceptual entirity. Current examples
+      include FreeBSD, OpenBSD, DragonFlyBSD, and Darwin (the core
+      upon which Apple bases its OS X systems.)
+
+The exact reasons that Unix continues to be so prevalent 40 years
+after its inception are multiple and difficult to isolate. However,
+the following factors are key contributors:
+
+- Availability of free options.
+
+  The quality of the Linux kernel (and GNU userland) and it's broad
+  support for different platforms and hardware configurations makes it
+  the obvious technological choice for *most* computing
+  applications. [#non-unix]_ The fact that the operating system is
+  free of cost and also freely-modifiable adds tremendous value.
+
+- Popularity with developers.
+
+  The original developers of UNIX were engineers themselves and in
+  many ways they built Unix for their own use. Because Unix exposes a
+  lot of power to users, developers often gravitate towards the
+  platform. When developers have a preference for a specific system,
+  this means that they develop more software (and more innovative
+  software) for those systems, which is somewhat cyclic. 
+  
+- Transparent networking.
+
+  It's probably more fair to say that contemporary networking
+  (i.e. TCP/IP and all of the protocols that we're familiar with) is
+  itself Unix-like rather than that the networking support on
+  Unix-like systems is very powerful and flexible. The people who
+  designed and developed the networking protocols that we use today
+  had Unix experience and likely used Unix systems. While all
+  systems have networking support, the networking system is
+  particularly flexible and easy to use, which has encourage 
+  adoption of Unix for infrastructural workloads. 
+
+- Robustness.
+
+  It just works, and it continues to work. Unix systems have pretty
+  robust process separation, which keeps most userland software
+  isolated from each other and prevents the kinds of interactions that
+  are most likely to cause crashes. The result is that these systems
+  can easily run for months or years without the need for restart and
+  requiring only minimal maintenance.
+  
+While these features aren't necessarily *unique* to Unix, and are
+largely artifacts of the history of the platform, these artifacts
+nonetheless have had a great impact on the adoption and continued
+prevalence of the platform. 
+
+Given the current diversity, of Unix-like systems, the following list
+provides a summary of several specific technological features and
+abstractions that define the Unix paradigm:
+
+- Central file and file system metaphor.
+
+  The file system is at the center of all Unix systems, and files
+  provide an abstraction metaphor for other kinds of objects,
+  including inter-process communication, kernel-services, network
+  connections, and hardware devices. By using a single (largely
+  effective) metaphor for so many different concepts and aspects of
+  the system, Unix is able to provide a great deal of functionality in
+  a comparatively small set of tools. Because the metaphor and the
+  tools are so pervasive (and simple!) it's easy for users, developers
+  and administrators to learn how to accomplish new tasks more
+  quickly.
+
+  File systems are not without their downsides and limitations,
+  particularly for high performance data systems, and some more
+  complex access control. And, the metaphor isn't totally pervasive
+  (e.g. network devices in Linux don't have device nodes, many
+  processes have only minimal file system interfaces and
+  interactions.)
+
+  Finally, Unix systems have a single "file system tree," and tools
+  like "``mount``" it possible to it possible to integrate and link
+  data sources from different devices in a purely logical
+  organization. Furthermore, systems like "`FUSE`_" make it possible
+  (and even simple,) to view and interact with non-filesystem objects
+  using file system tools.
+
+- The ":term:`pipe`," and simple text-based inter-process
+  communication.
+
+  In Unix processes have a standard input, and standard output that
+  users and scripts use for basic interaction. Because all output and
+  input is in the same format--plain text--it's possible to direct the
+  output of one process into the input of another, or write the output
+  of a process to a file. Because all processes are equal in this
+  regard, automating common operations, or writing novel functions
+  based on existing tools is trivial and common. These very simple
+  features, gives rise to a number of aspects of the ":ref:`Unix
+  Philosophy <unix-philosophy>`" and in shapes the design and
+  operation of a great deal of Unix software.
+
+- A preference for client server architecture. 
+
+  Many pieces of Unix software, including systems that do not
+  initially appear to use client-server architectures, use this basic
+  design pattern to separate interfaces from internal implementation
+  at all level. Additionally, client-server systems create some
+  measure of parallelism and asynchronicity, which can lead to even
+  greater performance especially on contemporary hardware. 
+
+  While many Unix kernels do use a monolithic architecture internally
+  for reasons related to reliability and performance, a push to move
+  functionality out of the kernel and into user space, is a persistent
+  theme in systems development.
+  
+- A willingness to compromise in cases of pragmatism. 
+
+  Users and developers of Unix sysetms have (for the most part) always
+  been willing to compromise on any of the above questions as needed
+  indicated by pragmatic concerns. Files and file systems provide an
+  abstraction in a number of situations, but there are cases when it
+  doesn't make sense to represent an interface using files, in which
+  case the system won't. Similarly, while client server architectures
+  and highly militarized packages prevail in many situations, there
+  are a plenty of monolithic processes and designs make *more*
+  sense, and all solutions have their place within the larger
+  ecosystem of the platform.
+  
+.. [#computing-economies] I.e. the way to make money with computers
+   was, and arguably still is, to use them to "do things" and optimize
+   existing processes, rather than to sell resources or licenses to
+   use software.
+
+.. [#non-unix] While there are other, very high quality, operating
+   systems and kernels, all of the other general purpose systems in
+   common use (i.e. BSDs, Darwin, Windows, and the UNIX System V based
+   systems like AIX, HP-UX, and Solaris) exist for business reasons
+   (i.e. Licensing) or because they predate Linux. All though many of
+   these operating systems are not free or open source, the majority
+   of the remaining general purpose systems, most are Unix derived.
+
+.. _FUSE: http://fuse.sourceforge.net/
+
+.. _unix-philosophy:
+
+Unix Philosophy
+---------------
+
+The design of Unix, and the history of its use, have lead to a
+collection of principals and approaches to writing software and
+administering technology that is in aggregate refereed to as a "the
+Unix Philosophy." 
+
+Theory
+~~~~~~
+
+- **Do one thing well:**
+
+  The ideal piece of Unix software is a simple tool, with a simple
+  interface that does *one thing* such as write data to a file from a
+  network source, download email, rename a file, filter the contents
+  of a file system tree, search for a pattern of text in an input
+  stream or file, or transform the contents of a file. The use of
+  standardized input and output formats and paradigms, the focus on
+  the file system, and a universal inter-process scripting system
+  (i.e. :term:`pipes <pipe>` and the shell.) support a largely harmonious
+  ecosystem of such processes and tools.
+
+- **Worse is better:**
+
+  Richard Gabriel coined this idea, to represent the idea that simple
+  implementations and interfaces were preferable to more complex
+  implementations and interface even if the solutions with greater
+  complexity had more "correctness" or greater
+  functionality. Simplicity, makes systems and code easier to use,
+  extend, modify, and maintain. Simple systems, while typically a bit
+  more difficult to design are also easier to implement.
+
+And Its Discontents
+~~~~~~~~~~~~~~~~~~~
+
+There are critics of this approach to systems and technology, both
+in and outside of the Unix world. The truth is that there is a great
+deal of Unix software that doesn't ad hear to any kind of "Unix design
+goal," and if you look hard enough you can find many examples of
+software that sacrifices simplicity for additional functionality or
+correctness, or software that does *many* things rather than focusing
+on one task, or systems that pragmatically avoid the filesystem. 
+
+Database management systems are a great example of software that
+attempts to do many things at the expense of simplicity while also
+avoiding the filesystem and plain text files for performance and
+expediency reasons. Databases use binary on-disk representations, and
+are often used for data storage, data aggregation, application
+persistence, storing configuration data, and as caching systems. 
+
+There are many other examples of software that breaks Unix with
+convention: Emacs is a great example of a piece of software for one
+purpose (editing text) that provides everything from scripting
+features to web browsing and email services. ``fetchmail`` too
+provides email filtering and sorting functionality in addition to
+basic mail retrieval. 
+
+Beyond the fact that Unix systems and software probably do a pretty
+poor job of adhering to the Unix philosophy, it's also true that while
+simple tools are individually easier to understand and use than
+complex tools, large ecosystems of simple tools are themselves complex
+in the aggregate, have large dependency problems, and can suffer from
+hard to isolate performance issues, failures, and a greater overall
+complexity.
+
+Practical Contemporary Unix Philosophy
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+In effect, as interpreted by contemporary systems, the "Unix
+Philosophy," insofar as it exists boils down to the following ideas:
+
+- a preference for open systems. 
+
+- a general tendency towards minimalism and a corresponding preference
+  in simplicity.
+
+- systems that support multi-user, multi-system, and general purpose
+  computing.
+
+The State of Contemporary Unix
+------------------------------
+
+Unix, and its use, have continued to change and develop in response to
+contemporary systems, hardware, and requirements. Additionally, while
+Linux and GNU tools predominant the Unix-like space, a great deal of
+diversity remains between operating systems and "distributions." This
+section provides a number of heuristics for evaluating the differences
+between these systems.
+
+Package Management
+~~~~~~~~~~~~~~~~~~
+
+An operating system's approach to and use of package management
+software can largely account for the differences between
+systems. Package mangement systems are the tools that allow systems to
+install, track, update, build software that works with other
+systems. There are two basic approaches: 
+ 
+#. The base system approach. 
+
+   Some systems have a "base" system that *is not* managed by the
+   package management system which includes certain core utilities,
+   required libraries, the operating system kernel, and the package
+   management tools themselves. Then all other software on the system
+      
+   This approach is typically used by (some) commercial Unix
+   distributions and BSD-derived Unix systems. Typically these systems
+   maintain their own unique operating system kernels, and by maintain
+   a "core" set of utilities its possible for users to make
+   assumptions about what dependencies will be available on a system
+   of a given type and version. At the same time these systems tend to
+   be harder to upgrade.
+
+#. The "package everything" approach. 
+
+   Other systems manage everything on a system as a package in the
+   package management system, from the package management tool itself
+   to the kernel, to all of the userland utilities.
+   
+   Many Linux systems take this approach (e.g. Arch Linux,
+   Debian/Ubuntu, Fedora/Red Hat, Slackware, SuSE, etc.) and it makes
+   upgrading libraries and other large system updates with more
+   complex dependency requirements, easier and more reliable. At the
+   same time there are sometimes difficult bootstraping problems
+   related to initial installation, and there are some complex
+   dependency handling issues that have added a lot of complexity in
+   the past, but modern systems are quite usable in this regard.
+
+
+It's possible to build and even maintain Unix systems without package
+management systems, although this is only really prevalent in embeded,
+and even if you use an operating system that provides package
+management tools, you need not use them. 
+
+But you should.
+
+Without package management, you very little record of what process,
+package, or system depends on any given version of a file on your
+system. Removing software becomes virtually impossible, because you
+cannot be sure that removing a program or file won't break another
+component. Similarly, upgrading because a "dirty process:" not only do
+you have to resolve dependency issues manually, old files may linger
+on the system that you cannot remove forever.
+
+Most of the time when people talk about package management systems and
+"using packages," they are referring to the packages provided by the
+distribution or operating system developers. The maintainers of these
+packages do a great deal of integration and testing work that makes
+software installed from these packages, more reliable and easier to
+work with in context of your entire system. 
+
+.. note:: 
+
+   Packages provided by distribution maintainers and vendors typically
+   lag behind the latest available release of software by some period
+   of time. Not only do distributions and operating systems have
+   stable release cycles and often attempt to maintain stable package
+   selections during this time, but testing, integration, and
+   packaging consumes some amount of time. 
+   
+   The amount of lag varies by distribution and depends on the
+   policies and goals of the distributor. If you need more up-to-date
+   packages, you can create them yourself or attempt to find software
+   from a "backports" repository such as Debian backports, or
+   Fedora/Red Hat's "EPEL," or "Extra Packages for Enterprise Linux."
+
+However, all package management systems make it possible, if not
+actually easy, to create and manage your own custom packages using the
+system package management tools. Do this. Particularly if you need to
+install the same software on multiple systems, with any sort of
+dependency tracking *or* if you expect to track or upgrade the
+software at any point. Which should account for all non-experimental
+use. 
+
+The developer communities for the Perl, Python, Ruby, R, and TeX
+programming languages also provide a packaging-like interfaces for
+downloading and installing software in the form of CPAN, PyPI
+(i.e. "The Cheese Shop,") RubyGems, CRAN, and CTAN
+respectively. Typically these repositories have no additional quality
+control or integration work and "upstream" developers are responsible
+for uploading packages. While they do add management ease, in most
+cases, it *still* makes sense to use operating system's package
+management tools to install this kind of software. There are
+exceptions, like Python's `Virtualenv`_ system, or `Quicklisp`_ which
+provide per-project sand-boxing and non-system-level package
+installation. [#system-level-packages]_ Use at your own risk. 
+
+.. _Virtualenv: http://pypi.python.org/pypi/virtualenv
+
+.. _Quicklisp: http://www.quicklisp.org/
+
+.. [#system-level-packages] The major problem this class of packages
+   is that they typically work best when you install packages into
+   your system's environment (which requires root privileges, and
+   installs software in places you can't easily track.) Because
+   package removal is difficult, the result is environments that are
+   hard to track, and an increased risk of stale packages and security
+   holes in your application layer. 
+
+The Unix Ecosystem and Free Software
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The defining characteristics of contemporary Unix likely centers on
+the prevalence of Linux and Unix in web applications and "cloud
+computing," and in the (related) interest and attention to the
+programming languages and environments that have emerged from the
+community of Unix users: Python, Perl, Ruby, and to a lesser extent,
+Java. [#java-platform]_ This ecosystem exists, in part, because of the
+emergence of the free software Unix "stack," which includes GNU and
+Linux, as well as related software projects like the Apache ``httpd``
+that drove early adoption.
+
+While proprietary Unix systems like AIX, HP-UX, and to varying degrees
+Solaris have not gone away, they are very niche, and most
+administrators will encounter them sporadically. From most users'
+perspective, all Unix systems are generally similar. While the low
+level operations of Unix systems are important and interesting, in
+truth most of "administering" or even developing for Unix-like system
+is less about the lower level features, and more about being familiar
+with the ecosystem.
+
+.. [#java-platform] While Java's original design was to be
+   cross-platform (and it is,) in truth it's pretty safe to say that
+   most Java code runs on Unix and Linux systems. While there are
+   applications for Java outside of the Unix ecosystem, it's success
+   is largely due to how well Java runs on Linux and Unix.
+
+Unix Administration
+-------------------
+
+If you're new to Unix systems administration, ":doc:`index`" as a
+whole is a good place to start, but the following section provides a
+few Unix-specific fundamentals.
+
+.. seealso:: :doc:`fundamentals`.
+
+Exercise Discretion
+~~~~~~~~~~~~~~~~~~~
+
+Unix-like systems are powerful. Extremely powerful. Their flexibility
+can be enticing, but don't jump at every new temptation, or tool that
+you learn. In many cases, more rudimentary solutions, built with
+familiar tools, are preferable to using a new package, or stretching
+the functionality of a tool for a solution beyond the realm of what's
+reasonable *just because its possible*.
+
+Furthermore, while simplicity and minimalism form the core the "Unix
+philosophy," as you're beginning you may feel like you should *always*
+avoid complex solutions and *always* prefer simple solutions. Question
+this: there are complex problems in systems administration and
+sometimes the only solutions are complex. While the tenets and history
+of Unix can be very helpful tools in addressing and approaching
+problems on Unix systems, being dogmatic about your approach will
+rarely lead you to ideal solutions. 
+
+The best administrators can, eventually, determine the difference
+between these classes of problems, but this instinct can take years to
+develop properly. In the mean time: question requirements, thoroughly
+investigate all proposed solutions, test your own ideas, and be open
+to learning from colleagues and the literature.
+
+Compatibility Leads to Madness
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Since most Unix-like systems are generally similar, there are
+significant differences. Even among distributions of Linux-based
+operating systems, there is a great deal of diversity. While, it's not
+difficult to support your tools and scripts on many different
+platforms and versions, avoid this.
+
+Not only do extra compatibility requirements complicate development,
+but the resulting solutions are more difficult to maintain, and in
+most cases your actual production environments are more
+consistent. This isn't to say that you should avoid interoperability,
+and there are basic practices that you can use to ensure
+inter-operation. but limiting the diversity of your environment is a
+good way to practically reduce workload.
+
+In general, using standard tools (i.e. ``bash`` or pure ``sh`` over
+``zsh``) that you know will be available is a good first
+step. Additionally, being generally familiar with different kinds of
+systems and their uniqunesses is helpful when developing solutions and
+software that don't fall into non-interoperable traps.

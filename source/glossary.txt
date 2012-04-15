@@ -225,6 +225,14 @@ Terms
       "signposting," well placed signposts, in general, help to make
       documentation more :term:`grokable <grok>` and useful.
 
+   pipe
+      An inter-process communication metaphor that allows processes on
+      Unix-like systems to communicate by sending the output of the
+      first program, in standard plain-text format, to the input of
+      the second program.
+
+TODO document pipe
+
 Full Index
 ----------
 
