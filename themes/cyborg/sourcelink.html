@@ -8,14 +8,13 @@
     :license: BSD, see LICENSE for details.
 #}
 {%- if show_source and has_source and sourcename %}
-  <h3>{{ _('This Page') }}</h3>
+  <h3>{{ _('Page Meta') }}</h3>
   <ul class="this-page-menu">
     <li><a href="{{ pathto('_sources/' + sourcename, true)|e }}"
            rel="nofollow">{{ _('Show Source') }}</a></li>
-    <li><a href="http://git.cyborginstitute.net/?p=cyborg-admin.git">git repository</a></li>
-    <li><a href="http://github.com/cyborg-institute/administration-book">git repository</a> (github)</li>
-    <li><a href="http://github.com/cyborg-institute/administration-book/issues">open issues</a> (github)</li>
-    <li><a href="http://github.com/cyborg-institute/administration-book/issues/new">create issue</a> (github)</li>
+    <li><a href="http://git.cyborginstitute.net/?p={{ theme_project }}.git">git repository</a></li>
+    <li><a href="http://github.com/cyborginstitute/{{ theme_project }}">git repository</a> (github)</li>
+    <li><a href="http://lists.cyborginstitute.net/institute">institute listserv</a></li>
   </ul>
 {%- endif %}
 

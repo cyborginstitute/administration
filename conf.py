@@ -11,6 +11,8 @@
 # serve to show the default.
 
 import sys, os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), ".ext")))
+from docs_meta import VersionMeta
 
 # -- General configuration -----------------------------------------------------
 
@@ -19,8 +21,10 @@ templates_path = ['templates']
 source_suffix = '.txt'
 master_doc = 'contents'
 
+git_name = 'cyborg-admin'
+
 project = u'Systems Administration for Cyborgs'
-copyright = u'2012, Sam Kleinman'
+copyright = u'2012, Sam Kleinman and Contributors'
 
 version = ''
 release = ''
@@ -32,7 +36,10 @@ intersphinx_mapping = {'http://docs.python.org/': None}
 
 # -- Options for HTML output ---------------------------------------------------
 
-html_theme = 'jinja'
+current_git_commit = VersionMeta.commit
+rst_epilog = ".. |commit| replace:: ``" + current_git_commit + "``"
+
+html_theme = 'cyborg'
 html_use_smartypants = True
 html_theme_path = ['themes']
 html_static_path = ['./source/.static']
@@ -43,8 +50,10 @@ html_show_sphinx = True
 html_title = "Systems Administration for Cyborgs"
 html_short_title = html_title
 
-#html_logo = None
-#html_favicon = None
+html_theme_options = { 'project': git_name }
+
+html_logo = None
+html_favicon = None
 
 # If not '', a 'Last updated on:' timestamp is inserted at every page bottom,
 # using the given strftime format.
