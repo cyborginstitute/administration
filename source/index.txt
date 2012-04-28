@@ -30,23 +30,44 @@ repository is available at `git.cyborginstitute.net
 
    maintenance
 
-
 Table of Contents
 -----------------
 
+Rudiments and Background
+~~~~~~~~~~~~~~~~~~~~~~~~
+
 .. toctree::
-   :maxdepth: 4
+   :maxdepth: 2
 
    fundamentals
    unix-fundamentals
+   documentation
 
-   backup-strategies
-   production-deployment-cycles
+Scaling and Availability
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. toctree::
+   :maxdepth: 2
+
+   web-services-architecture
    database-scaling
    high-availability
-   web-services-architecture
-   monitoring-tactics
+
+Current Trends and Issues
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. toctree::
+   :maxdepth: 2
+
    cloud-computing
-   documentation
+   backup-strategies
+   monitoring-tactics
+   production-deployment-cycles
+
+Reference
+~~~~~~~~~
+
+.. toctree::
+   :maxdepth: 2
 
    glossary

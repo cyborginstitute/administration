@@ -6,17 +6,18 @@ Systems Administration for Cyborgs
    :maxdepth: 2
 
    maintenance
+
    fundamentals
    unix-fundamentals
+   documentation
 
-   cloud-computing
-
-   backup-strategies
-   production-deployment-cycles
+   web-services-architecture
    database-scaling
    high-availability
-   web-services-architecture
+
+   cloud-computing
    monitoring-tactics
-   documentation
+   backup-strategies
+   production-deployment-cycles
 
    glossary
