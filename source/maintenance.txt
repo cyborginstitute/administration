@@ -2,6 +2,8 @@
 Maintenance of *Systems Administration for Cyborgs*
 ===================================================
 
+EDIT file
+
 Contribution
 ------------
 
@@ -16,7 +18,7 @@ conventions and approaches to new and old problems.
 In an effort to keep :doc:`index` up to date and relevant to the
 problems of the day, the author and contributors will continue to
 update the text to reflect changes in practice and to remove
-inaccuracies and errors as possible. 
+inaccuracies and errors as possible.
 
 Feel free to send pull requests or patches either on `github`_ or to
 the Cyborg Institute `listserv`_. If needed, you can git hosting is
@@ -33,9 +35,9 @@ Resources
 ---------
 
 If you're interested in contributing to this project, you may find the
-following information useful: 
+following information useful:
 
-The `Cyborg Institute`_ Site. 
+The `Cyborg Institute`_ Site.
    For more information about the other projects, activities, and
    resources.
 
@@ -48,7 +50,7 @@ The `Cyborg Institute Git Repositories`_
    major releases and important news, as well as discussion of Cyborg
    Institute projects.
 
-The `Cyborg Institute Git Hub`_ 
+The `Cyborg Institute Git Hub`_
    Git Hub mirrors are available for all or most Cyborg Institute
    projects for use by contributors who are also Git Hub users.
 
@@ -67,17 +69,20 @@ The `Cyborg Institute Git Hub`_
 Release Information
 -------------------
 
-TODO add in information about the git commit and the date.
+This version of ":doc:`index`" was built from |commit|. See the git
+repository for more detailed information regarding this revision and
+the change history. The git repository contains a ``makefile`` which
+encapsulates the build process.
 
 Maintainers and Contributors
 ----------------------------
 
-.. note:: 
+.. note::
 
    If you work to maintain :doc:`index`, feel free to add your name to
    the following list.
 
 Sam Kleinman
    Initial author, current maintainer. (`website <tychoish>`_)
-   
+
 .. _tychoish: http://tychoish.com/

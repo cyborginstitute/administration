@@ -2,6 +2,8 @@
 High(er) Availability Is a Hoax
 ===============================
 
+EDIT file
+
 High availability, or "higher availability," is the practice of
 developing infrastructure invulnerable all kinds of service
 interruptions.
@@ -403,14 +405,13 @@ Automation
 ~~~~~~~~~~
 
 This :doc:`text <index>` and the entire the "transformation" of
-systems administration into ":doc:`dev/ops <dev-ops-communication>`"
-is based upon the idea that systems administration, operations,
-deployment, and infrastructure maintenance, should be "automatable"
-and "programmatically managed." While the implications and totalizing
-aspects of this shift will probably take several years to stabilize,
-high availability has long been a problem domain where success is
-often a function of the level of system automated and the programmatic
-administration.
+systems administration into "dev/ops`" is based upon the idea that
+systems administration, operations, deployment, and infrastructure
+maintenance, should be "automatable" and "programmatically managed."
+While the implications and totalizing aspects of this shift will
+probably take several years to stabilize, high availability has long
+been a problem domain where success is often a function of the level
+of system automated and the programmatic administration.
 
 Because human intervention takes time, produces inconsistent results,
 and can lead to greater periods of unavailability, so automation is
@@ -448,5 +449,4 @@ activities without interrupting the availability of the service:
 
 In truth, automation both in the context of high availability and
 beyond in other problem domains is a smaller part of a the kind of
-systematic interaction with infrastructure that typifies
-":doc:`dev/ops <dev-ops-communication>`."
+systematic interaction with infrastructure that typifies "dev/ops."

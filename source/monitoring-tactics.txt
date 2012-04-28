@@ -2,6 +2,8 @@
 Infrastructure Monitoring for Everyone
 ======================================
 
+EDIT file
+
 Monitoring refers to the practice of collecting regular data regarding
 your infrastructure in order to provide alerts both of unplanned
 downtime, network intrusion, and resource saturation as well as
@@ -487,8 +489,7 @@ provide some very useful data analysis, for example, you may:
   or experiences poor performance and be able to pass this information
   back on to the engineering teams. By integrating more closely
   engineering with teams, you can probably collect even more useful
-  data. (See ":doc:`dev-ops-communication`" for more on these
-  purposes.)
+  data.
 
 - identify trends in network usage and independently verify your
   providers' services, particularly in a comparative context. This

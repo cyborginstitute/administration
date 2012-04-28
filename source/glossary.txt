@@ -2,6 +2,8 @@
 A Glossary for Cyborg Systems Administrators
 ============================================
 
+EDIT file
+
 Terms
 -----
 
@@ -230,8 +232,6 @@ Terms
       Unix-like systems to communicate by sending the output of the
       first program, in standard plain-text format, to the input of
       the second program.
-
-TODO document pipe
 
 Full Index
 ----------

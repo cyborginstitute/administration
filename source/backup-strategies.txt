@@ -2,6 +2,8 @@
 Backup Strategies for Cautious Cyborgs
 ======================================
 
+EDIT file
+
 This document provides an overview of backup strategies, methods of
 backup organization, and practices to that ensure your data and
 configuration is safe in case of a significant data loss event. This
@@ -204,17 +206,20 @@ tools, you ought to be:
      they're not usable as such: copy data off of snapshots onto
      distinct systems
 
-- **rdiff-backup** (`link <http://www.nongnu.org/rdiff-backup/>`_) is
+- **rdiff-backup** (`link <rdiff-backup>`) is
   basically rsync on steroids, and makes it possible to effectively
   capture incremental backups of data simply. It's particularly
   effective for the binary data (like images) that cannot be not
   effectively backed up using source control systems.
 
-- **Obnam** (`link <http://braawi.org/obnam/>`_) is an integrated
+- **Obnam** (`link <obnam>`) is an integrated
   backup solution that provides deduplication, encryption, file-level
   snapshotting, and a number of operational possibilities. If you have
   a good idea of your backup needs, and no particular interest in
   developing a system yourself, look at Obnam.
+
+.. _`obnam`: http://braawi.org/obnam/
+.. _`rdiff-backup`: http://www.nongnu.org/rdiff-backup/
 
 There are a lot of integrated backup solutions, which use many of the
 principals as various combination of the tools covered in this
