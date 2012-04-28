@@ -105,16 +105,12 @@ div.sphinxsidebar h3,
 div.sphinxsidebar h4 {
     font-family: {{ font_family }};
     color: #444;
+    font-size: 19px;
     font-weight: normal;
     margin: 0px;
 }
 
-div.sphinxsidebar h4 { 
-    font-size: 16px;
-}
-div.sphinxsidebar h3 { 
-    font-size: 19px;
-}
+div.sphinxsidebar h4 { font-size; 1.25em; }
 
 div.sphinxsidebar h3 a {
     color: #444;
@@ -168,14 +164,14 @@ div.body h5,
 div.body h6 {
     font-family: {{ header_font_family }};
     font-weight: normal;
-    margin: 10px 0px 5px 0px;
+    /* margin: 10px 0px 10px 0px; */
     margin: 0;
     line-height: .9em;
     /* padding: 0 0 0 5px; */
     color: black;
 }
 
-div.body h1 { font-size: 3em; text-align: center; margin: 4px 0px 8px 0px;  }
+div.body h1 { font-size: 3em; text-align: center;}
 div.body h2 { font-size: 2.5em; }
 div.body h3 { font-size: 2em; }
 div.body h4 { font-size: 1.5em; }
