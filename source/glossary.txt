@@ -2,8 +2,6 @@
 A Glossary for Cyborg Systems Administrators
 ============================================
 
-EDIT file
-
 Terms
 -----
 
@@ -13,9 +11,9 @@ Terms
    rsync
       ``rsync`` is a UNIX application that provides a very efficient
       method for copying files between hosts. It saves transit by
-      identifying and only copying that data which is different and
-      has been updated. ``rsync`` serves as a replacement for
-      utilities like: ``ftp``, ``scp``, and ``rcp``.
+      identifying and only copying data that has changed on the source
+      host. ``rsync`` is a replacement for utilities including:
+      ``ftp``, ``scp``, and ``rcp``.
 
    LVM
       The logical volume manager is a Linux subsystem that abstracts
@@ -34,17 +32,18 @@ Terms
       specialized.
 
    REST
-      "Representational state transfer," a distribute application
-      design paradigm upon which the HTTP protocol was written. More
-      recently it has been espoused as the paradigm for designing
-      application programming interfaces (APIs) for web services and
-      it is typically posited in contrast to SOAP and XML-RPC.
+      "Representational state transfer," a distributed application
+      design paradigm that inspired the HTTP protocol. More
+      recently application developers use "REST" and the ideas of
+      "RESTfulness" to describe application programming interfaces
+      (APIs) for web services. REST typically contrasts with stateful
+      protocols like SOAP and XML-RPC
 
    key/value
-      A way of representing data structures where each datum is
-      represented by a pair of two values: a "key" or indexed descriptor,
-      and a "value," or data. Using key-value pairs its possible to
-      store and represent much more complex data structures.
+      A way of representing data structures where each object consists
+      of two parts: a "key" or indexed descriptor, and a "value," or
+      datum. Using key-value pairs its possible to store and represent
+      much more complex data structures.
 
    metadata
       Secondary information concerning a primary information
@@ -52,33 +51,32 @@ Terms
       publisher, and author are all potential "metadata" points for
       a book object.
 
-   logrotation
+   log rotation
       The process of truncating, moving, compressing, and eventually
       deleting application and daemon log files to prevent the logs
       from growing out of proportion. The application "logrotate" is
-      used by most UNIX-like distributions to implement logrotation.
+      used by most UNIX-like distributions to implement log rotation.
 
    copy-on-write
       A pattern used to take snapshots and ensure atomic file system
       operation. Simply, rather than "copy" an object by duplicating
-      it's representation, references to the original object are
-      created, and bits are copied to the "copied object" only as the
-      corresponding bits in the original object are written.
+      its representation, copy-on-write systems create references to
+      the original object's constituents, and then the system copies
+      data only as the oringal object's 'constituents change.
 
    virtual hosting
       A method of including a host name in the request to allow a
       single process to provide multiple services. This is typically
       used in the context of :doc:`HTTP services
-      <web-services-architecture>` to provide :term:`multi-tenancy`, but can
-      be applied in a number of contexts.
+      <web-services-architecture>` to provide :term:`multi-tenancy`,
+      but appears in other contexts as well.
 
    multi-tenancy
       The practice of using a single system to provide multiple
       services. While this can lead to more efficient use of resources
-      in some situations and by some providers, and is therefore
-      desirable, mult-tenancy can make it hard to correlate observed
-      performance, server configuration changes, and actual
-      performance issues.
+      in some situations and by some providers. Multi-tenancy can make
+      it hard to correlate observed performance, server configuration
+      changes, and can cause actual performance issues.
 
    inetd
       A core UNIX process that listens to network interfaces and
@@ -104,7 +102,8 @@ Terms
       See ":term:`replication`."
 
    syslog
-      A multi-system "system logging" system.
+      A standardized multi-system "system logging" system for core
+      system events and service logging.
 
    proxy
       Servers or services which do not originate content but assemble
@@ -142,11 +141,14 @@ Terms
       level-1 and master-slave database architectures.
 
    partitioning
-      A distributed architecture where a single copy of a single
-      logical resource are split up among a collection of nodes that
-      each provide a non-identical portion of the resource. In
+      A distributed architecture that divides  a single copy of a single
+      logical resource among a collection of nodes so that each member
+      of the "cluster" provides a non-identical portion of the resource. In
       databases this is often called "sharding," but a similar effects
-      are possible for other types of services.
+      are possible for other types of services. While there is often
+      some conceptual overhead for these kinds of clusters, they often
+      allow administrators and users to greatly increase overall
+      system capacity.
 
    NAT
       Network address translation. The network routing approach that
@@ -154,12 +156,12 @@ Terms
       publicly routable address.
 
    IPv4 address space depletion
-      The process where the 32-bit space for the global IPv4 network
-      (i.e. the "Internet") runs out of usable addresses for
+      The process where the 32-bit address space for the global IPv4
+      network (i.e. the "Internet") runs out of usable addresses for
       hosts. The problem is a result of many factors: a much larger
       number of hosts on the internet than expected, poor early
       address allocation methods, and routing requirements that
-      consume, on average, 2-4 unusable addresses for every block of
+      consume, on average, 2-4 addresses for every block of
       256 addresses.
 
    resource
@@ -174,10 +176,10 @@ Terms
       introduce conflicting changes. By operating regularly and
       "continuously," these build systems are able to prevent
       difficult release processes. "CI" tools include "buildbot,"
-      "Jenkins," and "Hudson."
+      "Jenkins," "Hudson," and "Travis-CI."
 
    ACL
-      Access control lists are a mechanism for describing permissions
+      Access control lists. A mechanism for describing permissions
       in a complex system. While the implementations vary, ACL systems
       generally consist of: a list of available permissions, a list of
       users with specific permissions, and "groups" of users (and
@@ -211,7 +213,7 @@ Terms
       resource usage, and charges users only for what they use.
 
    SSL SNI
-      "Secure Socket Layer, Server Name Indicator." The specification
+      Secure Socket Layer, Server Name Indicator. The specification
       which will allow HTTPS clients to specify the hostname
       (i.e. "server name") during the SSL negotiation process so that
       servers will be able to provide multiple HTTPS sites on a single
