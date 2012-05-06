@@ -2,29 +2,18 @@
 Backup Strategies for Cautious Cyborgs
 ======================================
 
-EDIT file
-
 This document provides an overview of backup strategies, methods of
 backup organization, and practices to that ensure your data and
-configuration is safe in case of a significant data loss event. This
-document is focused on Unix-like (e.g. Linux) systems and server
-environments, but the higher level strategies are applicable for users
-a diverse array of systems and deployments.
+configuration is safe in case of a significant data loss event. While
+the examples that follow center on Unix-like (e.g. Linux) systems and
+server environments, but the higher level strategies are more broadly
+applicable.
 
 Background
 ----------
 
-About Me
-~~~~~~~~
-
-I'm a technical writer and occasional systems administrator. I have a
-load of Linux experience from the perspective of a systems
-administrator, and as a routine day-to-day user of Linux. I'm also
-neurotic as hell about backups, and very interested in file
-organization, and data reliability.
-
-Conceptual Background
-~~~~~~~~~~~~~~~~~~~~~
+Key Concepts
+~~~~~~~~~~~~
 
 Backups are important for maintaining continuity and guarding against
 certain classes of hardware failures, service disruption, and user
@@ -43,33 +32,28 @@ Backup Systen Requirements
 In order to have value, there are certain necessary proprieties that
 backup systems must possess. They are:
 
-- tested. Regardless of what kind of backup strategies you deploy, if
-  you do not *regularly* test your backups to ensure that the data is
-  actually being archived and it's possible to restore data from your
-  backups, your backups are effectively worthless. There are lots of
-  ways to test your backups--and to be honest, a lot of backup schemes
-  are not properly tested--but there's nothing worse than putting
-  energy into backups that is all for naught when you have to rebuild
-  systems and reconstruct data because the backups weren't
-  restoreable, or hadn't been saved in 20 minutes because your backup
-  system ran out of free space.
+- tested. Regardless of your backup strategy, if you do not
+  *regularly* test your backups to ensure that backups work *and* that
+  you can restore data from the backups. Otherwise your backups are as
+  good as worthless. There are many ways to test your backups, but you
+  **must** test your backups by attempting to restore from them.
 
 - automated. Backups that you have to think about are backups that you
-  forget to do, backups that don't get done when you're on vacation,
-  or backups that are inconsistent because you enter the command in
-  differently every week. Automating backups means they happen
-  regularly and that they're consistent. It's important to check
-  automated backups to ensure that they're restoreable, but there's no
-  reason why you need to run them yourself.
+  will forget to do, backups that won't get done when you're on
+  vacation, or backups that are inconsistent because you enter the
+  command in differently every week. Automating backups means they
+  happen regularly and that they're consistent. It's important to
+  check automated backups to ensure that they're restoreable, but
+  there's no reason why you need to run them yourself.
 
 - efficient. Backups are incredibly crucial and almost nobody, not
-  even the best cyborgs, do properly. You should design your backup
-  system to backup only want you need and what is essential to restore
-  your functionality. You should find away to store backups in such a
-  way as to minimize the time that they spend in transit without
-  sacrificing geographic distribution. Additionally, push yourself to
-  dedicate as few resource to the backups as possible without
-  scarifying functionality. There's a lot of draws in lots of
+  even the best administrators, backup properly. You should design
+  your backup system to backup only want you need and what is
+  essential to restore your systems. You should find ways to store
+  backups so that you can minimize the time that they spend in transit
+  without sacrificing geographic distribution. Additionally, push
+  yourself to dedicate as few resource to the backups as possible
+  without scarifying functionality. There's a lot of draws in lots of
   different ideas, but backups while important shouldn't get in the
   way of *actual work.*
 
@@ -78,23 +62,20 @@ backup systems must possess. They are:
   less security than your production systems. If you can restore
   systems using these backups, chances are other people can as well.
 
-- redundant. Make sure that you have a few different redundancy
-  plans. Assume that your most accessible. Ensure that you can still
-  restore using other means and ensure that you can still recover a
-  file if you need it from a backup. Test backups to make sure that
-  they're working. Make backups redundant to ensure that there are
-  multiple different protections between your systems ad data loss or
-  system failure.
+- redundant. Make sure that you have a redundant backup plans. If one
+  system fails and needs to restore from a backup, it's incredibly
+  likely that another system will fail, and storing data in multiple
+  locations, can help protect you in theses situations.
 
-- consistent. Consistent state is import for quality backups. Data
-  needs to be fully flushed to disk, and all parts of the file, group
-  of files, or file system need to be captured at the same
+- consistent. Consistent state is import for quality backups. Ensure
+  that all data is fully flushed to disk, and that you can capture all
+  parts of the file, group of files, or file system at the same
   moment. Because of the constraints of input/output systems and
   backup utilities, it's actually exceedingly difficult to capture a
-  backup of an active system at a single moment in time. In many
-  cases the amount of time that the back up operation takes to run
-  doesn't matter, but in some--like databases--it's nearly impossible
-  to create a good consistent backup without disrupting the system.
+  backup of an active system at a single moment in time. In many cases
+  the amount of time that the back up operation takes to run doesn't
+  matter, but in some--like databases--it's nearly impossible to
+  create a good consistent backup without disrupting the system.
 
 Hardware Concerns
 `````````````````
@@ -120,37 +101,34 @@ judged the chance of loss there to be pretty low, and even in the
 worst possible case, I can be up and running an hour after I notice
 the services are down. Not too bad.
 
+.. seealso:: :doc:`high-availability`.
+
 Underlying Backup Tools
 ```````````````````````
 
-Backup tools are almost universally well designed and reliable. I
-suspect this is because backups are one of the core systems
-administration problems and have been since the very beginning. So the
-tools have had a lot of time to mature and to gain a lot of
-functionality and flexibility. Backup tools are also remarkably stable
-and well tested, because reliability and stability are the basic
-fundamentals of backups. If you're not familiar with the following
-tools, you ought to be:
+Backup tools are often quite mature and reliable.  Backup tools are
+also remarkably stable and well tested, because reliability and
+stability are the basic fundamentals of backups. If you're not
+familiar with the following tools, you ought to be:
 
 - **tar** is one of the canonical UNIX utilities. It's is an archiving
   utility that takes a bunch of files and concatinates them in a
   specific way and stores them in a single file. GNU tar, is a
   particularly featureful implementation, and is often used in
   conjunction with a compression tool like **gzip** or **bzip** or
-  **xz** to create "tarballs" or compressed archives. For any sort of
-  file level backup or any kind of significant archiving these are key
-  important tools to be familar with.
+  **xz** to create "tarballs" or compressed archives. If you need to
+  do any kind of file level backup or archiving, you should definitely
+  be familiar with these tools.
 
-  Key is the fact that the compression tools and the archinving tools
-  are seperate. There are casese where files are already as compressed
-  as they're going to get, and there's nothing gzip can do to make the
-  file smaller so it's not worth the processor overhead to run
-  gzip. Sometimes log files will be gzipped durring :term:`logrotate
-  <logrotation>`. The independence of these two functions means that
-  you can use shell redirection and the pipe (i.e. "``|``") to control
-  and modify output in a granular way. This is particularly powerful
-  when combined with ``ssh`` to stream data to programs on foreign
-  systems.
+  The fact that the compression tools and the archinving tools are
+  separate is key. There are cases where files are already as
+  compressed as they're going to get, and there's nothing gzip can do
+  to make the file smaller so it's not worth the processor overhead to
+  use compression. Sometimes log files will be gzipped during :term:`log
+  rotation`. The independence of these two functions means that you
+  can use shell redirection and the pipe (i.e. "``|``") to control and
+  modify output in a granular way. This is particularly powerful when
+  combined with ``ssh`` to stream data to programs on foreign systems.
 
 - **rsync** is perhaps one of the most important things to emerge from
   the `samba project <http://samba.org>`_, and it's a staple of backup
@@ -164,14 +142,13 @@ tools, you ought to be:
 
      It should go without saying, but ``rsync`` is in-ideal for system
      backups, because after the initial copy it doesn't handle device
-     nodes and some binary files correctly.
+     nodes and some other file system objects correctly.
 
 - **git** isn't a backup tool--exactly. Git is a version control
   system with some features that make for a good defacto backup tool
   for some kinds of files. Git's storage engine is incredibly
   efficient and its easy to replicate git repositories on remote
-  systems. Resist the temptation to do "everything possible" with
-  git.
+  systems. Resist the temptation to do "everything possible" with git.
 
 - **RAID** and Storage Infrastructure. These aren't backup tool as
   much as they're mechanisms for redundancy. RAID adds redundancy to
@@ -204,34 +181,31 @@ tools, you ought to be:
 
      While snapshots are functioning file systems in their own right,
      they're not usable as such: copy data off of snapshots onto
-     distinct systems
+     distinct systems.
 
-- **rdiff-backup** (`link <rdiff-backup>`) is
-  basically rsync on steroids, and makes it possible to effectively
-  capture incremental backups of data simply. It's particularly
-  effective for the binary data (like images) that cannot be not
-  effectively backed up using source control systems.
+- **rdiff-backup** (`link <rdiff-backup>`) is basically rsync on
+  steroids, and makes it possible to effectively capture incremental
+  backups of data simply. It's particularly effective for the binary
+  data (like images) that cannot be not effectively backed up using
+  source control systems.
 
-- **Obnam** (`link <obnam>`) is an integrated
-  backup solution that provides deduplication, encryption, file-level
-  snapshotting, and a number of operational possibilities. If you have
-  a good idea of your backup needs, and no particular interest in
-  developing a system yourself, look at Obnam.
+- **Obnam** (`link <obnam>`) is an integrated backup solution that
+  provides deduplication, encryption, file-level snapshotting, and a
+  number of operational possibilities. If you have a good idea of your
+  backup needs, and no particular interest in developing a system
+  yourself, look at Obnam.
 
 .. _`obnam`: http://braawi.org/obnam/
 .. _`rdiff-backup`: http://www.nongnu.org/rdiff-backup/
 
-There are a lot of integrated backup solutions, which use many of the
-principals as various combination of the tools covered in this
-section: there's no reason to reinvent the wheel because you
-can. Tools are just means to implement solutions. I personally think
-that ``Obnam`` shares much of my own approach to these problems, but I
-encourage you to design your own backup system and then find the tool
-that best provides for these needs. Sometimes that's something like
-Obnam, other times it's a few simple ``cron`` jobs and ``tar``.
+There many possible backup tools and technologies, many of which
+depend on some combination of the above components. When designing
+your own backup system, determine your requirements and build a
+solution using a collection tools, which may include some of the above
+tools.
 
-Other Approaches to Redundancy
-``````````````````````````````
+Redundancy
+``````````
 
 In ":doc:`database-scaling`" various strategies for database-level
 redundancy. While it's always a good idea to keep backups of
@@ -248,27 +222,27 @@ rather than as two or three separate problems. By looking to address
 these problems together you will almost certainly save energy and
 probably some base cost as well.
 
-Technical Background
-~~~~~~~~~~~~~~~~~~~~
+Backup Types
+~~~~~~~~~~~~
 
-This section provides an overview of the different kinds of that you
-need to consider backing up coupled with some of the unique concerns
-about taking quality backups of these data.
+This section provides an overview of the different kinds of data and
+systems that backups should support as well as the unique concerns
+that affect each type of backup.
+about taking quality backups of these resoucres .
 
 Application Data
 ````````````````
 
 Application data, are specific data for a piece of software that is
 persistent across sessions and was not provided in the
-installation. These data are stored in a format that application
-expects to be in a specific format and is necessary for your instance
-of the application to function properly. Think about the content of a
+installation. Applications store data in specific formats, and expect
+data to be intact to function properly.  Think about the content of a
 database-backed CMS, or bugs/issues from a bug tracker, or an email
 client's email, or all of all of the data stored by your web browser.
 
 In most cases, when you use the application, you're not interacting
-with the data directly. Typically application data is stored in files
-and in databases, and should be backed up directly from that storage
+with the data directly. Applications store data in files and in
+databases, and you should take backups directly from that storage
 system. However, some tools provide import-and-export facilities that
 you might want to test. In any case, the method you use to backup your
 software is likely different for every application.
@@ -293,11 +267,11 @@ The key to successful file backups are in making sure that files exist
 in multiple locations (i.e. systems) and in making sure that you're
 not wasting space by backing up the same files again and again. The
 main complication is that file backups generally need to be
-more-or-less accessible in their backed up state. File-level restores
-use cases generally revolve around finding a few files or a missing
-lines in a file. Full system level restores don't capture this kind of
-granularity well, and as it turns if files are backed up incrementally
-and regularly, full-systems can be done less regularly.
+more-or-less accessible in their backed up state. The use cases for
+file level restores revolve around finding a few files or a few
+missing lines in a file. Full system level restores don't capture this
+kind of granularity well, and if you back up files incrementally and
+regularly, you can run full-systems can run less regularly.
 
 File level backups are mostly an organizational and workflow
 problem. Organize your files well, version things effectively and
@@ -308,7 +282,7 @@ depends on the files and the character of your work.
 For most of the files on servers and configuration files in general,
 just use git, or some other source control system. Git may make sense
 for your personal files, but if you have lot of files that git doesn't
-store efficiently, use `rsync`.
+store efficiently, use rsync.
 
 Configuration Data
 ``````````````````
@@ -316,14 +290,15 @@ Configuration Data
 Properly, configuration data is a subset of other types of data,
 usually applications and systems store their configuration data and
 settings in files, but there are cases where these values are stored
-in databases alongside of application data. Conceptually, however,
-configuration information is it's own thing. Every change to a
-configuration field or option should be audited and recorded. This is
-good security practice, and a lifesaver when a configuration change
-affects service and you have to roll back to a previous state. Having
-good configuration backups also makes it easy to deploy and redeploy
-new systems, based on existing configurations in less time with less
-effort and memory required.
+in databases alongside of application data.
+
+Conceptually, configuration data is it's own category. You, or your
+system, should audit and record every change to a configuration field
+or option. This is good security practice, and a lifesaver when a
+configuration change affects service and you have to roll back to a
+previous state. Having good configuration backups also makes it easy
+to deploy and redeploy new systems, based on existing configurations
+in less time with less effort and memory required.
 
 Like file data and application data, every application is a bit
 different, but consider the following recommendations:
@@ -331,32 +306,35 @@ different, but consider the following recommendations:
 - Assume that you'll be running every application on more than one
   system and that the environments won't be identical. Attempt to
   configure your systems so that "general" configuration and machine
-  specific configurations are stored and a backed up situations.
+  specific configurations, then store and backup those data
+  separately.
 
   Use file-includes, or more complexly a templating system to generate
-  multiple manchine specific configuration systems for configuration
-  files. Database systems are more difficult, but can be scripted
+  multiple machine specific configuration systems for configuration
+  files. Database systems are more difficult, but you can script them
   using common interfaces.
 
 - Thoroughly test accessing backup states and restoring. It's easy to
   back data configuration up, but restoring it can be much more
   complex.
 
-  Once you figure out how to back things up restore, create a ``make`` file and
-  some helper scripts so that you can update your git repository or
+  Once you figure out how to back things up restore, automate a the
+  restoration process. For example, create a ``make`` file and some
+  helper scripts so that you can update your backup repository or
   download a tarball and run "`make apply-config`" and be totally
-  restored on any machine. (Also make sure that you can run "`make
-  backup-config`" to do all of the copying, processing, and
-  git-pushing, or new tar-ball making.)
+  restored on any machine. Also make sure that you can run "`make
+  backup-config`" to do all of the copying, processing to your git
+  repository or other backup system.
 
 - Consider using something like `puppet <http://puppetlabs.com/misc/download-options/>`_
   or `Chef <https://github.com/opscode/chef>`_ to manage systems
-  configuration deployments.
+  configuration deployments. See ":doc:`cloud-computing`" for more about
+  system automation and configuration management.
 
 Systems Data
 ````````````
 
-This is everything "*backupable*" on the system. Make systems backups
+Systems data are everything "*backupable*" on the system. Create systems backups
 so that, if a disk dies, or is currupted, or you accidentally run
 "``rm -rf /``" you'll be able to restore the system quickly. It's not
 enough to be *able* to reconstruct a running system, because you know
@@ -370,9 +348,9 @@ use most whole-system backups to recover any specific file.
 Traditionally, the best way to do systems wide backup is to use
 :ref:`disk snapshotting <backup-disk-snapshot-with-lvm>` and then copy
 the snapshot to a distinct phyisical location. These backups may be
-unwieldy, but if the data is backuped in other ways, systems backups
-don't need to be taken very frequently: every week, every month, or
-just when something signifigant changes.
+unwieldy, but if you have good backups of other application and
+configuration data, you can take system-level backups infrequently:
+every week, every month, or just when something signifigant changes.
 
 A few years ago, "take backups from disk image backups," would have
 entirely addressed the topic of systems backups.
@@ -402,10 +380,14 @@ boils down to:
    few machines (and definitely more than a dozen, this is the
    preferable option for quick system restoration.
 
+   If configuration management is you "systems backup story" you
+   should be doing all provisioning and deployment using configuration
+   management.
+
 Above all, the goal of system backups is to be able to restore systems
 from backup quickly, when original systems are unavalible or
 inopperable due to any number of root causes. Test your backup system
-against this requirements, and if your solution satisfies the
+against this requirement, and if your solution satisfies the
 operational requirements, that's probably enough.
 
 Managing Backup Costs
@@ -414,8 +396,8 @@ Managing Backup Costs
 Like most classic information technology problems, the way to have
 better backups is typically to "throw money at the problem." It's
 true: more money means more storage for keeping backups, greater
-redundancy, better ratio between "amount of work" and "number of
-systems" so that backup operations have a smaller impact on
+redundancy, and improves the ratio between "amount of work" and
+"number of systems" so that backup operations have a smaller impact on
 performance and all failures impact a smaller portion of the system.
 
 However, backups don't need to be expensive, or out of reach to common
@@ -426,30 +408,29 @@ requirement, consider the following actions you can take to make
 backups more cost efficient:
 
 - Use compression whenever possible. Compress data before you transmit
-  it (SSH can be configured to gzip all of it's traffic, but you can
-  do it at a lower level if needed.) Compress data before you store
-  it: basic compression exchanges some CPU time for compressing and
-  uncompromising data. Otherwise there are tools for reading the
-  contents of compressed files as if they're uncompressed
+  it (you can configure SSH to gzip all of its traffic.) Compress data
+  before you store it: basic compression exchanges some CPU time for
+  compressing and uncompromising data. Otherwise there are tools for
+  reading the contents of compressed files as if they're uncompressed
   (e.g. ``zcat``, ``zless``, ``zgrep``, and emacs will transparently
   open and save zipped files.) The only downsides are: if you need to
-  access a file regularly **and** you're system is processor bound,
-  compression can impact performance; and, compression can rarely save
-  you nearly enough space.
+  access a file regularly **and** your system is processor bound,
+  compression can impact performance. For most type of data
+  compression rarely saves as much space as you want.
 
 - Minimize expensive transit when possible. Don't needlessly copy data
-  between systems. Use tools like rsync to minimize the amount of
-  data transited. If a backup can be processed (i.e. compressed)
-  or pruned before transmission on the host system without affecting
-  performance process it first. It's important to move data off of a
-  the host system, but transit takes time and at scale bandwidth has
-  some real costs that might be worth mitigating.
+  between systems. Use tools like rsync to minimize the amount of data
+  transited. If you can process, prune, and compress a backup before
+  transmission on the host system without affecting performance
+  process, do that. It's important to move data off of a the host
+  system, but transit takes time and at scale bandwidth has some real
+  costs that might be worth mitigating.
 
-- Throwing stale data away. There's no use in keeping backup data that
+- Throw stale data away. There's no use in keeping backup data that
   you'll never use, never access, and never restore. The instinct,
-  particularly for the compulsive data storage types, is to retain
-  everything. This sounds good, and if you keep everything you don't
-  need to worry as much about being selective. But it's horribly
+  particularly for the compulsive data storage administrators, is to
+  retain everything. This sounds good, and if you keep everything you
+  don't need to worry as much about being selective. But it's horribly
   inefficient and a little bit of ingenuity as you begin to develop
   your backup strategy can save a lot in the long run.
 
@@ -465,8 +446,8 @@ backups more cost efficient:
   importance. *Beyond a certain threshold, what backups really save is
   time spent in disaster recovery.* If the cost of creating and
   maintaining the backup over the mean-time-between-failures, is more
-  than the cost to recover the systems and data, then backups are
-  not worthwhile. Often this judgment is somewhat subjective.
+  than the cost to recover the systems and data, then backups are not
+  worthwhile. Often this judgment is somewhat subjective.
 
 Backup System Architecture
 --------------------------
@@ -480,19 +461,19 @@ and administrative costs. Any backup system needs to:
 
 - store data in multiple sites, and ensure that a single event
   (e.g. fire, earthquake, flood, power outage, network outage)
-  wouldn't render all your backups and infrastructure inoperable.
+  will not render all your backups and infrastructure inoperable.
 
-- automate the backup process so that backups proceed even if
-  administrators have other opportunities. Also, it's ideal to take
-  backups during off hours, and automated backup routines mean
-  administrators get to sleep more, which is a definite plus.
+- automate the backup process so that backups proceed without
+  administrator intervention. Also, it's ideal to take backups during
+  off hours, and automated backup routines mean administrators get to
+  sleep more, which is a definite plus.
 
-- have redundancy Don't go wild or overboard with the recursion, but a
-  backup plan without a backup of its own is itself a single point of
-  failure. Avoid these.
+- have redundancy. Don't go wild or overboard with the recursion, but
+  a backup plan without a backup of its own is itself a single point
+  of failure. Avoid these.
 
-- automate the restoration process. Usually when backups are needed,
-  it's because something unfortunate has happened. In these
+- automate the restoration process. Usually when you must restore from
+  backups, it's because something unfortunate has happened. In these
   circumstances, you don't want the restoration process to require an
   administrator to babysit the process.
 
@@ -500,9 +481,8 @@ Backup Methodologies
 --------------------
 
 A large part of figuring out how to backup your data and systems
-depends on knowing where and how your applications store data, not
-simply in memory, but also on disk. Understand not simply that you
-need to back up your database.
+depend on knowing where and how your applications store data in memory
+and on disk.
 
 .. _backup-disk-snapshot-with-lvm:
 
@@ -559,16 +539,16 @@ Incremental Backups
 ~~~~~~~~~~~~~~~~~~~
 
 Documenting specific routines are beyond the scope of this document,
-and given the variety of
+and given the variety of possible options and environments. However,
+consider the following suggestions:
 
 1. Remember that running file systems and applications can change
    while the backup process runs, which can lead to inconsistent state
    and corrupt backups. Create backups of systems that are "frozen" to
    as great of an extent as possible.
 
-2. Use rsync and rdiiff-backup, as possible. I think everyone has
-   their preferred set of ``rsync`` options. I tend to use the
-   following. Read the help text and decide for yourself. ::
+2. Use rsync and rdiiff-backup, as possible. For ``rsync``, use
+   whatever options you prefer, of use the following form: ::
 
          rsync -curaz SOURCE DESTINATION
 
@@ -577,12 +557,10 @@ Lessons for Cyborgs
 
 Backups are a daunting prospect and because backups are about
 balancing risk and cost, it's often the case that no system is *as*
-backed up as they need to be or could be. It's my hope that this
-document provides you with a good concept of what's ideal and what's
-what's possible along with some realistic suggestions that may be
-helpful as you develop your solution.
+backed up as it needs to be or could be.
 
-Like most of systems administration work, backups are a perpetually
-developing process. It's important that you work to address backups
-and disaster recovery rather than allow yourself to become paralyzed
-by fear: the upside is that any progress is better than no progress.
+Like most of systems administration work, the backups for any
+deployment or system is often a perpetually developing process. Backup
+work is important as part of every disaster recovery plan. Rather than
+allow yourself to become paralyzed by fear, remember that any progress
+is better than no progress.
