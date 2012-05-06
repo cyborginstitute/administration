@@ -14,10 +14,10 @@ Systems Administration for Cyborgs
    web-services-architecture
    database-scaling
    high-availability
-
-   cloud-computing
    monitoring-tactics
    backup-strategies
+
+   cloud-computing
    production-deployment-cycles
 
    glossary

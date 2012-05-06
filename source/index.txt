@@ -13,6 +13,18 @@ administration topics in the context of late-early 20th century
 technological phenomena: cloud computing, database driven web
 applications, virtualization, Linux, and dev/ops.
 
+*Systems Administration for Cyborgs* consists of several main
+sections: The :ref:`rudiments and background <index-rudiments>` which
+addresses fundamental skills, basic information, and problems in
+systems administration. Then, a collection of documents on
+:ref:`scaling and availability <index-scaling>` address challenges and
+strategies for managing and developing architectures for systems that
+must provide mission critical services under significant
+loads. Finally, "*Cyborg Administration*" ends with a short section
+that addresses :ref:`current trends and topics <index-topical>` in
+systems administration. There is also a brief :ref:`reference section
+<index-reference>`.
+
 Meta
 ----
 
@@ -33,8 +45,23 @@ repository is available at `git.cyborginstitute.net
 Table of Contents
 -----------------
 
+.. _index-rudiments:
+
 Rudiments and Background
 ~~~~~~~~~~~~~~~~~~~~~~~~
+
+Read :doc:`fundamentals` if you are new to systems administration, or
+want an overview of "*Cyborg Administration's*" approach to operations
+and systems work. Because the examples in :doc:`contents` revolve
+around Unix systems, and because Unix systems inform the practice of
+contemporary systems administration, :doc:`unix-fundamentals`
+introduces Unix-like systems, if you're unfamiliar with the lower
+level features, operations, and philosophy of these systems.
+
+Finally the :doc:`documentation` chapter outlines the importance of
+documentation in the practice of systems administration, and provides
+an introduction to the process and requirements for writing and
+suppurating good technical documentation.
 
 .. toctree::
    :maxdepth: 2
@@ -43,8 +70,30 @@ Rudiments and Background
    unix-fundamentals
    documentation
 
+.. _index-scaling:
+
 Scaling and Availability
 ~~~~~~~~~~~~~~~~~~~~~~~~
+
+The documents in this section address common problems and issues in
+systems administration. While the focus of these chapters is on basic
+systems technology and problem domains, these sections focus on
+problems related to administering systems on a larger and more robust
+scale. Most of the significant challenges in systems administration
+revolve around managing larger multi-component systems.
+
+In this context, all administrators need to be familiar with
+:term:`web services <web-services-architecture>` and :doc:`databases
+<database-scaling>`, even if they're not directly administering
+websites and databases. At the same time, the
+":doc:`high-availability`" document introduces the basic principals of
+how to build and architect robust systems with very high "up time"
+percentages.
+
+Finally, If you work with systems you should be familiar with
+:doc:`monitoring <monitoring-tactics>` and :doc:`backups
+<backup-strategies>`, as all "production" quality deployments require
+some sort of monitoring and backup "story."
 
 .. toctree::
    :maxdepth: 2
@@ -52,22 +101,39 @@ Scaling and Availability
    web-services-architecture
    database-scaling
    high-availability
+   monitoring-tactics
+   database-scaling
+
+.. _index-topical:
 
 Current Trends and Issues
 ~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To conclude,
 
 .. toctree::
    :maxdepth: 2
 
    cloud-computing
-   backup-strategies
-   monitoring-tactics
    production-deployment-cycles
+
+.. _index-reference:
 
 Reference
 ~~~~~~~~~
 
+Use the ":doc:`glossary`" as reference of key terms and ideas
+throughout :doc:`contents`, and the :ref:`index <genindex>` if you're
+looking for a coverage of a specific topic or instance. Future
+revisions of :doc:`contents` may also include additional resources in
+the reference section, including tested procedures and tutorials for
+common tasks and configurations. See ":doc:`maintenance`" for more
+information.
+
 .. toctree::
-   :maxdepth: 2
+   :hidden:
 
    glossary
+
+- :doc:`glossary`
+- :ref:`genindex`
