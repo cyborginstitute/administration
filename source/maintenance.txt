@@ -2,12 +2,10 @@
 Maintenance of *Systems Administration for Cyborgs*
 ===================================================
 
-EDIT file
-
 Contribution
 ------------
 
-The :doc:`index` attempts to present information regarding the
+The :doc:`contents` attempts to present information regarding the
 practice and strategy of systems administration that is of general
 interest to developers, junior systems administrators, and other
 technical audiences who are less familiar with systems
@@ -15,7 +13,7 @@ administration. While this core content and approach will remain over
 time, technology changes, and administrators are always developing new
 conventions and approaches to new and old problems.
 
-In an effort to keep :doc:`index` up to date and relevant to the
+In an effort to keep :doc:`contents` up to date and relevant to the
 problems of the day, the author and contributors will continue to
 update the text to reflect changes in practice and to remove
 inaccuracies and errors as possible.
@@ -61,7 +59,7 @@ The `Cyborg Institute Git Hub`_
 .. _Cyborg Institute: http://cyborginstitue.com/
 .. _Cyborg Institute Git Repositories: http://git.cyborginstitute.net/
 .. _git.cyborginstitute.net: http://git.cyborginstitute.net/
-.. _Cyborg Institute Hosted Listservs: http://lists.cyborginstitute.net
+.. _Cyborg Institute Hosted Listservs: http://lists.cyborginstitute.net/institute
 .. _lists.cyborginstitute.net: http://lists.cyborginstitute.net
 .. _Cyborg Institute Git Hub: http://github.com/cyborginstitute/
 .. _Cyborg Institute Issue Trackers: http://issues.cyborginstitute.net
@@ -69,17 +67,30 @@ The `Cyborg Institute Git Hub`_
 Release Information
 -------------------
 
-This version of ":doc:`index`" was built from |commit|. See the git
+This version of ":doc:`contents`" was built from |commit|. See the git
 repository for more detailed information regarding this revision and
 the change history. The git repository contains a ``makefile`` which
 encapsulates the build process.
+
+Projects
+--------
+
+In addition to improving the quality of ":doc:`contents`" by
+catching stylistic errors, improving clarity, and fact checking the
+information presented, I'm interested in using ":doc:`contents`" as a
+venue to disseminate tutorials, guides, and formal documentation of
+systems administration procedures and practices. If you're interested
+in contributing to these kinds of guides post to the `list` and we can
+begin work instantly.
+
+.. _list: http://lists.cyborginstitute.net/institute
 
 Maintainers and Contributors
 ----------------------------
 
 .. note::
 
-   If you work to maintain :doc:`index`, feel free to add your name to
+   If you work to maintain :doc:`contents`, feel free to add your name to
    the following list.
 
 Sam Kleinman

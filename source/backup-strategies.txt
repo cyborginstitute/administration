@@ -1,3 +1,5 @@
+.. index:: backup
+
 ======================================
 Backup Strategies for Cautious Cyborgs
 ======================================
@@ -25,6 +27,8 @@ moment you should craft *something,*  draw on your existing
 experience, the knowledge of your system, your budget, and the
 material introduced in this document to develop the strategy for
 backing up your deployment.
+
+.. index:: backup; requirements
 
 Backup Systen Requirements
 ``````````````````````````
@@ -102,6 +106,8 @@ worst possible case, I can be up and running an hour after I notice
 the services are down. Not too bad.
 
 .. seealso:: :doc:`high-availability`.
+
+.. index:: backup; tools
 
 Underlying Backup Tools
 ```````````````````````
@@ -222,6 +228,8 @@ rather than as two or three separate problems. By looking to address
 these problems together you will almost certainly save energy and
 probably some base cost as well.
 
+.. index:: backup; types
+
 Backup Types
 ~~~~~~~~~~~~
 
@@ -229,6 +237,9 @@ This section provides an overview of the different kinds of data and
 systems that backups should support as well as the unique concerns
 that affect each type of backup.
 about taking quality backups of these resoucres .
+
+.. index:: application data
+.. index:: data types; application
 
 Application Data
 ````````````````
@@ -251,6 +262,8 @@ Testing is important in every backup context, but particularly
 regarding application data. Ensure that from, in a clean environment,
 you can restore all functionality using only the data captured in your
 backup.
+
+.. index:: data types; file
 
 File Data
 `````````
@@ -284,13 +297,16 @@ just use git, or some other source control system. Git may make sense
 for your personal files, but if you have lot of files that git doesn't
 store efficiently, use rsync.
 
+.. index:: data types; configuration
+
 Configuration Data
 ``````````````````
 
 Properly, configuration data is a subset of other types of data,
 usually applications and systems store their configuration data and
-settings in files, but there are cases where these values are stored
-in databases alongside of application data.
+settings in files. There are cases where these applications store
+configuration information in the main application database and its
+inseparable from application data.
 
 Conceptually, configuration data is it's own category. You, or your
 system, should audit and record every change to a configuration field
@@ -331,19 +347,22 @@ different, but consider the following recommendations:
   configuration deployments. See ":doc:`cloud-computing`" for more about
   system automation and configuration management.
 
+.. index:: data types; system
+
 Systems Data
 ````````````
 
-Systems data are everything "*backupable*" on the system. Create systems backups
-so that, if a disk dies, or is currupted, or you accidentally run
-"``rm -rf /``" you'll be able to restore the system quickly. It's not
-enough to be *able* to reconstruct a running system, because you know
-that you have backups of your configuration, application, and file
-data. The process of rebuilding a system is something that always
-takes a while and is error prone: not what you want to be doing as
-crucial services are falling over. Systems backups aren't effective or
-convient for any kind of incremental backups, and it's difficult to
-use most whole-system backups to recover any specific file.
+Systems data are everything "*backupable*" on the system. Create
+systems backups so that, if a disk dies, or is currupted, or you
+accidentally run "``rm -rf /``" you'll be able to restore the system
+quickly. It's not enough to be *able* to reconstruct a running system,
+because you know that you have backups of your configuration,
+application, and file data. The process of rebuilding a system is
+something that always takes a while and is error prone: not what you
+want to be doing as crucial services are falling over. Systems backups
+aren't effective or convient for any kind of incremental backups, and
+it's difficult to use most whole-system backups to recover any
+specific file.
 
 Traditionally, the best way to do systems wide backup is to use
 :ref:`disk snapshotting <backup-disk-snapshot-with-lvm>` and then copy
@@ -389,6 +408,8 @@ from backup quickly, when original systems are unavalible or
 inopperable due to any number of root causes. Test your backup system
 against this requirement, and if your solution satisfies the
 operational requirements, that's probably enough.
+
+.. index:: backup; costs
 
 Managing Backup Costs
 ---------------------
@@ -449,6 +470,8 @@ backups more cost efficient:
   than the cost to recover the systems and data, then backups are not
   worthwhile. Often this judgment is somewhat subjective.
 
+.. index:: backup; architecture
+
 Backup System Architecture
 --------------------------
 
@@ -476,6 +499,8 @@ and administrative costs. Any backup system needs to:
   backups, it's because something unfortunate has happened. In these
   circumstances, you don't want the restoration process to require an
   administrator to babysit the process.
+
+.. index:: backup; methods
 
 Backup Methodologies
 --------------------

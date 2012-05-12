@@ -2,17 +2,18 @@
 Unix Fundamentals
 =================
 
-EDIT file
+TODO add index pointers
 
 Introduction
 ------------
 
 Unix is not the only operating system in common use, but it is likely
 the most important, or at least the most common class of systems used
-for infrastructural computing. Because :doc:`index` approaches systems
-administration from a relatively high level, you need not be familiar
-with Unix-like to apply the tactics and strategies presented, but in
-most cases the more you know about Unix-like systems the better.
+for infrastructural computing. Because :doc:`contents` approaches
+systems administration from a relatively high level, you need not be
+familiar with Unix-like to apply the tactics and strategies
+presented. In most cases, the more you know about Unix-like systems
+the better.
 
 This document provides a on overview of Unix systems targeted to those
 who have limited experience with Unix-like systems such as GNU/Linux,
@@ -22,8 +23,10 @@ history, rationale, and common conventions that may not be obvious to
 contemporary users but nonetheless shape their experiences of this
 technology.
 
-Unix History and Background
----------------------------
+History and Background
+----------------------
+
+EDIT history lesson
 
 Programmers at Bell Labs (i.e. AT&T) developed Unix beginning
 in 1969. Unix's flexibility and portability drove a wide adoption in
@@ -215,8 +218,10 @@ abstractions that define the Unix paradigm:
 
 .. _unix-philosophy:
 
-Unix Philosophy
----------------
+Philosophy
+----------
+
+EDIT philosophy section
 
 The design of Unix, and the history of its use, have lead to a
 collection of principals and approaches to writing software and
@@ -297,6 +302,8 @@ Philosophy," insofar as it exists boils down to the following ideas:
 
 The State of Contemporary Unix
 ------------------------------
+
+EDIT contemporary unix section
 
 Unix, and its use, have continued to change and develop in response to
 contemporary systems, hardware, and requirements. Additionally, while
@@ -443,11 +450,11 @@ with the ecosystem.
    applications for Java outside of the Unix ecosystem, it's success
    is largely due to how well Java runs on Linux and Unix.
 
-Unix Administration
--------------------
+Administration
+--------------
 
-If you're new to Unix systems administration, ":doc:`index`" as a
-whole is a good place to start, but the following section provides a
+If you're new to Unix systems administration, ":doc:`.. contents`" 
+a good starting place, but the following section provides a
 few Unix-specific fundamentals.
 
 .. seealso:: :doc:`fundamentals`.
@@ -456,46 +463,48 @@ Exercise Discretion
 ~~~~~~~~~~~~~~~~~~~
 
 Unix-like systems are powerful. Extremely powerful. Their flexibility
-can be enticing, but don't jump at every new temptation, or tool that
+can be enticing, but don't jump at every new temptation or tool that
 you learn. In many cases, more rudimentary solutions, built with
-familiar tools, are preferable to using a new package, or stretching
+familiar tools, are preferable to using a new package or stretching
 the functionality of a tool for a solution beyond the realm of what's
-reasonable *just because its possible*.
+reasonable, *just because its possible*.
 
 Furthermore, while simplicity and minimalism form the core the "Unix
 philosophy," as you're beginning you may feel like you should *always*
 avoid complex solutions and *always* prefer simple solutions. Question
 this: there are complex problems in systems administration and
 sometimes the only solutions are complex. While the tenets and history
-of Unix can be very helpful tools in addressing and approaching
-problems on Unix systems, being dogmatic about your approach will
-rarely lead you to ideal solutions. 
+of Unix can help inspire solutions to problems with Unix systems,
+dogmatism rarely leads to ideal solutions.
 
 The best administrators can, eventually, determine the difference
-between these classes of problems, but this instinct can take years to
-develop properly. In the mean time: question requirements, thoroughly
-investigate all proposed solutions, test your own ideas, and be open
-to learning from colleagues and the literature.
+between problems that require complex solutions and ones that don't,
+but this instinct can take years to develop properly. In the mean
+time: question requirements, thoroughly investigate all proposed
+solutions, test your own ideas, and be open to learning from
+colleagues and the literature.
 
 Compatibility Leads to Madness
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Since most Unix-like systems are generally similar, there are
-significant differences. Even among distributions of Linux-based
-operating systems, there is a great deal of diversity. While, it's not
-difficult to support your tools and scripts on many different
-platforms and versions, avoid this.
+Since most Unix-like systems are generally similar, you may tempted to
+ensure that your packages, scripts, and build systems support multiple
+distributions or systems. Even among distributions of Linux-based
+operating systems, there is a great deal of diversity. While, there is
+often no strong technical barrier to this compatibility on many
+different platforms and versions, unless you *must* have this
+interoperability, avoid this undertaking.
 
 Not only do extra compatibility requirements complicate development,
 but the resulting solutions are more difficult to maintain, and in
-most cases your actual production environments are more
-consistent. This isn't to say that you should avoid interoperability,
-and there are basic practices that you can use to ensure
-inter-operation. but limiting the diversity of your environment is a
-good way to practically reduce workload.
+most cases actual production environments are largely consistent. This
+isn't to say that you should avoid interoperability, and there are
+basic practices that you can use to ensure inter-operation. but
+limiting the diversity of your environment is a good way to
+practically reduce workload.
 
 In general, using standard tools (i.e. ``bash`` or pure ``sh`` over
 ``zsh``) that you know will be available is a good first
 step. Additionally, being generally familiar with different kinds of
-systems and their uniqunesses is helpful when developing solutions and
+systems and their uniqunesses helps when developing solutions and
 software that don't fall into non-interoperable traps.

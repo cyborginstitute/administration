@@ -2,7 +2,9 @@
 Production Systems and Testing Separation
 =========================================
 
-EDIT file
+EDIT structure, introduction
+
+TODO index sections and topics
 
 The first rule of managing deployments that people actually *use*, is:
 don't do anything that will affect the availability of the
@@ -27,6 +29,8 @@ ensure reliable application and system updates.
 
 Key Concepts
 ------------
+
+EDIT glossary section
 
 The following concepts introduce crucial components and requirements
 of deployment testing infrastructure.
@@ -92,6 +96,8 @@ of deployment testing infrastructure.
 Testing Infrastructure
 ----------------------
 
+EDIT infrastructure section
+
 This document will leave deploying a suitable test infrastructure as
 an exercise to the reader. It's absolutely crucial that you be able to
 test changes to all production before you deploy them; however, the
@@ -133,6 +139,8 @@ requirements:
 
 Deployment Processes and Policy
 -------------------------------
+
+EDIT rollbacks and deployments
 
 Once you have the infrastructure *to* perform testing, it's important
 to ensure that you *do* perform tests. Software developers use
@@ -184,7 +192,7 @@ consider the following policy strategies:
   integration" type) or connected to change requests and ticketing, or
   version control tools.
 
-- Provide local preliminary ("Devi") testing. If you and your
+- Provide local preliminary ("Dev") testing. If you and your
   developers and administrators have an easy way to test changes, and
   become familiar with software, it's more likely that you and other
   administrators will test code regularly. Lower barriers to entry are
@@ -193,15 +201,15 @@ consider the following policy strategies:
 Rollback
 --------
 
-Previous sections have covered the importance of testing and
-controlling access to resources. While there is no substitute for
-implementing policies and procedures to ensure that deployments,
-updates, and upgrades go smoothly, it's also important that make it
-possible to do :term:`rollbacks <rollback>` when an upgrade has
-unforeseen consequences. In addition to requiring extensive tests,
-also test the rollback procedure to ensure that you can quickly
-rollback the server, to a previous "known working state," if the
-deployment process has an unforeseen consequences.
+Controlling access to resources and testing software and systems
+before deploying them to production is absolutely crucial. While there
+is no substitute for implementing policies and procedures to ensure
+that deployments, updates, and upgrades go smoothly, it's also
+important that make it possible to do :term:`rollbacks <rollback>`
+when an upgrade has unforeseen consequences. In addition to requiring
+extensive tests, also test the rollback procedure to ensure that you
+can quickly rollback to a previous "known working state," if the
+deployment process goes awry.
 
 There are a few methods/technologies that you can use to provide
 rollbacks:
@@ -209,7 +217,7 @@ rollbacks:
 - Use :term:`LVM` or some other file-system or block level
   snapshotting tool to create a backup of a system before applying the
   change. If something goes wrong with the upgrade process, you can
-  rollback to the known good state.
+  rollback to a previous state.
 
 - If ruining in a virtualized environment, duplicate the instance, and
   upgrade the server, and perform a manual failover (swap the IP
@@ -234,27 +242,29 @@ about rollbacks and testing as you are about the updates themselves.
 Change Control
 --------------
 
-There is a class of software called "change control," that monitors
-systems and applications to insure that configuration remains constant
-and that configuration changes are not implemented outside of normal
-change control policies. This is typically implemented as a special
-kind of :term:`monitoring` or intrusion detection system.
+Change control software monitors systems and applications to insure
+that configuration remains constant and that configuration changes are
+not implemented outside of normal change policies. This is typically
+implemented as a special kind of :term:`monitoring` or intrusion
+detection system.
 
 While it's important to develop policies regarding changes to
 production systems, it's also important to provide some method to
 ensure that the system or systems remain intact and that some
 untracked change to the production system don't either impact the
 integrity of the system or affect the operational conditions of the
-systems.
+systems. Change control may help you address this requirement.
 
 Change control is a difficult problem, and it's beyond the scope of
-this article. As a security practice, it's reactive and difficult to
-implement effectively [#change-control]_ and in many cases, using
-intrusion detection to ensure the integrity of production systems may
-be overblown.
+this article. As a security practice, it's reactive and reliable
+change control is difficult to implement effectively. [#change-control]_ 
+For many (or most) deployments, the kinds of typical intrusion
+detection solutions used for change control are overblown.
 
-In any case, it may be useful to collect data on logins and daemon
-restarts, which may indicate some tampering. Also, use privilege
+Even if your deployment does not merit a change control solution,
+collecting some "change control data" may be useful. For instance, log
+ins and daemon restarts may indicate some tampering, and your logging
+and monitoring system should track these events. Also, use privilege
 escalation systems like ``sudo`` that provide more logging rather than
 shared privileged accounts for administrative tasks.
 
@@ -270,12 +280,13 @@ Policy, Auditing, and Production Testing
 
 Maintaining separation between test and production environments, as
 well as a usable and reliable deployment systems is not a significant
-technological problem. Rather, to properly address these problems you
-need both the required infrastructure, but more importantly you need
-sufficient policies and procedures to which you and all of your
-administrators and operators can adhere.
+technological problem: it's a social and policy problem. To properly
+address these concerns you need some required infrastructure, but
+really need to develop sufficient policies and procedures that make
+sense in the context of your environment and that all of your
+administrators and operators can work within. 
 
-Devising a policy that is functional from an administrative use
+Devising policies that are functional from an administrative use
 perspective is a requisite first step, but it's also important to
 ensure that the policy is also sufficiently flexible. A rigid policy
 may not allow for timely administrative response to unforeseen bugs or
@@ -290,31 +301,35 @@ that it's not possible to fully audit production and test systems. In
 light of this, the most important aspects of maintaining sane
 deployment policies and practices are (in descending order:)
 
-1. Make testing infrastructure and systems available and easy to use.
+#. Make testing infrastructure and systems available and easy to use.
 
    It's difficult to test effectively if there aren't properly
    configured test machines. Furthermore developers and administrators
    are unlikely to test effectively if the testing system is difficult
    to use.
 
-2. Make sure that testing environments resemble production systems to
+#. Make sure that testing environments resemble production systems to
    the greatest extent possible.
 
-3. Automate testing.
+   The greater the differences between the test environment and the
+   production environment, the less effective the test environment
+   becomes at predicting what will happen in production. 
+
+#. Automate testing.
 
    For important components use automated testing methods, either with
    continuous integration systems or by some other means, to ensure
    that most routine testing is ongoing and does not require active
    developer initiative.
 
-4. Create and test :term:`rollbacks <rollback>`, to ensure that even
+#. Create and test :term:`rollbacks <rollback>`, to ensure that even
    if an update does not go as planned, it's possible to return to a
    known working state.
 
-5. Limit changes to production systems.
+#. Limit changes to production systems.
 
-   Using access control systems and monitoring tools, ensure that
-   production and testing systems remain consistent drift from each
-   other.
+   Use access control systems and monitoring tools to ensure that
+   production and testing systems remain consistent and don't drift
+   from each other.
 
 .. seealso:: ":doc:`monitoring-tactics`" and ":doc:`documentation`."

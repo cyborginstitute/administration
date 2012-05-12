@@ -1,21 +1,30 @@
+.. index:: pair: systems administration; fundamentals
+.. _fundamentals:
+
 ===================================================
 Fundamental Systems Administration Tools and Skills
 ===================================================
 
-EDIT file
-
-Synopsis
---------
-
-This document addresses some of the more general aspects of systems
-administration. As a whole ":doc:`index`" addresses most general
-skills from the perspective of common systems administration problems
-and knowledge domains; however, some of the most important skills,
+This document addresses systems administration and the required skills
+and underlying technologies from a very high level. Outside of
+":doc:`fundamentals`," ":doc:`contents`" addresses systems
+administration by way of common problems, challenges, and
+sub-specialties. However, in some cases the most important skills,
 tools, and strategies for systems administrators are quite general,
-and apply to a large number of domains.
+and apply to a large number of domains: as you consider the rest of
+":doc:`contents`" keep the :ref:`skills <fundamentals-skills>`,
+:ref:`tools <fundamentals-tools>`, and :ref:`tactics
+<fundamentals-tactics>` in mind.
+
+.. index:: skills
+.. index:: fundamentals; skills
+.. index:: systems administration; skills
+.. _fundamentals-skills: 
 
 Skills
 ------
+
+EDIT fundamental skills section
 
 The following skills, address a collection of non-technical skills
 over which effective systems administrators must have some mastery. In
@@ -23,6 +32,8 @@ most cases, simply knowing how technology works, or what the "right
 way" to use technology is necessary but not sufficient for being able
 to solve, predict, and manage most systems administration problems
 with the required deft grace.
+
+.. index:: skills; time management 
 
 Time Management
 ~~~~~~~~~~~~~~~
@@ -123,6 +134,9 @@ following suggestions:
    balance between sustained energy, and providing a time for
    necessary interruptions like email, meetings, and lunch.
 
+.. index:: skills; project management 
+.. index:: project management 
+
 Project Management
 ~~~~~~~~~~~~~~~~~~
 
@@ -200,6 +214,9 @@ In many ways, project management addresses the same kinds of logical
 problems that exist in systems administration but rather than managing
 servers, daemons, and applications, project managers manage people and
 tasks.
+
+.. index:: skills; problem solving
+.. index:: problem solving
 
 Problem Solving
 ~~~~~~~~~~~~~~~
@@ -360,8 +377,15 @@ solving skills. In some cases thinking about the things you already
 do, from a new perspective may help you be able to be a more effective
 problem solver and systems administrator.
 
+.. index:: tools
+.. index:: fundamentals; tools
+.. index:: systems administration; tools
+.. _fundamentals-tools: 
+
 Tools
 -----
+
+EDIT fundamental tools section
 
 There are purpose-built (software) tools to solve, a nearly
 disproportionate number of systems administration problems
@@ -369,6 +393,9 @@ disproportionate number of systems administration problems
 services, access control management systems, issue management systems,
 and so forth.) This section addresses the basic tools that systems
 administrators must have at their immediate disposal.
+
+.. index:: tools; scripting
+.. index:: scripting
 
 Scripting
 ~~~~~~~~~
@@ -405,6 +432,9 @@ requirements in many ways, these (potential) dependency issues
 constrain your choice of scripting environments somewhat, and demand
 additional testing.
 
+.. index:: tools; google
+.. index:: google
+
 Google
 ~~~~~~
 
@@ -428,6 +458,9 @@ developer as indicated, that produced the error. Without a doubt, when
 you open a support case with a vendor, the level-one support staff are
 going to run these Google searches on their own, so you might as well
 save the time if the answer is obvious.
+
+.. index:: tools; free software
+.. index:: free software
 
 Free Software
 ~~~~~~~~~~~~~
@@ -494,14 +527,23 @@ administrators. These advantages include:
    BSD, Postfix, PostgreSQL, Dovecot, OpenLDAP, OpenVPN, Python, and
    Perl.
 
+.. index:: tactics
+.. index:: fundamentals; tactics
+.. index:: systems administration; tactics
+.. _fundamentals-tactics:
+
 Tactics and Strategy
 --------------------
+
+EDIT practices and tactics section
 
 If "strategy" refers to planning for various circumstances, then
 tactics refer to the actual practical responses to problems. Most
 software manuals have a section that discuss "best practices." In
 turn, this section discusses some general "best practices," along with
 a discussion of how these recommendations relate to actual practices.
+
+.. index:: tactics; obsession
 
 Obsession
 ~~~~~~~~~
@@ -549,6 +591,9 @@ part) only as good as the people using them.
    postings this is "attention to detail," but I don't think that
    there are many kinds of work that won't make use of a keen
    "attention to detail." persistent
+
+.. index:: tactics; automation
+.. index:: scripting
 
 Automation
 ~~~~~~~~~~
@@ -616,6 +661,9 @@ are really the best way to enforce these practices.
    combination with some notable shifts in development cycles and
    deployment practices that have proliferated through the technology
    industry.
+
+.. index:: tactics; data driven automation
+.. index:: data driven automation
 
 Data Driven Administration
 ~~~~~~~~~~~~~~~~~~~~~~~~~~

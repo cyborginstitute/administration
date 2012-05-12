@@ -2,10 +2,16 @@
 Cloud Computing, Virtualization, and Automation
 ===============================================
 
-EDIT file
+TODO add indexing tags
+
+EDIT outline and structure
+
+WRITE introduction
 
 Cloud Computing
 ---------------
+
+EDIT definition section
 
 "Cloud computing," in many (all?) ways is really a development of
 marketing rather than technology. While there are new technologies
@@ -94,6 +100,8 @@ article addresses some of these issues.
 
 Virtualization
 --------------
+
+EDIT virtualization section
 
 Production ready virtualization technology for commodity hardware is
 likely point at which "cloud" computing began. Certainly
@@ -511,6 +519,8 @@ capabilities of the system.
 
 Configuration Management
 ------------------------
+
+EDIT configuration management section
 
 As individual administrators have become responsible for larger
 numbers of systems, it became apparent that administrators needed more

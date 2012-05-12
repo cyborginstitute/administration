@@ -2,6 +2,8 @@
 Database Scaling for Frightened Cyborgs
 =======================================
 
+TODO add indexing tags
+
 This document provides an overview of database systems, database
 system design, and database administration. It's goal is provide
 context about database administration and architecture for developers

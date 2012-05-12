@@ -2,7 +2,9 @@
 Documentation is the Most Valuable Thing You Do
 ===============================================
 
-EDIT file
+TODO add indexing
+
+EDIT structure and introduction  
 
 As a technical writer my perspective in this may be a bit skewed, and
 while this volume does not address technical writing in any
@@ -22,6 +24,8 @@ needed, and how to make documentation when needed.
 
 The Challenge of Documentation
 ------------------------------
+
+EDIT overview section
 
 Good documentation is both technically complex and simple to read and
 understand; it both has good logical at all levels of organization,
@@ -119,6 +123,8 @@ long term its almost always worthwhile.
 
 Qualities of Superior Documentation
 -----------------------------------
+
+EDIT good documentation
 
 More than anything, documentation needs to be singular. While
 documentation serves different audiences and has different goals,
@@ -243,6 +249,8 @@ some classes of annotations and not others. The key is to make the
 semantic systems unobtrusive for writers and readers. In the end this
 is largely a documentation production issue, but better documentation
 tools and processes can make documentation easier.
+
+EDIT documentation howtos
 
 How to Read Documentation
 -------------------------
@@ -743,6 +751,8 @@ harder organizational problems.
 
 The Value of Documentation
 --------------------------
+
+EDIT conclusion (short!)
 
 Documentation is not only valuable as reference and standardization
 material, but it creates for organizations and products:

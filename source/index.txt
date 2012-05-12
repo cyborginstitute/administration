@@ -83,7 +83,7 @@ scale. Most of the significant challenges in systems administration
 revolve around managing larger multi-component systems.
 
 In this context, all administrators need to be familiar with
-:term:`web services <web-services-architecture>` and :doc:`databases
+:doc:`web services <web-services-architecture>` and :doc:`databases
 <database-scaling>`, even if they're not directly administering
 websites and databases. At the same time, the
 ":doc:`high-availability`" document introduces the basic principals of
@@ -109,7 +109,9 @@ some sort of monitoring and backup "story."
 Current Trends and Issues
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-To conclude,
+To conclude, ":doc:`cloud-computing`" and
+":doc:`production-deployment-cycles`" introduce and discuss current
+topics and issues in the evolving practice of systems administration.
 
 .. toctree::
    :maxdepth: 2

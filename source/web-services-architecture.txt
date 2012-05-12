@@ -2,7 +2,9 @@
 Web Service Architecture
 ========================
 
-EDIT file
+TODO add indexing as needed
+
+EDIT review structure
 
 This document provides an overview of administration and architecture
 of web-based services. For better or for worse, most "real" systems
@@ -14,6 +16,8 @@ issues, which are relevant to all systems administrators.
 
 Technology Overview
 -------------------
+
+EDIT http overview
 
 HTTP Protocol
 ~~~~~~~~~~~~~
@@ -205,6 +209,8 @@ as an application transport.
 HTTP Abstractions
 -----------------
 
+EDIT http abstractions
+
 Until now we've talked about HTTP in terms of static content conveyed
 directly from the server's file system, thought the web server, to the
 end-user's client. If that were the only way to deploy HTTP then this
@@ -272,6 +278,8 @@ familiar with the rewriting system in the web server you use.
 
 Web Server Fundamentals
 -----------------------
+
+EDIT introduction to web servers
 
 HTTP and Static Content
 ~~~~~~~~~~~~~~~~~~~~~~~
@@ -454,6 +462,8 @@ the following:
 Scaling HTTP Servers and Building Distributed Systems
 -----------------------------------------------------
 
+EDIT distributed server section
+
 In most cases, web servers are pretty straightforward and have pretty
 low resource requirements. However, in a number of situations web
 servers face some scaling challenges: when faced with extraordinary
@@ -534,8 +544,10 @@ each component service.
    tasks, consider the material covered in ":doc:`high-availability`"
    when thinking about architecture.
 
-HTTPD Options
--------------
+HTTPD Technologies
+------------------
+
+EDIT http technology introduction
 
 Throughout the course of this document I've attempted to provide very
 generic explanations of HTTP, web server implementations, and the

@@ -2,7 +2,12 @@
 Infrastructure Monitoring for Everyone
 ======================================
 
-EDIT file
+EDIT introduction and structure
+
+TODO add indexing tags as needed
+
+Overview
+--------
 
 Monitoring refers to the practice of collecting regular data regarding
 your infrastructure in order to provide alerts both of unplanned
@@ -26,8 +31,8 @@ reading this document, I hope that you will have a reasonable
 understanding of the most important issues and concerns that face
 monitoring administrators and users.
 
-Technological Background
-------------------------
+Background
+~~~~~~~~~~
 
 Monitoring applications and services are very much like any other kind
 of service or application in terms of reliability and redundancy
@@ -253,6 +258,8 @@ behavior. Consider the following conditions and features:
 Monitoring Tools
 ----------------
 
+EDIT monitoring tools section
+
 This section provides a brief overview of a number of very basic open
 source monitoring tools and attempts to catalog their functionality
 and purpose.
@@ -360,6 +367,8 @@ including:
 
 Feedback Loops
 --------------
+
+EDIT applications
 
 Technically speaking, getting monitoring up, running, and reliable is
 a huge challenge, and it's very easy to end a discussion of monitoring
@@ -506,6 +515,9 @@ provide some very useful data analysis, for example, you may:
 
 Lessons for Cyborgs
 -------------------
+
+EDIT fix or drop conclusion
+
 
 - Monitor everything. If it's not important to monitor, it's likely
   not providing any value and should be stopped.
