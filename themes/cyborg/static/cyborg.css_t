@@ -27,7 +27,7 @@ body {
 }
 
 div.document {
-    margin: 0 10px;
+    margin: 5px 40px 0 10px;
 }
 
 div.documentwrapper {
