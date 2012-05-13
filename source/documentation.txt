@@ -1,22 +1,23 @@
+.. index:: technical writing
+.. index:: documentation
+
 ===============================================
 Documentation is the Most Valuable Thing You Do
 ===============================================
 
-TODO add indexing
+Writing or maintaining documentation is probably the most important
+things that systems administrators *can do*. As a technical writer my
+perspective may be a bit skewed. While :doc:`contents` does not
+address technical writing in any substantial manner, documentation is
+incredibly important to the work of systems administrators.
 
-EDIT structure and introduction  
-
-As a technical writer my perspective in this may be a bit skewed, and
-while this volume does not address technical writing in any
-substantial manner, documentation is incredibly important to the work
-of systems administrators. I think it's feasible that systems
-administrators consume documentation as a class than any other class
-of users. Furthermore, given administrator's distance from the
-development process and their role as "professional users" of
-software, systems administrators have the potential to make good
-technical writers. This section provides an overview of how technical
-writing and documentation works, how to build documentation when
-needed, and how to make documentation when needed.
+It's feasible that systems administrators consume documentation as a
+class than any other class of users. Furthermore, given
+administrator's distance from the development process and their role
+as "professional users" of software, systems administrators have the
+potential to generate very good technical writers. This section
+provides an overview of how technical writing and documentation works,
+and how to write high quality documentation as needed.
 
 .. seealso:: For a wiki discussion and collection of blog posts that
    address technical writing, consider `tychoish.com/technical-writing
@@ -135,6 +136,8 @@ The previous section addressed some of the common shortcomings of
 documentation, while this section address some of the mechanical or
 practical things that makes "okay" or merely "good" documentation
 great.
+
+.. index:: documentation; organization
 
 Organization
 ~~~~~~~~~~~~
@@ -384,6 +387,8 @@ writing documentation in a non-linear manner tends to reduce the
 impulse to build larger scale narratives that make it difficult to use
 and approach tactically.
 
+.. index:: documentation; structure (inductive)
+
 Use Inductive Structure
 ~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -405,6 +410,8 @@ questions. You may think of the inductive approach as a way of "making
 documentation easier to *not* read," which may be difficult to stomach
 if you have a conventional writing background, but for documentation
 this is exactly the right approach.
+
+.. index:: documentation; audience
 
 Consider Audience
 ~~~~~~~~~~~~~~~~~
@@ -749,13 +756,15 @@ harder organizational problems.
   easier to organize, easier to write, and easier to use documentation
   resource.
 
+.. index:: documentation; code
+
+.. STOP EDITING HERE
+
 The Value of Documentation
 --------------------------
 
-EDIT conclusion (short!)
-
-Documentation is not only valuable as reference and standardization
-material, but it creates for organizations and products:
+Documentation is valuable as reference and standardization material
+**and** because it creates value for organizations and products:
 
 - Good documentation tends to reduce the volume of support requests
   and erroneous bug/issue reporting. Additionally, good comprehensive
@@ -764,21 +773,21 @@ material, but it creates for organizations and products:
 
 - Good documentation gets knowledge out of people's heads and into a
   shared format. This increases reliability, because it reduces a
-  dependence on people who may not always be accessible, or who may
-  have faulty memories.
+  dependence on people's memories and notes, which ma not always be
+  accessible, or may be inconsistent.
 
 - In absence of a specification, documentation can help define and
-  regulate the user experience.
+  regulate the user experience as development proceeds.
 
-- Without documentation and users who are aware of features, software
-  and services don't have value. If users never learn about or take
-  advantage of new features and functionality, then development
+- Without documentation users may be unaware of features and
+  behaviors, which reduces their value. If users never learn about or
+  take advantage of new features and functionality, then development
   resources are essentially wasted.
 
-This doesn't mean you should write documentation when organizing a
-system or environment is more practical and efficient, or that
-standardizing a process with a script or program doesn't have it's
-place, but for complex problems where users interact with your
-interfaces or processes, documentation is often *the answer*. Take
-pride in documentation, treat it seriously, and the return will be
-great.
+This doesn't mean you should write documentation in situations where
+organizing a system or environment is more practical and efficient, or
+that standardizing a process with a script or program doesn't have
+it's place. However, for complex problems where users interact with
+your interfaces or processes, documentation is often *the
+answer*. Take pride in documentation, treat it seriously, and the
+return will be great.

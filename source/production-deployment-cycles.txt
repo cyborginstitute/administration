@@ -1,12 +1,11 @@
+.. index:: testing
+.. index:: production environments
+
 =========================================
 Production Systems and Testing Separation
 =========================================
 
-EDIT structure, introduction
-
-TODO index sections and topics
-
-The first rule of managing deployments that people actually *use*, is:
+The first rule of managing deployments that people actually *use* is:
 don't do anything that will affect the availability of the
 service. Ever. Once you get something setup and working, *don't touch
 anything* and don't break anything. This is a difficult challenge:
@@ -92,6 +91,8 @@ of deployment testing infrastructure.
       reverting to a previous iteration, if an update or upgrade
       produces an undesirable or unforeseen effect rollback procedures
       are used to revert to a previous known working state.
+
+.. index:: testing; infrastructure
 
 Testing Infrastructure
 ----------------------
@@ -239,6 +240,8 @@ about rollbacks and testing as you are about the updates themselves.
 
 .. seealso:: ":doc:`backup-strategies`."
 
+.. index:: change control
+
 Change Control
 --------------
 
@@ -257,7 +260,7 @@ systems. Change control may help you address this requirement.
 
 Change control is a difficult problem, and it's beyond the scope of
 this article. As a security practice, it's reactive and reliable
-change control is difficult to implement effectively. [#change-control]_ 
+change control is difficult to implement effectively. [#change-control]_
 For many (or most) deployments, the kinds of typical intrusion
 detection solutions used for change control are overblown.
 
@@ -275,6 +278,8 @@ shared privileged accounts for administrative tasks.
    except through Foucauldian methods, and can only report on them
    after the fact.
 
+.. index:: auditing
+
 Policy, Auditing, and Production Testing
 ----------------------------------------
 
@@ -284,7 +289,7 @@ technological problem: it's a social and policy problem. To properly
 address these concerns you need some required infrastructure, but
 really need to develop sufficient policies and procedures that make
 sense in the context of your environment and that all of your
-administrators and operators can work within. 
+administrators and operators can work within.
 
 Devising policies that are functional from an administrative use
 perspective is a requisite first step, but it's also important to
@@ -313,7 +318,7 @@ deployment policies and practices are (in descending order:)
 
    The greater the differences between the test environment and the
    production environment, the less effective the test environment
-   becomes at predicting what will happen in production. 
+   becomes at predicting what will happen in production.
 
 #. Automate testing.
 

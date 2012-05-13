@@ -1,34 +1,34 @@
+.. index:: http
+.. index:: web services
+.. index:: service architecture
+
 ========================
 Web Service Architecture
 ========================
 
-TODO add indexing as needed
-
-EDIT review structure
-
 This document provides an overview of administration and architecture
-of web-based services. For better or for worse, most "real" systems
-administration work involves a fair amount of wrangling HTTP servers,
-so the core information in this document will likely be useful to
-most. As a secondary benefit, HTTP provides a good basis to
-address a number of key service-administration topics and
-issues, which are relevant to all systems administrators.
+of web-based services. Most "real" systems administration work
+involves a fair amount of wrangling HTTP servers, so the core
+information in this document will likely be useful to most. As a
+secondary benefit, HTTP provides a good basis to address a number of
+key service-administration topics and issues, which are relevant to
+all systems administrators.
 
 Technology Overview
 -------------------
 
-EDIT http overview
+.. index:: http; protocol
 
 HTTP Protocol
 ~~~~~~~~~~~~~
 
 There's more to the Internet and to network services than HTTP and
-"the web," and while I'm loathe to conflate HTTP and "the Internet,"
-for practical purposes, it's too late. I comfort myself by thinking
-that HTTP has become the UNIX-pipe of the Internet. Web browsers, of
-course implement HTTP, but for testing purposes you should familarize
-yourself with ``curl``, which is a versatile command line HTTP
-client (among other protocols.)
+"the web," and the moment for protesting the conflation of HTTP and
+"the Internet," has passed. For whatever its worth, HTTP has become
+the UNIX :term:`pipe` of the Internet. Web browsers, of course
+implement HTTP, but for testing purposes you should familiarize
+yourself with ``curl``, which is a versatile command line HTTP client
+(among other protocols.)
 
 There are a few terms with specific meanings in the context of
 HTTP. Consider these basic concepts:
@@ -36,19 +36,21 @@ HTTP. Consider these basic concepts:
 .. glossary::
 
    client
-      The software that sends requests to a server in the of receiving
+      The software that sends requests to a server and then receives
       data (a :term:`resource`) in response. HTTP clients (typically)
       place requests to servers listening on port 80. HTTPS clients
-      pace requests to servers listening on port 443. My applications
-      implement HTTP clients and most programming languages have
-      robust libraries that provide HTTP support.
+      pace requests to servers listening on port 443. There are many
+      robust, native, HTTP client libraries for application
+      developers.
 
    server
       A system that responds to client requests and returns
-      resources. HTTP servers listen for requests on port 80; however
-      can be configured to run on anyn port.. HTTPS servers listen for
-      requests on port 443. Recently, non-world-wide-web services
-      (i.e. RESTful APIs, Application Servers, databases like CouchDB.)
+      resources. HTTP servers listen for requests on port 80; however,
+      servers can run on any port.. HTTPS servers listen for
+      requests on port 443 by default. Recently, a number of
+      non-world-wide-web services have emerged that implement HTTP
+      servers. (i.e. RESTful APIs, Application Servers, databases like
+      CouchDB.)
 
    resource
       The content returned by the :term:`server` in response to a
@@ -61,8 +63,8 @@ HTTP. Consider these basic concepts:
       :ref:`HTTP requests <http-requests>`.
 
    status code
-      All responses from an HTTP server, include a status code, which
-      are outlined in :ref:`HTTP status codes <http-statuses>`.
+      All responses from an HTTP server, include a status code,
+      described in :ref:`HTTP status codes <http-statuses>`.
 
    header
       The metadata transmitted with a given request or response. See
@@ -70,12 +72,10 @@ HTTP. Consider these basic concepts:
 
    httpd
       A daemon that implements the HTTP protocol. Historically,
-      this has refereed to the NCSA httpd and its successor the Apache
+      this has refered to the NCSA httpd and its successor the Apache
       HTTPD Server, though the name is generic, and can refer to any
       HTTP server, typically multi-purpose ones running on Unix-like
       systems.
-
-This section will use and more thoroughly define these terms.
 
 .. _http-headers:
 
@@ -97,8 +97,8 @@ from ``tychoish.com``: ::
       Accept-Ranges: bytes
 
 HTTP also provides for a set of headers in the request. They take the
-same key/value form as response headers, though with a different set
-of keys.
+same key/value form as response headers, although the set of keys is
+different.
 
 .. _http-statuses:
 
@@ -106,22 +106,20 @@ Status (Error) Codes
 ````````````````````
 
 When you run "``curl -I``"  the first response line provides the HTTP
-status, this (as follows) was omitted from the above example:  ::
+status, the above example omitted the following status: ::
 
       HTTP/1.1 200 OK
 
-This conveys the version of the HTTP protocol used (basically
-everything is v1.1, or trying to be,) a status code (e.g. 200,) and
-then some human intelligible translation of this code. You likely
-already know code ``404`` which is returned when the server can't find
-the resource requested. ``200`` is, as above the status code for
-"resource returned successfully."
+This conveys the version of the HTTP protocol in use [#version]_ a
+status code (e.g. 200,) and then some human intelligible translation
+of this code. You already know code ``404`` that servers returns when
+it can't find the resource requested. ``200`` is, as above, is he
+status code for "resource returned successfully."
 
-There are a few dozen HTTP codes, you can generally gauge someone's
-overall level of geekiness/free time by their ability to translate
-HTTP codes without looking at a reference card. In general, 300 series
-codes reflect a redirection (e.g. "the resource you're looking for is
-somewhere else,") 400 series code reflect some sort of error or
+There are a few dozen HTTP codes, and while some administrators have
+memorized the HTTP status codes, there is no need: In general, 300
+series codes reflect a redirection (e.g. "the resource you're looking
+for is somewhere else,") 400 series code reflect some sort of error or
 problem that the server has with the request, and 500 series requests
 reflect some sort of "internal error," usually related to the server's
 configuration or state.
@@ -150,18 +148,20 @@ everything else:
 Often server logs will return more useful information regarding the
 state of the system.
 
+..  [#version] All HTTP services are or attempts to comply with
+    version 1.1.
+
 .. _http-requests:
 
 Requests
 ````````
 
 HTTP provides a very full featured interface for interacting with
-remote resources, although it's easy to forget everything beyond the
-``GET`` and ``POST`` request types. Requests are generally refereed to
-as "methods," in common parlance. Adhering more strictly to HTTP
-methods, is one of the defining aspects of ":term:`REST`" but
-commonly, application interfaces will just use GET and PUT
-operations.
+remote resources, although in common use, the ``GET``, ``POST``, and
+``PUT`` request account for the overwhelming majority of
+requests. Requests types are generally refered to as "methods."
+htrict semantic adherence to HTTP methods is one of the defining
+aspects of ":term:`REST`"
 
 .. glossary::
 
@@ -187,46 +187,23 @@ operations.
       Retrieve only the headers without fecthing the body of the
       request.
 
-Services and Scaling
-~~~~~~~~~~~~~~~~~~~~
-
-I suspect every other introduction to HTTP and web servers, describe
-operations in terms of a single client and a single server. Perhaps
-there are even multiple clients but the truth of the matter is that
-web server technology has advanced such that any configuration where a
-single website or domain is powered by a single :term:`httpd` should
-be considered trivial. Although its conceivable, though unlikely, that
-your systems will never face :doc:`availability <high-availability>`
-or scaling challenges, ignorance is not a wise course.
-
-As an additional concern, cases are emerging where HTTP isn't just for
-communication between web servers and web browsers. HTTP APIs of
-various sorts use HTTP as a method to communicate with remote
-application and information providers, CouchDB uses an HTTP interface
-for applications to communicate with a database, and Node.js uses HTTP
-as an application transport.
-
 HTTP Abstractions
 -----------------
 
+Conceptually, it's best to think about HTTP in terms of static content
+conveyed directly from the server's file system, thought the web
+server, to the end-user's client. In truth, operations are more
+complex, and most HTTP deployments make use of a clustered server and
+server side processing.
+
+There are a couple of very simple abstractions that most general
+purpose web servers provide that make it easier to deploy web services
+using HTTP: *Proxy handling* where a server will "pass" a request to
+another server and *URL rewriting* where the server will map incoming
+requests for :term:`resources <resource>` to different internal paths
+and resources.
+
 EDIT http abstractions
-
-Until now we've talked about HTTP in terms of static content conveyed
-directly from the server's file system, thought the web server, to the
-end-user's client. If that were the only way to deploy HTTP then this
-would be a very short article indeed. Different web servers provide
-levels of processing on requests, and some even embed programming
-languages, database requests, and other functionality into the request
-cycle itself.
-
-For the most intensive and complex of this "dynamic" content, external
-applications written using nearly any programming technology handles
-these requests. However, there are a couple of very simple
-abstractions that most general purpose web servers provide that are
-useful to introduce at this stage: *Proxy handling* where a server
-will "pass" a request to another server and *URL rewriting* where the
-server will map incoming requests for :term:`resources <resource>` to
-different internal paths and resources.
 
 Load Balancing and Proxies
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -319,6 +296,9 @@ dynamically assemble content per-request, a more complex system is
 required. The kind of dynamic content you require and the kinds of
 existing applications and tools that you want to use dictate your
 architecture--to some extent--from here.
+
+.. index:: web services; cgi
+.. index:: cgi
 
 .. _cgi-app-servers:
 
@@ -459,6 +439,9 @@ the following:
 .. [#fpm] In the last couple of years, `PHP-FPM <http://php-fpm.org/>`_
    has made PHP much easier to run as :term:`FastCGI`.
 
+.. index:: distributed systems; http
+.. index:: scaling
+
 Scaling HTTP Servers and Building Distributed Systems
 -----------------------------------------------------
 
@@ -543,6 +526,8 @@ each component service.
 .. seealso:: While availability and scaling are not necessarily linked
    tasks, consider the material covered in ":doc:`high-availability`"
    when thinking about architecture.
+
+.. index:: web servers
 
 HTTPD Technologies
 ------------------

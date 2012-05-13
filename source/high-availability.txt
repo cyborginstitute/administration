@@ -1,36 +1,31 @@
+.. index:: high availability
+
 ===============================
 High(er) Availability Is a Hoax
 ===============================
-
-TODO index document
-
-EDIT structure
-
-EDIT introduction (short!)
 
 High availability, or "higher availability," is the practice of
 developing infrastructure invulnerable all kinds of service
 interruptions.
 
 True high availability is an impossible challenge. Network failure,
-hardware failure, developer error, and administrator error can
-interrupt any service. Beyond simple errors, load in excess of
+hardware failure, developer error, and administrator error can and
+will interrupt all services. Beyond simple errors, load in excess of
 capacity will often render a services inaccessible. Often "load in
 excess of capacity" refers to malicious traffic but frequently
 unexpected traffic is entirely legitimate. The confluence of these
 potential issues means that administrators cannot ensure one-hundred
-percent up time. There are, however, ways to decrease the chance of
-downtime and increase the ability of a system to recover quickly from
-various kinds of failures and service interruptions.
+percent up time.
 
-This document outlines the fundamentals of and approaches to building
-reliable systems.
+There are, however, ways to decrease the chance of downtime and
+increase the ability of a system to recover quickly from various kinds
+of failures and service interruptions. This document outlines the
+fundamentals of and approaches to building reliable systems.
 
 .. seealso:: Practically speaking, the technologies that support
-   "highly available" systems are the same as the technologies that
-   support higher performance systems. In light of this, be familiar
-   with the concepts introduced in the following sections of this
-   resource:
+   "highly available" systems are the same technologies that support
+   higher performance systems. In light of this, be familiar with the
+   concepts introduced in the following sections of :doc:`contents`:
 
    - ":doc:`database-scaling`"
    - ":doc:`web-services-architecture`"
@@ -38,8 +33,6 @@ reliable systems.
 
 Availability Technology
 -----------------------
-
-EDIT glossary section
 
 The following technical concepts, terms, and technologies are
 particularly relevant to administrators of highly available
@@ -67,24 +60,23 @@ for a more in depth discussion of these concepts.
 
    reliability
       Services are reliable if *other* services can depend upon them
-      to function, and ultimately "reliability," is about the
-      engineering tolerances of dependent systems and services. In the
-      context of most information technology services this is  often
+      to function, and ultimately "reliability" is about the
+      engineering tolerances of connected systems and services. In the
+      context of most information technology services this is often
       controlled by the contracts with service providers and vendors.
 
    proxy
-      A service which requests pass through between the client that
-      makes the request and the server which provides the
-      resource. Typically clients can detect the proxies that helped
-      to fulfill their request, but not in every case. Proxying is
-      often used to provide load balancing or routing between
-      different layers or instances of a service.
+      A service that requests pass through between a client that makes
+      a request and the server that provides the resource. Typically,
+      but not always, clients can detect the proxies that their
+      request passed through. Proxies often provide load balancing
+      or routing between different layers or instances of a service.
 
    statelessness
-      State refers to the memory created and referenced during runtime
-      that reflects the current process and information used by a
-      program. Stateless application in the context of high
-      availability, then are those programs that either save no state
+      State refers to the memory created and referenced during
+      operation that reflects the current process and information used
+      by a program. Stateless application in the context of high
+      availability, are those programs that either save no state
       between requests or store all required state in a persistent
       data storage system. Statelessness is desirable because, the
       *more* stateless an application or layer is, the easier it is to
@@ -94,7 +86,8 @@ for a more in depth discussion of these concepts.
       A feature in many :term:`proxy` servers that balances incoming
       traffic from clients among a cluster of back-end servers to
       distribute traffic so that any one node does not receive
-      traffic disproportionate to its ability to service those requests.
+      traffic disproportionate to its ability to service those
+      requests.
 
    drbd
       DRBD is a system that provides block-level duplication over
@@ -110,8 +103,8 @@ for a more in depth discussion of these concepts.
       replicated disk usage scheme.
 
    partitioned
-      Any system architecture where the corpus of data or resources is
-      divided among many different nodes. RAID-0 is an example of
+      Any system architecture that divides the corpus of data or
+      resources among many different nodes. RAID-0 is an example of
       partitioned disk usage scheme.
 
 .. _ha-principals-overview:
@@ -119,9 +112,7 @@ for a more in depth discussion of these concepts.
 Principals
 ----------
 
-EDIT concept overview
-
-To be highly available, a service needs to be:
+To be highly available, a service must be:
 
 - able to remains accessible if any given component fails.
 
@@ -138,18 +129,27 @@ network partition, but in most cases that's not an effective use of
 resources. This leads to the overriding theory that can inform all
 high availability work:
 
-**All services should be as highly available as possible, given the
-relative "business" value of the service in question.**
+.. pull-quote::
+
+   **All services should be as highly available as possible, given the
+   relative "business" value of the service in question.**
 
 In other words, don't spend time and money making sure that a service
 will have no apparent downtime, particularly when the service isn't
-absolutely mission critical particularly when many classes of errors
-are exceedingly rare. For most deployments, ensuring that that the
-service will remain available despite the most likely two or three
-interruptions or failures, is :term:`good enough`. For all other
-potential failures, good :doc:`monitoring <monitoring-tactics>`, and
+absolutely mission critical and particularly when many classes of
+errors are exceedingly rare.
+
+For most deployments, you can ensure that that the service will remain
+available despite the most likely two or three interruptions or
+failures, which will be :term:`good enough`. For all other potential
+failures, good :doc:`monitoring <monitoring-tactics>`, and
 :ref:`graceful degradation <ha-graceful-degradation>` are sufficient
 solutions.
+
+EDIT concept overview {from here}
+
+.. index:: high availability; redundancy
+.. index:: redundancy
 
 Redundancy
 ~~~~~~~~~~
@@ -195,6 +195,9 @@ systems, all layers need to be able to failover: application,
 database, caching, as well as load balancing and proxy. Ideally, the
 systems are fully-redundant among more than one data center not simply
 *within* a single facility.
+
+.. index:: high availability; failover
+.. index:: failover
 
 Failover
 ~~~~~~~~
@@ -313,6 +316,9 @@ developing applications that build activity around message/work queues
 (that are themselves highly available,) but where the other portions
 of the system have a higher failure tolerance.
 
+.. index:: high availability; reliability
+.. index:: reliability
+
 Reliability
 ~~~~~~~~~~~
 
@@ -377,6 +383,8 @@ rotation without affecting any other node. If you take this approach
 to application architecture and deployment, it may be possible to gain
 a large amount of high availability as a part of a single system.
 
+.. index:: scaling
+
 Salable Technologies
 ~~~~~~~~~~~~~~~~~~~~~
 
@@ -407,6 +415,8 @@ consistent thought the "outage." The general strategy here is to
 ensure that the system can quickly and seamlessly recover or survive
 short downtimes caused by system reboots, network partitions, or
 system updates.
+
+.. index:: high availability; automation
 
 Automation
 ~~~~~~~~~~

@@ -1,13 +1,13 @@
+.. index:: monitoring
+
 ======================================
 Infrastructure Monitoring for Everyone
 ======================================
 
-EDIT introduction and structure
-
-TODO add indexing tags as needed
-
 Overview
 --------
+
+EDIT overview sections
 
 Monitoring refers to the practice of collecting regular data regarding
 your infrastructure in order to provide alerts both of unplanned
@@ -513,16 +513,18 @@ provide some very useful data analysis, for example, you may:
   applications that a number of teams of developers provide and
   maintain.
 
-Lessons for Cyborgs
--------------------
+.. STOP EDITING HERE.
 
-EDIT fix or drop conclusion
+Monitoring Requirements
+-----------------------
 
+Consider the following set of minimum operational requirements for a
+functioning monitoring system:
 
-- Monitor everything. If it's not important to monitor, it's likely
-  not providing any value and should be stopped.
+- Monitor everything. If it's not important enough to monitor, the
+  service or resource may not be providing value.
 
-- Monitor monitoring systems.
+- Monitor monitoring systems themselves.
 
 - Use different kinds of tests and tools to collect data to prevent
   measurement errors.
@@ -531,3 +533,6 @@ EDIT fix or drop conclusion
 
 - Expect to spend time tuning and modifying monitoring frequency so
   that you're not collecting too much data, or archiving data.
+
+Without these features a monitoring system may not be worth the
+resources that it consumes.
