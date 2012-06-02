@@ -36,7 +36,7 @@ Availability Technology
 
 The following technical concepts, terms, and technologies are
 particularly relevant to administrators of highly available
-systems. See the :ref:`principals section <ha-principals-overview>`
+systems. See the :ref:`principles section <ha-principles-overview>`
 for a more in depth discussion of these concepts.
 
 .. glossary::
@@ -107,9 +107,9 @@ for a more in depth discussion of these concepts.
       resources among many different nodes. RAID-0 is an example of
       partitioned disk usage scheme.
 
-.. _ha-principals-overview:
+.. _ha-principles-overview:
 
-Principals
+Principles 
 ----------
 
 To be highly available, a service must be:
@@ -146,8 +146,6 @@ failures, good :doc:`monitoring <monitoring-tactics>`, and
 :ref:`graceful degradation <ha-graceful-degradation>` are sufficient
 solutions.
 
-EDIT concept overview {from here}
-
 .. index:: high availability; redundancy
 .. index:: redundancy
 
@@ -155,13 +153,18 @@ Redundancy
 ~~~~~~~~~~
 
 Highly available systems, need to be redundant so that any single
-:term:`host` or server process on a host can be removed without
+:term:`host` or server process can terminate or become unavailable without
 impacting the service. Keeping a hot standby of every server or
-instance can be a monumental challenge. Although this is changing,
-with the advent of :term:`virtualization`, most :term:`hosts <host>`
-provide more than one service. For example, an email server may also
-host an LDAP directory and a DNS server, while various caching layers
-may reside on the same instances as the application servers.
+instance can be a monumental challenge. Keeping a hot standby *and*
+maintaining the infrastructure to route traffic to the standby when the
+main server fails and keeping the secondary up until the primary
+returns, is even more difficult. 
+
+Although this is changing, with the advent of :term:`virtualization`,
+most :term:`hosts <host>` provide more than one service. For example,
+an email server may also host an LDAP directory and a DNS server,
+while various caching layers may reside on the same instances as the
+application servers.
 
 The first step toward redundant systems is separating services such
 that a different host provides one and only one service. on a network
@@ -177,24 +180,27 @@ situations you can have separated instances for the critical highly
 available services, and a couple of multi-tenant systems for the less
 critical services.
 
-The largest problem with deploying redundant services relates to
-maintaining "state," for client-server applications in a redundant
-context. In most cases this ends up being application implementation
-issue, that developers resolve by storing all state in the database or
-persistence layer, or by using some type of shared storage system that
-included network or clustered file systems, or distributed block-level
-devices. Though often, these kinds of more complex infrastructure
-requirements add an additional complexity or point of failure that
-requires careful consideration. Database systems often have their own
-native replication and high availability support that may be easier to
-implement at that layer, than keeping track of throughout the entire
-system.
+These architecture problems are largely financial: with a bit of
+menial work and enough money, you can build redundant, load balanced
+systems with failover. 
 
-Additionally, in order for deployments to be true "high availability"
-systems, all layers need to be able to failover: application,
-database, caching, as well as load balancing and proxy. Ideally, the
-systems are fully-redundant among more than one data center not simply
-*within* a single facility.
+From a technical standpoint, the biggest challenge in building these
+kinds of redundant failover-capable clusters relates to maintaining
+"state." Which is to say that no server can be the sole source of
+state regarding a connection or user, although some systems may be
+able to tolerate some transient state loss during failover. 
+
+State is a detail of application implementation. To resolve this,
+developers will attempt to all state in the database or persistence
+layer, or by using some type of shared storage system like a network
+or clustered file system. Often, however these kinds solutions create
+more complex infrastructure requirements and add a point of failure
+that requires additional availability consideration.
+
+In order for a deployment to be truly "highly available," all layers
+need to be able to failover: application, database, caching, as well
+as load balancing and proxy. Ideally, the systems are fully-redundant
+among more than one data center not simply *within* a single facility.
 
 .. index:: high availability; failover
 .. index:: failover
@@ -202,41 +208,41 @@ systems are fully-redundant among more than one data center not simply
 Failover
 ~~~~~~~~
 
-Redundancy can add robustness to systems and services, if load
-balancing distributes traffic between identical nodes or service
-providers. This is a common strategy for developing *high performance*
-systems but it cannot provide *high availability* without some way to
-recover or heal from systems that fail or become accessible. The term
-"failover" typically describes this process and this functionality.
+Redundancy can add robustness to systems and services if the load
+balancing layer can distribute traffic between identical nodes or
+service providers. This is a common strategy for developing *high
+performance* systems but it cannot provide true *high availability*
+without some way to recover or "heal" from systems that fail or become
+inaccessible. The term "failover" typically describes this process and
+this functionality.
 
 Failover systems operate by sending heartbeats or small "ping" like
 packets between all nodes. When a system stops responding to pings
 [#threshold]_ the load balancers remove the inaccessible node from
 active rotation. When the "downed" system becomes accessible and
 starts returning heartbeats, then the failover system [#recovery]_
-load balancers reconfigured to add the node back to active rotation.
+reconfigures load balancers to add the node back to active rotation.
 
 While the "pattern" for failover and recovery is straightforward and
 used by most implementations and deployments, there is great variance
-among specific implementations. Definitions of what constitutes an
-"inaccessible node," depends greatly on the deployment and the usage
-pattern of the server. For some kinds of system, a node inaccessible
-for 2 minutes between 9am and 6pm eastern is the maximum tolerance,
-but that same node could safely be inaccessible for 20 minutes (say,)
-between 10pm and 4am. Coordinate these thresholds with your
-:doc:`monitoring <monitoring-tactics>` team or product. Indeed, your
-high availability systems will be tightly integrated the monitoring
-systems for that infrastructure..
+among specific implementations. The way systems decide that a node is
+"inaccessible" depends on the deployment and usage pattern of the
+server. For some kinds of system, an node that is inaccessible for 2
+minutes between 9am and 6pm eastern is the maximum tolerance, but that
+same node could safely be inaccessible for 20 minutes between 10pm and
+4am. Coordinate these thresholds with the :doc:`monitoring
+<monitoring-tactics>` solution. Indeed, all high availability systems
+must be tightly integrated with monitoring systems.
 
 Ideally the cluster management tools will be able to detect (or
-receive notice) of an "downed"/inaccessible system or service, remove
-them from circulation without manual administrator intervention. For
-some deployments it might not be practical to automate recovery: if
-you expect failover situations to be relatively rare (and they should
-be rare) configuring an automatic recovery system may not be a
-productive use of time. In general, consider the complexities
-associated with robust automated failover and recovery on a balance
-with operationally acceptable down time.
+receive notice) of an inaccessible system or service and remove it
+from circulation without manual administrator intervention. For some
+deployments it might not be practical to automate recovery: if you
+expect failover situations to be relatively rare with concrete causes,
+configuring an automatic recovery system may not be a productive use
+of time. In general, consider the complexities associated with robust
+automated failover and recovery on a balance with operationally
+acceptable downtime.
 
 Possible mechanisms for providing the actual failover include:
 
@@ -247,10 +253,10 @@ Possible mechanisms for providing the actual failover include:
   typically refered to as "moving" or "floating" an IP address.
 
 - Re-configuring an anycast configuration on your network routers to
-  remove the unavalible node.
+  remove an unavalible node.
 
 - Modify the DNS records to prevent traffic from reaching the
-  unavalible node or nodes.
+  unavalible node or nodes. 
 
 Each method has advantages and disadvantages: Anycast network routing
 is fast and easy to configure because it operates on the network
@@ -258,12 +264,12 @@ layer, it can be nearly transparent to the application layer. DNS
 based solutions are easy to configure but because DNS information is
 typically cached at multiple layers, changes in DNS configuration may
 take too long to propagate. Moving or floating an IP address is
-difficult from a networking perspective, and often requires a number
-of common daemons to be restarted as most software is not designed to
-handle changing IP address configurations. The correct solution
-depends on your deployment, your control over the networking
-infrastructure (or the available services of your hosting provider,)
-and the amount of required responsiveness for your high availability
+difficult from a networking perspective, and often requires the
+application to restart a number of common daemons as most software is
+not designed to handle changing IP address configurations. The correct
+solution depends on your deployment, your control over the networking
+infrastructure, the available services of your hosting provider, and
+the amount of required responsiveness for your high availability
 setup.
 
 .. [#threshold] The threshold, or point, where the cluster or
@@ -290,31 +296,31 @@ setup.
 Graceful Degradation
 ~~~~~~~~~~~~~~~~~~~~
 
-The problem with high availability is that while it's theoretically
-possible to configure services that will be *highly available*, and
-only experience "downtime" for seconds a year, there are great costs
-associated with this. In part the expense of availability comes from
-the requirement to procure multiple identical instances of hardware,
-and contract for redundant and independently provisioned power and
-network services.
+High availability is attainable for all kinds of systems, given some
+engineering work and sufficient money for powerful and high quality
+hardware. You can create deployments that will be *highly available*,
+and only experience "downtime" for seconds a year. The expense of
+availability comes from the requirement to procure multiple identical
+instances of hardware, and contract for redundant and independently
+provisioned power and network services.
 
-More challenging is the fact high availability places a number of
-significant operational limitations: every modification to a
-deployment becomes increasingly complex in order to provide redundancy
-and preserve state through failover. Replication can also create
-substantial overhead which can have an impact on systems. The end
-result is that even minor modifications to highly available systems
-become excruciatingly difficult to deploy and maintain as applications
-develop and needs change.
+High availability also carries a number of significant operational
+requirements: every modification to a production environment increases
+complexity as the deployment gains redundancy and the ability to
+preserve state through failover. Replication itself can carry overhead
+that may impact production systems. As a result, even minor
+modifications to highly available systems become excruciatingly
+difficult to deploy and maintain as applications develop and needs
+change.
 
 As a potential counterpoint to traditional "high availability,"
 "graceful degradation," describes a process where, rather than
 "failover" and "recovery" parts services become inaccessible rather
-than totally unavailable, in response to connectivity maintenance, or
-other kinds of interruptions. Graceful degradation may also involve
-developing applications that build activity around message/work queues
-(that are themselves highly available,) but where the other portions
-of the system have a higher failure tolerance.
+than totally unavailable during network or system maintenance and
+failure. Graceful degradation may also involve developing
+applications that build activity around message/work queues (that are
+themselves highly available,) but where the other portions of the
+system have a higher failure tolerance.
 
 .. index:: high availability; reliability
 .. index:: reliability
@@ -322,94 +328,89 @@ of the system have a higher failure tolerance.
 Reliability
 ~~~~~~~~~~~
 
-Most of high(er) availability planning revolves around thinking about
-the kinds of failures that can and are likely to occur and then
-deploying infrastructure that can survive and compensate for these
-kinds of errors. But higher availability isn't the only way to build
-systems that are reliable, and :ref:`graceful degradation
+Planning for high(er) availability requires considering the kinds of
+failures that can and are likely to occur in a system deploying
+infrastructure to survive and compensate for these kinds of
+errors. But higher availability isn't the only way to build systems
+that are reliable, and :ref:`graceful degradation
 <ha-graceful-degradation>` is a good example of approaching the
 availability challenge from the perspective of building *more reliable
-systems* from a more holistic perspective.
+and fault tolerant systems* from a more holistic perspective.
 
 When considering the best way to build available systems, or the best
-ways to increase the reliability of a service it's important to ask
-the following questions, and consider
+ways to increase the reliability of a service it's important to
+consider: 
 
 - What is the practical downtime tolerance? How often is it acceptable
   for the system to be down for 5 or 10 minutes?
 
-- Can we degrade gracefully and efficiently when services are
-  unavailable so that "business" can continue without loosing state,
-  or the contents of the queue?
+- Is graceful degradation an option when services are unavailable so
+  that "business" can continue without loosing state or the contents
+  of the queue?
 
 - How are errors detected, and how long can a system be down before
-  monitoring or :term:`heartbeats <heartbeat>` pick up the new status.
+  monitoring or :term:`heartbeats <heartbeat>` pick up the new status?
 
 - Are intermittent errors or availability limits acceptable, or are
   transient outages tolerable?
 
-- Are downtimes more acceptable if they're quickly recoverable? What
-  defines reliable?
+- Are downtimes more acceptable if they're quickly recoverable?
 
 High Performance
 ~~~~~~~~~~~~~~~~
 
-As above, the kinds of technologies and configuration that underpin
-high availability deployments are the same systems that underpin
-certain kinds of high performance system. For example, the kind of
-database clustering technology that makes replication and failover, is
-often deployed to distribute (primarily read) operations to multiple
-nodes to increase performance. Similarly, load balanced, distributed
-application servers are great for increasing application concurrency.
+The technologies and configurations that support high availability
+deployments are the same fundamental technologies and configurations
+that support high performance systems. For example, the kind of
+database clustering technology that makes replication and failover
+possible, is often deployed to distribute (primarily read) operations
+to multiple nodes for performance reasons. Similarly, load balanced,
+distributed application servers are great for increasing application
+concurrency.
 
-Administrators and architects need to be sure to keep performance
-architectural concerns and increased availability projects
-distinct. In practice high availability systems need to be
-sufficiently performant to handle peak usage without relying on
-secondary systems, while secondary systems need to be capable of
-handling a production load on their own.
+Administrators and architects need to be sure to keep high performance
+architecture concerns and increased availability projects distinct. In
+practice "secondary" systems in a high availability deployment must be
+sufficiently robust to be able to support peak production usage
 
 In the abstract, it makes sense to thinks about redundancy and
-failover as being simple "A/B" systems where the entire stack is
-replicated, and when the "A" system fails, the "B" system takes
-over. Practically speaking, however, redundancy and failover need to
-happen on a much finer system. Databases need to be redundant, load
-balancers need to be redundant, application servers need to be
-redundant, email servers, directory services, and so forth.
-
-Therefore, it's often a better strategy to build high performance
-systems, where any individual node can fail and be removed from
-rotation without affecting any other node. If you take this approach
-to application architecture and deployment, it may be possible to gain
-a large amount of high availability as a part of a single system.
+failover as being simple "A/B" systems that replicates the entire
+stack primary ("A") stack in a secondary ("B") stack: When the "A"
+system fails, the "B" system takes over. Practically speaking,
+however, redundancy and failover need to happen on a much finer
+grained level. Databases need to be redundant, load balancers need to
+be redundant, application servers need to be redundant, email servers,
+directory services, and so forth. By bringing high availability down
+to the service level rather than the instance or system level, its
+possible to develop a more resilient and flexible system.
 
 .. index:: scaling
 
 Salable Technologies
 ~~~~~~~~~~~~~~~~~~~~~
 
-Some approaches to application design and architecture can be more
-fault resistant than others. While a well designed application is not
-a *substitute* for managing availability, certain application designs
-make it easier to provide a higher level of availability.
+Some application designs and architectures can be more fault resistant
+than others. While a well designed application is not a *substitute*
+for managing availability, certain application designs make it easier
+to provide a higher level of availability.
 
-For instance, an application developed around highly available queue
+For example, an application developed around highly available queue
 system, with worker and application systems that have no particular
 state or availability nodes, can be highly reliable from the users
 perspective without having a large number of availability-related
-requirements. In this configuration, the database system and the queue
-system (that may use the same database) are the only crucial
+infrastructure. In this configuration, the database system and the
+queue system (that may use the same database) are the only crucial
 components of the system, every other process can be
 ephemeral. Databases and queuing systems are also typically distinct
-and robust software packages that can be used without
+and robust software packages that applications can use used without
 modification. This strategy revolves around making most of the
 application stateless and fortifying the state-holding elements of the
 system.
 
-Similarly, a system with a very large and robust caching layer can
+Similarly, a system with large and robust caching layer can
 allow application servers to become unavailable for short or medium
-periods of time (anywhere from 1 to 20 minutes, say) without affecting
-the overall availability of a site. Again one must be careful to
+periods of time (i.e. anywhere from 1 to 20 minutes) without affecting
+the overall availability of a system. Again you must be careful to
 ensure that the durable state (likely stored in a database,) remains
 consistent thought the "outage." The general strategy here is to
 ensure that the system can quickly and seamlessly recover or survive
@@ -421,49 +422,52 @@ system updates.
 Automation
 ~~~~~~~~~~
 
-This :doc:`text <index>` and the entire the "transformation" of
-systems administration into "dev/ops`" is based upon the idea that
-systems administration, operations, deployment, and infrastructure
+:doc:`contents` and the entire the "transformation" of systems
+administration into "dev/ops`" centers on the idea that systems
+administration, operations, deployment, and infrastructure
 maintenance, should be "automatable" and "programmatically managed."
 While the implications and totalizing aspects of this shift will
 probably take several years to stabilize, high availability has long
-been a problem domain where success is often a function of the level
-of system automated and the programmatic administration.
+been a problem domain where success is often a function of the amount
+of systems automated and the programmatic administration.
 
 Because human intervention takes time, produces inconsistent results,
-and can lead to greater periods of unavailability, so automation is
-truly the only way to have really robust high availability
-systems. While there are some trade-offs between the befits and
-relative costs of automating certain tasks, true high availability
-systems are automated (and well :doc:`documented <documentation>`.)
-The deployment should be able to perform as many of the following
-activities without interrupting the availability of the service:
+and can lead to greater periods of unavailability, automation is truly
+the only way to have robust highly available systems. There are
+trade-offs between the befits and relative costs of automating certain
+tasks. Automate all high availability systems and :doc:`document
+<documentation>` their use and design.
+
+Such deployments should perform as many of the following activities
+without interrupting the availability of the service or requiring
+human intervention:
 
 - **Detect unavailable nodes or systems**.
 
-  Using :term:`heartbeats <heartbeat>`, or other tests, the infrastructure will be
-  able to detect when components become unavailable automatically.
+  Using :term:`heartbeats <heartbeat>`, or other tests, the
+  infrastructure will detect when components become unavailable
+  automatically.
 
 - **Failover**.
 
-  When a node is no longer accessible, the larger system will be able
-  to remove it from active rotation, or trigger a complete failover of
+  When a node is no longer accessible, the larger system will remove
+  the node from active rotation, or trigger a complete failover of
   the entire stack.
 
 - **Resolution detection**.
 
-  When the cause of the unavailability (e.g. network partition, power
-  failure, or human error,)  is resolved, the system needs to be
-  detect this state reliably.
+  In cases of unavailability, after you resolve the issue, you must
+  determine the cause (e.g. network partition, power failure, or human
+  error.) Then ensure the system can detect and compensate for similar
+  events in the future.
 
 - **Recovery**
 
-  After the resolution detection occurs, the system needs to be able
-  to automatically "undo the failover" so that the formerly unavailable
-  nodes are once again included in rotation and will receive traffic.
+  After the resolution detection occurs, the system must automatically
+  "undo the failover" so that the formerly unavailable nodes are once
+  again included in rotation and will receive traffic.
 
 .. seealso:: ":doc:`monitoring-tactics`."
 
-In truth, automation both in the context of high availability and
-beyond in other problem domains is a smaller part of a the kind of
-systematic interaction with infrastructure that typifies "dev/ops."
+This kind of automation is a part of a the kind of systematic
+application/infrastructure automation that typifies "dev/ops."

@@ -1,8 +1,9 @@
-=======================================
-Database Scaling for Frightened Cyborgs
-=======================================
+.. index:: web scale
+.. index:: databases
 
-TODO add indexing tags
+=============================
+Database Capacity and Scaling
+=============================
 
 This document provides an overview of database systems, database
 system design, and database administration. It's goal is provide
@@ -116,6 +117,8 @@ guide between different database products or even data persistence
 paradigms, but there are strengths and weaknesses for every database
 system which this section attempts to highlight.
 
+.. index:: database; scaling
+
 Scaling and Bottlenecks
 -----------------------
 
@@ -181,6 +184,8 @@ ideas about scaling strategies. These architectures provide an
 overview of the possible tools that you can use to help increase the
 capacity of your system and application.
 
+.. index:: horizontal scale
+
 Horizontal Scale
 ~~~~~~~~~~~~~~~~
 
@@ -220,6 +225,8 @@ replication provides limited benefits.
 
 Many production deployments use some combination of both replication
 and partitioning.
+
+.. index:: vertical scale
 
 Vertical Scale
 ~~~~~~~~~~~~~~

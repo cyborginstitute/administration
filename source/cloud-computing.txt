@@ -2,24 +2,20 @@
 Cloud Computing, Virtualization, and Automation
 ===============================================
 
-TODO add indexing tags
-
-EDIT outline and structure
-
-WRITE introduction
+.. index:: computing as a service
+.. index:: cloud computing
+.. index:: service oriented architecture
+.. index:: soa
 
 Cloud Computing
 ---------------
 
-EDIT definition section
+Cloud computing is an innovation of marketing folks *not*
+technologists. Although "the cloud" has heralded innovations in
+business, technology, and practices, the more you delve into "cloud
+technology," the older the technology itself seems.
 
-"Cloud computing," in many (all?) ways is really a development of
-marketing rather than technology. While there are new technologies
-that are more prominent and patterns (both technical and business)
-that are more prevalent "in the cloud," the deeper you delve into
-"cloud technology," the more the technology seems *really old*.
-
-There are a lot of components that make up cloud technology, but this
+There are many components of  cloud technology, but this
 document will assume the following basic components of "the cloud:"
 
 - Computing is **non-local** and the user interface is a *thin* layer
@@ -52,10 +48,10 @@ computing," over the past 30 years or so. Consider:
 - "SOA," (server oriented architecture) which was a application design
   paradigm in the 90s which defined a high level approach to
   interoperability, is pretty much the same thing as non-local
-  computing with robust APIs. Swap out REST and HTTP with JSON for
-  XML-RPC, and replace business driven design process with a more
-  developer centric design process, and you have something that looks
-  a lot like "cloud applications and services."
+  computing with robust APIs. Swap out XML-RPC with REST and HTTP with
+  JSON for XML in SOA, and replace business driven design process with
+  a more developer centric design process, and you have something that
+  looks a lot like "cloud applications and services."
 
 - Operating System level virtualization is just the latest iteration
   on a long series of developments around multi-user operating
@@ -66,9 +62,9 @@ computing," over the past 30 years or so. Consider:
   clients or iPads and Android phones have a lot in common with
   regard, to application design, and the distribution of computing
   resources. Android/iOS devices are less specifically coupled to
-  their servers, and are likely "thicker," by comparison, but "old
-  school thin computing," had it's heyday 15 or 20 years ago, so the
-  comparison will always be rough.
+  their servers, and are likely "thicker," by comparison, but since
+  "old school thin computing," had it's heyday 15 or 20 years ago, so
+  the comparison will always be rough.
 
 - The shift from "paying for software licenses," to "paying for
   services," as the primary technology related transaction, may seem
@@ -81,9 +77,9 @@ computing," over the past 30 years or so. Consider:
 In the end cloud computing is really just a new collection of
 buzzwords and framework for thinking about the same kinds of
 technological questions that systems administrators have been
-addressing for the last 30 years. The content of this resource
+addressing for the last 30 years. :doc:`contents` 
 addresses concerns relevant to all kinds of systems administrators
-regardless of environment. Nevertheless, there are some special
+regardless of environment: cloud or otherwise. Nevertheless, there are some special
 considerations for those working with cloud computing that systems
 administrators be aware of when designing architectures for
 deployments and communicating with vendors and developers, and this
@@ -92,11 +88,13 @@ article addresses some of these issues.
 .. [#services] At the same time the systems architecture needs to, at
    least in some senses, reflect the economics of the
    technology. While this is an easy ideology to subscribe to, it's
-   incredibly difficult to implement, at different levels of "the
-   stack," and with a great deal of existing technology. If you use
-   ephemeral infrastructure, then all layers of your application stack
-   must be able to operate (and presumably remain available) on
-   infrastructure that stops, restarts, and fails without warning.
+   incredibly difficult to implement, at different levels of the
+   stack, with existing technology. If you use ephemeral
+   infrastructure, then all layers of your application stack must be
+   able to operate (and presumably remain available) on infrastructure
+   that stops, restarts, and fails without warning.
+
+.. index:: virtualization
 
 Virtualization
 --------------
@@ -517,6 +515,8 @@ capabilities of the system.
 
 .. seealso:: ":doc:`high-availability`" and ":doc:`database-scaling`"
 
+.. index:: configuration management
+
 Configuration Management
 ------------------------
 
@@ -859,7 +859,8 @@ Consider the following:
    centralization at all costs, but for larger and complex systems,
    "centralized" state, just means storing state data in an
    authoritative database or data store, or making sure that scripts
-   *can* run on all systems in a failover situation and
+   *can* run on all systems in a failover situation even if they only
+   run on some systems in common practice.
 
    Also, it's possible to configure deployments with entirely
    distributed services (i.e. distributed application, monitoring, and
@@ -868,6 +869,3 @@ Consider the following:
    you can use a distributed database, but the application can treat
    the database system as an authoritative source for state-related
    information.
-
-I use the term in this case less
-   to
