@@ -217,9 +217,8 @@ abstractions that define the Unix paradigm:
 .. [#defining] In many ways the Linux kernel project defined the way
    that most free software project's develop software.
 
-.. _unix-philosophy:
-
 .. index:: unix; philosophy
+.. _unix-philosophy:
 
 Philosophy
 ----------
@@ -452,7 +451,7 @@ features, and more about being familiar with the ecosystem.
 Administration
 --------------
 
-If you're new to Unix systems administration, ":doc:`.. contents`" 
+If you're new to Unix systems administration, ":doc:`contents`" 
 a good starting place, but the following section provides a
 few Unix-specific fundamentals.
 
