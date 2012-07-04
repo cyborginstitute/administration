@@ -11,16 +11,16 @@
   <h3>{{ _('Page Meta') }}</h3>
   <ul class="this-page-menu">
     <li><a href="{{ pathto('_sources/' + sourcename, true)|e }}"
-           rel="nofollow">{{ _('Show Source') }}</a></li>
+           rel="nofollow">{{ _('Page Source') }}</a></li>
     <li><a href="http://git.cyborginstitute.net/?p={{ theme_project }}.git">git repository</a></li>
     <li><a href="http://github.com/cyborginstitute/{{ theme_project }}">git repository</a> (github)</li>
-    <li><a href="http://lists.cyborginstitute.net/institute">institute listserv</a></li>
+    <li><a href="http://lists.cyborginstitute.net/listinfo/institute">institute listserv</a></li>
   </ul>
 {%- endif %}
 
 <h3>About</h3>
 
-<h4>Cyborg Institute</h4>
+<h4><a href="/">Cyborg Institute</a></h4>
 
 <p>
   Cyborg Institute is a collective free software/open source
@@ -30,8 +30,8 @@
 </p>
 
 <ul class="this-page-menu">
-  <li><a href="http://cyborginstitute.com">Cyborg Institute</a></li>
-  <li><a href="http://cyborginstitute.com/">Projects</a></li>
-  <li><a href="http://cyborginstitute.com/contact">Contact</a></li>
+  <li><a href="/">Cyborg Institute</a></li>
+  <li><a href="/projects">Projects</a></li>
+  <li><a href="/contact">Contact</a></li>
   <li><a href="http://tychoish.com">tychoish.com</a></li>
 </ul>
