@@ -27,7 +27,7 @@ project = u'Systems Administration for Cyborgs'
 copyright = u'2012, Sam Kleinman and Contributors'
 
 version = ''
-release = ''
+release = '1'
 
 exclude_patterns = []
 
@@ -78,7 +78,7 @@ latex_paper_size = 'letter'
 latex_font_size = '10pt'
 latex_documents = [
 # (source start file, target name, title, author, documentclass [howto/manual]).
-  ('contents', 'garen.systems-administraton-for-cyborgs.tex', u'Systems Administration for Cyborgs', u'Sam Kleinman', 'manual'),
+  ('contents', 'kleinman.systems-administraton-for-cyborgs.tex', u'Systems Administration for Cyborgs', u'Sam Kleinman', 'manual'),
 ]
 
 #latex_use_parts = False
