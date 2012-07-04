@@ -27,7 +27,7 @@ resource please write an email to the listserv, and one of the
 existing maintainers or contributors will any required modification.
 
 .. _github: http://github.com/cyborginstitute/cyborg-admin
-.. _listserv: http://lists.cyborginstitute.net/institute
+.. _listserv: http://lists.cyborginstitute.net/listinfo/institute
 
 Resources
 ---------
@@ -59,7 +59,7 @@ The `Cyborg Institute Git Hub`_
 .. _Cyborg Institute: http://cyborginstitue.com/
 .. _Cyborg Institute Git Repositories: http://git.cyborginstitute.net/
 .. _git.cyborginstitute.net: http://git.cyborginstitute.net/
-.. _Cyborg Institute Hosted Listservs: http://lists.cyborginstitute.net/institute
+.. _Cyborg Institute Hosted Listservs: http://lists.cyborginstitute.net/listinfo/institute
 .. _lists.cyborginstitute.net: http://lists.cyborginstitute.net
 .. _Cyborg Institute Git Hub: http://github.com/cyborginstitute/
 .. _Cyborg Institute Issue Trackers: http://issues.cyborginstitute.net
@@ -83,7 +83,7 @@ systems administration procedures and practices. If you're interested
 in contributing to these kinds of guides post to the `list` and we can
 begin work instantly.
 
-.. _list: http://lists.cyborginstitute.net/institute
+.. _list: http://lists.cyborginstitute.net/listinfo/institute
 
 Maintainers and Contributors
 ----------------------------
