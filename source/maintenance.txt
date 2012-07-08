@@ -94,6 +94,4 @@ Maintainers and Contributors
    the following list.
 
 Sam Kleinman
-   Initial author, current maintainer. (`website <tychoish>`_)
-
-.. _tychoish: http://tychoish.com/
+   Initial author, current maintainer. (`website <http://tychoish.com>`_)
