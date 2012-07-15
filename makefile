@@ -1,4 +1,4 @@
-# 
+#
 # Publication system
 #
 
@@ -14,8 +14,8 @@ $(BUILDDIR)/latex/kleinman.systems-administraton-for-cyborgs.pdf:$(BUILDDIR)/lat
 $(BUILDDIR)/publish/kleinman.systems-administraton-for-cyborgs.epub:$(BUILDDIR)/epub/SystemsAdministrationforCyborgs.epub
 	cp $< $@
 $(BUILDDIR)/publish:$(BUILDDIR)/dirhtml
-	mkdir -p $@ 
+	mkdir -p $@
 	cp -R $</* $@
+	touch $@
 $(BUILDDIR)/publish/kleinman.systems-administraton-for-cyborgs.pdf:$(BUILDDIR)/latex/kleinman.systems-administraton-for-cyborgs.pdf
 	cp $< $@
-

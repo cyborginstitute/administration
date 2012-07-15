@@ -103,13 +103,13 @@ man_pages = [
 epub_title = u'Systems Administration for Cyborgs'
 epub_author = u'Sam Kleinman'
 epub_publisher = u'Sam Kleinman'
-epub_copyright = u'2011, Sam Kleinman'
+epub_copyright = u'2012, Sam Kleinman'
 
 epub_tocdepth = 1
 epub_tocdup = False
 
 epub_scheme = 'URL'
-epub_identifier = 'http://cyborginstitute.com/systems-administration/'
+epub_identifier = 'http://cyborginstitute.org/projects/administration/'
 
 #epub_uid = ''
 #epub_pre_files = []
