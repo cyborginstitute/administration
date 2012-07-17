@@ -46,7 +46,7 @@ The latest version of this manual is also available for download in
 ePub and PDF formats:
 
 - `Systems Administration for Cyborgs Manual, ePub </projects/administration/kleinman.systems-administration-for-cyborgs.epub>`_
-- `Systems Administration for Cyborgs Manual, PDF </projects/administration/kleinman.systems-administration.pdf>`_
+- `Systems Administration for Cyborgs Manual, PDF </projects/administration/kleinman.systems-administration-for-cyborgs.pdf>`_
 
 Table of Contents
 -----------------
