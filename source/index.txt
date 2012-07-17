@@ -9,7 +9,7 @@ there has never been good formal training for systems administration,
 it's no easier to learn how to administer systems today than it was
 ten or twenty years ago. *Systems Administration for Cyborgs* is a
 collection of essays that provide an introduction to various systems
-administration topics in the context of late-early 20th century
+administration topics in the context of late 20th-early 21st century
 technological phenomena: cloud computing, database driven web
 applications, virtualization, Linux, and dev/ops.
 
