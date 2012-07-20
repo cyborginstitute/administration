@@ -21,7 +21,7 @@ templates_path = ['templates']
 source_suffix = '.txt'
 master_doc = 'contents'
 
-git_name = 'cyborg-admin'
+git_name = 'administration'
 
 project = u'Systems Administration for Cyborgs'
 copyright = u'2012, Sam Kleinman and Contributors'
