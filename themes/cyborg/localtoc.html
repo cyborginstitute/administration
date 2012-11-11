@@ -9,5 +9,5 @@
 #}
 {%- if display_toc %}
   <h3><a href="{{ pathto(master_doc) }}">{{ project|e }}</a></h3>
-  {{ toc }}
+  {{ toctree(maxdepth=-1) }}
 {%- endif %}

@@ -22,6 +22,25 @@ PAPER	      =
 BUILDDIR      = build
 
 #
+# Incremental Push and Publication System
+#
+
+SITESTAGE = ~/projects/output
+STAGEDIR = $(subst projects,projects/output,$(CURDIR))
+
+project-push:$(STAGEDIR)
+	rsync -arz $(SITESTAGE)/ institute@foucault.cyborginstitute.net:/home/institute/public
+project-stage:$(STAGEDIR)
+	rsync -arz $(SITESTAGE)/ institute@foucault.cyborginstitute.net:/home/institute/staging
+$(STAGEDIR):$(BUILDDIR)/publish
+	@mkdir -p $@
+	@echo [build]: created $@ directory
+	@cp -R $</* $@
+	@echo [build]: migragted $< to $@
+	@touch $(CURDIR)/source/index.txt
+	@echo [build]: touched file to ensure clean build
+
+#
 # PDF Build System
 #
 
@@ -30,51 +49,93 @@ pdfs:$(subst .tex,.pdf,$(wildcard $(BUILDDIR)/latex/*.tex))
 PDFLATEXCOMMAND = TEXINPUTS=".:$(BUILDDIR)/latex/:" pdflatex --interaction batchmode --output-directory $(BUILDDIR)/latex/
 
 %.pdf:%.tex
-	@$(PDFLATEXCOMMAND) $(LATEXOPTS) '$<' >|$@.log
-	@echo "[PDF]: (1/4) pdflatex $<"
-	@-makeindex -s $(BUILDDIR)/latex/python.ist '$(basename $<).idx' >>$@.log 2>&1
-	@echo "[PDF]: (2/4) Indexing: $(basename $<).idx"
-	@$(PDFLATEXCOMMAND) $(LATEXOPTS) '$<' >>$@.log
-	@echo "[PDF]: (3/4) pdflatex $<"
-	@$(PDFLATEXCOMMAND) $(LATEXOPTS) '$<' >>$@.log
-	@echo "[PDF]: (4/4) pdflatex $<"
-	@echo "[PDF]: see '$@.log' for a full report of the pdf build process."
+	@echo [pdf]: pdf compilation of $@, started at `date`.
+	@touch $(basename $@)-pdflatex.log
+	@-$(PDFLATEXCOMMAND) $(LATEXOPTS) '$<' >> $(basename $@)-pdflatex.log
+	@echo [pdf]: \(1/4\) pdflatex $<
+	@-makeindex -s $(branch-output)/latex/python.ist '$(basename $<).idx' >> $(basename $@)-pdflatex.log 2>&1
+	@echo [pdf]: \(2/4\) Indexing: $(basename $<).idx
+	@$(PDFLATEXCOMMAND) $(LATEXOPTS) '$<' >> $(basename $@)-pdflatex.log
+	@echo [pdf]: \(3/4\) pdflatex $<
+	@$(PDFLATEXCOMMAND) $(LATEXOPTS) '$<' >> $(basename $@)-pdflatex.log
+	@echo [pdf]: \(4/4\) pdflatex $<
+	@echo [pdf]: see '$(basename $@)-pdflatex.log' for a full report of the pdf build process.
+	@echo [pdf]: pdf compilation of $@, complete at `date`.
 
 ########################################################################
 
-.PHONY:  clean html dirhtml singlehtml epub latex text man publish
+.PHONY:	 clean html dirhtml singlehtml epub latex text man publish
 
 html:
-	$(SPHINXBUILD) -b html $(ALLSPHINXOPTS) $(BUILDDIR)/html
+	@echo [$@]: build starting at `date`.
+	@mkdir -p $(BUILDDIR)/$@
+	@echo [$@]: created $(BUILDDIR)/$@
+	@echo [sphinx]: starting $@ build
+	@$(SPHINXBUILD) -b $@ $(ALLSPHINXOPTS) $(BUILDDIR)/$@
 	@echo "[HTML] build complete."
+	@echo [$@]: build complete at `date`.
 
 dirhtml:
-	$(SPHINXBUILD) -b dirhtml $(ALLSPHINXOPTS) $(BUILDDIR)/dirhtml
-	@echo "[DIR] build complete."
+	@echo [$@]: build starting at `date`.
+	@mkdir -p $(BUILDDIR)/$@
+	@echo [$@]: created $(BUILDDIR)/$@
+	@echo [sphinx]: starting $@ build
+	@$(SPHINXBUILD) -b $@ $(ALLSPHINXOPTS) $(BUILDDIR)/$@
+	@echo "[HTML] build complete."
+	@echo [$@]: build complete at `date`.
 
 singlehtml:
-	$(SPHINXBUILD) -b singlehtml $(ALLSPHINXOPTS) $(BUILDDIR)/singlehtml
-	@echo "[SINGLE] build complete."
+	@echo [$@]: build starting at `date`.
+	@mkdir -p $(BUILDDIR)/$@
+	@echo [$@]: created $(BUILDDIR)/$@
+	@echo [sphinx]: starting $@ build
+	@$(SPHINXBUILD) -b $@ $(ALLSPHINXOPTS) $(BUILDDIR)/$@
+	@echo "[HTML] build complete."
+	@echo [$@]: build complete at `date`.
 
 epub-command = $(SPHINXBUILD) -b epub $(ALLSPHINXOPTS) $(BUILDDIR)/epub
-epub-filter = sed $(SED_ARGS_REGEX) '/^WARNING: unknown mimetype.*ignoring$$/d'
+epub-filter = sed -e $(SED_ARGS_REGEX) '/^WARNING: unknown mimetype.*ignoring$$/d' -e '/^WARNING: search index.*incomplete.$$/d'
+
 epub:
-	@echo $(epub-command)
+	@echo [$@]: starting build at `date`.
+	@mkdir -p $(BUILDDIR)/$@
+	@echo [$@]: created $(BUILDDIR)/$@
+	@echo [sphinx]: starting $@ build
 	@{ $(epub-command) 2>&1 1>&3 | $(epub-filter) 1>&2; } 3>&1
-	@echo "[EPUB] Build complete."
+	@echo [$@]: build complete at `date`.
 
 latex:
-	$(SPHINXBUILD) -b latex $(ALLSPHINXOPTS) $(BUILDDIR)/latex
-	@echo "[LATEX] build compete."
+	@echo [$@]: build starting at `date`.
+	@mkdir -p $(BUILDDIR)/$@
+	@echo [$@]: created $(BUILDDIR)/$@
+	@echo [sphinx]: starting $@ build
+	@$(SPHINXBUILD) -b $@ $(ALLSPHINXOPTS) $(BUILDDIR)/$@
+	@echo "[HTML] build complete."
+	@echo [$@]: build complete at `date`.
 
 text:
-	$(SPHINXBUILD) -b text $(ALLSPHINXOPTS) $(BUILDDIR)/text
-	@echo "[TEXT] build complete."
+	@echo [$@]: build starting at `date`.
+	@mkdir -p $(BUILDDIR)/$@
+	@echo [$@]: created $(BUILDDIR)/$@
+	@echo [sphinx]: starting $@ build
+	@$(SPHINXBUILD) -b $@ $(ALLSPHINXOPTS) $(BUILDDIR)/$@
+	@echo "[HTML] build complete."
+	@echo [$@]: build complete at `date`.
 
 man:
-	$(SPHINXBUILD) -b man $(ALLSPHINXOPTS) $(BUILDDIR)/man
-	@echo "[MAN] build complete."
+	@echo [$@]: build starting at `date`.
+	@mkdir -p $(BUILDDIR)/$@
+	@echo [$@]: created $(BUILDDIR)/$@
+	@echo [sphinx]: starting $@ build
+	@$(SPHINXBUILD) -b $@ $(ALLSPHINXOPTS) $(BUILDDIR)/$@
+	@echo "[HTML] build complete."
+	@echo [$@]: build complete at `date`.
 
 linkcheck:
-	$(SPHINXBUILD) -b linkcheck $(ALLSPHINXOPTS) $(BUILDDIR)/linkcheck
-	@echo "[LINK] link check complete."
+	@echo [$@]: build starting at `date`.
+	@mkdir -p $(BUILDDIR)/$@
+	@echo [$@]: created $(BUILDDIR)/$@
+	@echo [sphinx]: starting $@ build
+	@$(SPHINXBUILD) -b $@ $(ALLSPHINXOPTS) $(BUILDDIR)/$@
+	@echo "[HTML] build complete."
+	@echo [$@]: build complete at `date`.
