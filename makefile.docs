@@ -72,7 +72,7 @@ html:
 	@echo [$@]: created $(BUILDDIR)/$@
 	@echo [sphinx]: starting $@ build
 	@$(SPHINXBUILD) -b $@ $(ALLSPHINXOPTS) $(BUILDDIR)/$@
-	@echo "[HTML] build complete."
+	@echo "[$@] build complete."
 	@echo [$@]: build complete at `date`.
 
 dirhtml:
@@ -81,7 +81,7 @@ dirhtml:
 	@echo [$@]: created $(BUILDDIR)/$@
 	@echo [sphinx]: starting $@ build
 	@$(SPHINXBUILD) -b $@ $(ALLSPHINXOPTS) $(BUILDDIR)/$@
-	@echo "[HTML] build complete."
+	@echo "[$@] build complete."
 	@echo [$@]: build complete at `date`.
 
 singlehtml:
@@ -90,7 +90,7 @@ singlehtml:
 	@echo [$@]: created $(BUILDDIR)/$@
 	@echo [sphinx]: starting $@ build
 	@$(SPHINXBUILD) -b $@ $(ALLSPHINXOPTS) $(BUILDDIR)/$@
-	@echo "[HTML] build complete."
+	@echo "[$@] build complete."
 	@echo [$@]: build complete at `date`.
 
 epub-command = $(SPHINXBUILD) -b epub $(ALLSPHINXOPTS) $(BUILDDIR)/epub
@@ -110,7 +110,7 @@ latex:
 	@echo [$@]: created $(BUILDDIR)/$@
 	@echo [sphinx]: starting $@ build
 	@$(SPHINXBUILD) -b $@ $(ALLSPHINXOPTS) $(BUILDDIR)/$@
-	@echo "[HTML] build complete."
+	@echo "[$@] build complete."
 	@echo [$@]: build complete at `date`.
 
 text:
@@ -119,7 +119,7 @@ text:
 	@echo [$@]: created $(BUILDDIR)/$@
 	@echo [sphinx]: starting $@ build
 	@$(SPHINXBUILD) -b $@ $(ALLSPHINXOPTS) $(BUILDDIR)/$@
-	@echo "[HTML] build complete."
+	@echo "[$@] build complete."
 	@echo [$@]: build complete at `date`.
 
 man:
@@ -128,7 +128,7 @@ man:
 	@echo [$@]: created $(BUILDDIR)/$@
 	@echo [sphinx]: starting $@ build
 	@$(SPHINXBUILD) -b $@ $(ALLSPHINXOPTS) $(BUILDDIR)/$@
-	@echo "[HTML] build complete."
+	@echo "[$@] build complete."
 	@echo [$@]: build complete at `date`.
 
 linkcheck:
@@ -137,5 +137,5 @@ linkcheck:
 	@echo [$@]: created $(BUILDDIR)/$@
 	@echo [sphinx]: starting $@ build
 	@$(SPHINXBUILD) -b $@ $(ALLSPHINXOPTS) $(BUILDDIR)/$@
-	@echo "[HTML] build complete."
+	@echo "[$@] build complete."
 	@echo [$@]: build complete at `date`.

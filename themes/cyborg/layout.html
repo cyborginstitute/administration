@@ -11,39 +11,11 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 {%- endblock %}
-{%- set reldelim1 = reldelim1 is not defined and ' &raquo;' or reldelim1 %}
-{%- set reldelim2 = reldelim2 is not defined and ' |' or reldelim2 %}
 {%- set render_sidebar = (not embedded) and (not theme_nosidebar|tobool) and
                          (sidebars != []) %}
 {%- set url_root = pathto('', 1) %}
-{# XXX necessary? #}
 {%- if url_root == '#' %}{% set url_root = '' %}{% endif %}
-{%- if not embedded and docstitle %}
-  {%- set titlesuffix = " &mdash; "|safe + docstitle|e %}
-{%- else %}
-  {%- set titlesuffix = "" %}
-{%- endif %}
-
-{%- macro relbar() %}
-    <div class="related">
-      <h3>{{ _('Navigation') }}</h3>
-      <ul>
-        {%- for rellink in rellinks %}
-        <li class="right" {% if loop.first %}style="margin-right: 10px"{% endif %}>
-          <a href="{{ pathto(rellink[0]) }}" title="{{ rellink[1]|striptags|e }}"
-             {{ accesskey(rellink[2]) }}>{{ rellink[3] }}</a>
-          {%- if not loop.first %}{{ reldelim2 }}{% endif %}</li>
-        {%- endfor %}
-        {%- block rootrellink %}
-        <li><a href="{{ pathto(master_doc) }}">{{ shorttitle|e }}</a>{{ reldelim1 }}</li>
-        {%- endblock %}
-        {%- for parent in parents %}
-          <li><a href="{{ parent.link|e }}" {% if loop.last %}{{ accesskey("U") }}{% endif %}>{{ parent.title }}</a>{{ reldelim1 }}</li>
-        {%- endfor %}
-        {%- block relbaritems %} {% endblock %}
-      </ul>
-    </div>
-{%- endmacro %}
+{%- set titlesuffix = " &mdash; "|safe + docstitle|e %}
 
 {%- macro sidebar() %}
       {%- if render_sidebar %}
@@ -57,32 +29,15 @@
           {%- endif %}
           {%- endblock %}
           {%- if sidebars != None %}
-            {#- new style sidebar: explicitly include/exclude templates #}
             {%- for sidebartemplate in sidebars %}
             {%- include sidebartemplate %}
             {%- endfor %}
-          {%- else %}
-            {#- old style sidebars: using blocks -- should be deprecated #}
-            {%- block sidebartoc %}
-            {%- include "localtoc.html" %}
-            {%- endblock %}
-            {%- block sidebarrel %}
-            {%- include "relations.html" %}
-            {%- endblock %}
-            {%- block sidebarsourcelink %}
-            {%- include "sourcelink.html" %}
-            {%- endblock %}
-            {%- if customsidebar %}
-            {%- include customsidebar.html %}
-            {%- endif %}
-            <!-- {%- block sidebarsearch %} -->
-            <!-- {%- include "searchbox.html" %} -->
-            <!-- {%- endblock %} -->
           {%- endif %}
         </div>
       </div>
       {%- endif %}
 {%- endmacro %}
+
 
 {%- macro script() %}
     <script type="text/javascript">
@@ -115,8 +70,6 @@
     <title>{{ title|e }}</title>
     {%- endblock %}
     {{ css() }}
-    {%- if not embedded %}
-    {{ script() }}
     {%- if use_opensearch %}
     <link rel="search" type="application/opensearchdescription+xml"
           title="{% trans docstitle=docstitle|e %}Search within {{ docstitle }}{% endtrans %}"
@@ -124,7 +77,6 @@
     {%- endif %}
     {%- if favicon %}
     <link rel="shortcut icon" href="{{ pathto('_static/' + favicon, 1) }}"/>
-    {%- endif %}
     {%- endif %}
 {%- block linktags %}
     {%- if hasdoc('about') %}
@@ -155,10 +107,8 @@
   <body>
 {%- block header %}{% endblock %}
 
-{%- block relbar1 %}{{ relbar() }}{% endblock %}
-
 {%- block content %}
-
+  {%- block sidebar1 %}{% endblock %}
     <div class="document">
   {%- block document %}
       <div class="documentwrapper">
@@ -171,26 +121,19 @@
       {%- if render_sidebar %}
         </div>
       {%- endif %}
-
-  {%- block sidebar1 %} {# possible location for sidebar #} {% endblock %}
-  {%- block sidebar2 %}{{ sidebar() }}{% endblock %}
-
       </div>
   {%- endblock %}
-
-
+  {%- block sidebar2 %}
+      {{ sidebar() }}
+  {% endblock %}
       <div class="clearer"></div>
     </div>
 {%- endblock %}
 
-{%- block relbar2 %}{{ relbar() }}{% endblock %}
-
 {%- block footer %}
-
 <script type="text/javascript">
-
   var _gaq = _gaq || [];
-  _gaq.push(['_setAccount', 'UA-2505694-4']);
+  _gaq.push(['_setAccount', '{{ theme_ga_code }}']);
   _gaq.push(['_trackPageview']);
 
   (function() {
@@ -198,7 +141,6 @@
     ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
   })();
-
 </script>
 
     <div class="footer">

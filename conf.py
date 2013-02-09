@@ -44,31 +44,30 @@ html_use_smartypants = True
 html_theme_path = ['themes']
 html_static_path = ['./source/.static']
 
-html_show_copyright = True
-html_show_sphinx = True
-
 html_title = "Systems Administration for Cyborgs"
 html_short_title = html_title
-
-html_theme_options = { 'project': git_name }
 
 html_logo = None
 html_favicon = None
 
-# If not '', a 'Last updated on:' timestamp is inserted at every page bottom,
-# using the given strftime format.
-#html_last_updated_fmt = '%b %d, %Y'
+html_theme_options = { 
+    'project': git_name, 
+    'ga_code': 'UA-2505694-4'
+}
 
-# Custom sidebar templates, maps document names to template names.
-#html_sidebars = {}
+html_sidebars = {
+    '**': ['localtoc.html', 'relations.html', 'sourcelink.html'],
+}
 
-# Additional templates that should be rendered to pages, maps page names to
-# template names.
-#html_additional_pages = {}
+#html_title = None
+#html_short_title = None
+#html_logo = None
+#html_favicon = None
 
-# If true, links to the reST sources are added to the pages.
-#html_show_sourcelink = True
-
+html_use_index = True
+html_show_sourcelink = False
+html_show_sphinx = False
+html_show_copyright = True
 htmlhelp_basename = 'cyborg-systems-administration'
 
 # -- Options for LaTeX output --------------------------------------------------
