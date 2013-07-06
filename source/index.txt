@@ -108,7 +108,6 @@ some sort of monitoring and backup "story."
    database-scaling
    high-availability
    monitoring-tactics
-   database-scaling
 
 .. _index-topical:
 
