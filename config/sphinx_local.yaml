@@ -1,11 +1,12 @@
-project: 'administration'
+project: 'cyborg-administration'
 master_doc: 'index'
 logo: ".static/logo.png"
 paths:
   static: ['source/.static']
 theme:
   name: 'alabaster'
-  project: 'tychoish'
+  project: 'administration'
+  sitename: "System Administration for Cyborgs"
   google_analytics: 'UA-2505694-4'
 sidebars:
   '**':

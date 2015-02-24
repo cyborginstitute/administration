@@ -27,8 +27,6 @@ templates_path = [os.path.join(conf.paths.projectroot, 'templates'),
 source_suffix = '.txt'
 master_doc = 'contents'
 
-git_name = 'administration'
-
 project = u'Systems Administration for Cyborgs'
 copyright = u'2012, Sam Kleinman and Contributors'
 
@@ -54,7 +52,7 @@ html_theme_path = [ os.path.join(conf.paths.output, 'institute-tools', 'themes')
 
 html_static_path = ['./source/.static']
 
-html_title = "Systems Administration for Cyborgs"
+html_title = sconf.theme.sitename
 html_short_title = "Cyborg Systems"
 
 html_logo = None
@@ -67,7 +65,6 @@ html_theme_options = {
     'github_button': True,
 }
 
-
 html_sidebars = sconf.sidebars
 
 #html_title = None
@@ -79,7 +76,7 @@ html_use_index = True
 html_show_sourcelink = False
 html_show_sphinx = False
 html_show_copyright = True
-htmlhelp_basename = 'cyborg-systems-administration'
+htmlhelp_basename = 'cyborg-institute'
 
 # -- Options for LaTeX output --------------------------------------------------
 
@@ -104,7 +101,7 @@ latex_domain_indices = False
 
 # -- Options for Epub output ---------------------------------------------------
 
-epub_title = u'Systems Administration for Cyborgs'
+epub_title = sconf.theme.sitename
 epub_author = u'Sam Kleinman'
 epub_publisher = u'Sam Kleinman'
 epub_copyright = u'2012, Sam Kleinman'
