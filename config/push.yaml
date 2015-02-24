@@ -1,0 +1,16 @@
+target: push
+paths:
+  remote: /home/institute/public/administration
+  local: public
+  static: [ ]
+options: [ 'recursive' ]
+env: "docsprod"
+---
+target: stage
+paths:
+  remote: /home/institute/staging/administration
+  local: public
+  static: [ ]
+options: [ 'recursive' ]
+env: "docsprod"
+...

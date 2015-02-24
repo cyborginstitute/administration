@@ -10,14 +10,20 @@
 # All configuration values have a default; values that are commented out
 # serve to show the default.
 
-import sys, os
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), ".ext")))
-from docs_meta import VersionMeta
+import sys
+import os
+
+from giza.config.runtime import RuntimeStateConfig
+from giza.config.helper import fetch_config
+
+conf = fetch_config(RuntimeStateConfig())
+sconf = conf.system.files.data.sphinx_local
 
 # -- General configuration -----------------------------------------------------
 
-extensions = ['sphinx.ext.todo']
-templates_path = ['templates']
+extensions = ['sphinx.ext.todo', 'alabaster']
+templates_path = [os.path.join(conf.paths.projectroot, 'templates'),
+                  os.path.join(conf.paths.projectroot, conf.paths.buildsystem, 'templates')]
 source_suffix = '.txt'
 master_doc = 'contents'
 
@@ -36,28 +42,33 @@ intersphinx_mapping = {'http://docs.python.org/': None}
 
 # -- Options for HTML output ---------------------------------------------------
 
-current_git_commit = VersionMeta.commit
-rst_epilog = ".. |commit| replace:: ``" + current_git_commit + "``"
+import alabaster
 
-html_theme = 'cyborg'
+rst_epilog = ".. |commit| replace:: ``{0}``".format(conf.git.commit)
+
+fontawesome_link_cdn = True
 html_use_smartypants = True
-html_theme_path = ['themes']
+html_theme = sconf.theme.name
+html_theme_path = [ os.path.join(conf.paths.output, 'institute-tools', 'themes'), alabaster.get_path() ]
+
+
 html_static_path = ['./source/.static']
 
 html_title = "Systems Administration for Cyborgs"
-html_short_title = html_title
+html_short_title = "Cyborg Systems"
 
 html_logo = None
 html_favicon = None
 
-html_theme_options = { 
-    'project': git_name, 
-    'ga_code': 'UA-2505694-4'
+html_theme_options = {
+    'analytics_id': sconf.theme.google_analytics,
+    'github_user': 'cyborgisntitute',
+    'github_repo': 'administration',
+    'github_button': True,
 }
 
-html_sidebars = {
-    '**': ['localtoc.html', 'relations.html', 'sourcelink.html'],
-}
+
+html_sidebars = sconf.sidebars
 
 #html_title = None
 #html_short_title = None
@@ -72,13 +83,15 @@ htmlhelp_basename = 'cyborg-systems-administration'
 
 # -- Options for LaTeX output --------------------------------------------------
 
-# The paper size ('letter' or 'a4').
 latex_paper_size = 'letter'
 latex_font_size = '10pt'
-latex_documents = [
-# (source start file, target name, title, author, documentclass [howto/manual]).
-  ('contents', 'kleinman.systems-administraton-for-cyborgs.tex', u'Systems Administration for Cyborgs', u'Sam Kleinman', 'manual'),
-]
+
+latex_documents = []
+
+if 'pdfs' in conf.system.files.data:
+    for pdf in conf.system.files.data.pdfs:
+        latex_documents.append((pdf.source, pdf.output, pdf.title, pdf.author, pdf.doc_class))
+
 
 #latex_use_parts = False
 latex_show_pagerefs = True
@@ -88,14 +101,6 @@ latex_show_urls = False
 #latex_preamble = ''
 #latex_appendices = []
 latex_domain_indices = False
-
-
-# -- Options for manual page output --------------------------------------------
-
-man_pages = [
-    ('index', 'systems-administraton-for-cyborgs', u'Systems Administration for Cyborgs',
-     [u'Sam Kleinman'], 1)
-]
 
 # -- Options for Epub output ---------------------------------------------------
 
@@ -108,7 +113,7 @@ epub_tocdepth = 1
 epub_tocdup = False
 
 epub_scheme = 'URL'
-epub_identifier = 'http://cyborginstitute.org/projects/administration/'
+epub_identifier = conf.project.url
 
 #epub_uid = ''
 #epub_pre_files = []

@@ -1,0 +1,29 @@
+git:
+  remote:
+    upstream: cyborginstitute/administration
+    tools: cyborginstitute/docs-tools
+project:
+  name: administration
+  url: http://cyborginstitute.org/projects/administration
+  tag: 'projects/administration'
+paths:
+  buildsystem: build/institute-tools
+  builddata: config
+  source: source
+  output: build
+  includes: source/includes
+  images: source/images
+assets:
+  - branch: master
+    path: build/institute-tools
+    repository: https://github.com/cyborginstitute/institute-tools.git
+  - branch: master
+    path: build/docs-tools
+    repository: https://github.com/mongodb/docs-tools.git
+system:
+  files:
+    - 'push.yaml'
+    - 'pdfs.yaml'
+    - 'integration.yaml'
+    - 'sphinx_local.yaml'
+...

@@ -1,0 +1,23 @@
+project: 'administration'
+master_doc: 'index'
+logo: ".static/logo.png"
+paths:
+  static: ['source/.static']
+theme:
+  name: 'alabaster'
+  project: 'tychoish'
+  google_analytics: 'UA-2505694-4'
+sidebars:
+  '**':
+    - 'title.html'
+    - 'localtoc.html'
+    - 'relations.html'
+    # - 'postcard.html'
+    # - 'recentposts.html'
+    - 'institute-meta.html'
+    # - 'tagcloud.html'
+    # - 'categories.html'
+    # - 'archives.html'
+    # - 'page_meta.html'
+    # - 'gittip.html'
+...

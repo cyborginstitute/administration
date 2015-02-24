@@ -6,3 +6,4 @@
 build/*
 *.pyc
 README.html
+fabfile

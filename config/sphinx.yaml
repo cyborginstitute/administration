@@ -1,0 +1,11 @@
+html:
+  tags:
+    - web
+dirhtml:
+  tags:
+    - web
+  sitemap_config: 'config/sitemap-admin.conf'
+latex:
+  tags:
+    - print
+...
