@@ -49,7 +49,6 @@ html_use_smartypants = True
 html_theme = sconf.theme.name
 html_theme_path = [ os.path.join(conf.paths.output, 'institute-tools', 'themes'), alabaster.get_path() ]
 
-
 html_static_path = ['./source/.static']
 
 html_title = sconf.theme.sitename
