@@ -3,7 +3,7 @@ paths:
   remote: /home/institute/public/administration
   local: public
   static: [ ]
-options: [ 'recursive' ]
+options: ['recursive']
 env: "docsprod"
 ---
 target: stage
